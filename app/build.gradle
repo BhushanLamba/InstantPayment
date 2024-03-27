@@ -68,10 +68,14 @@ dependencies {
 
     implementation 'com.chaos.view:pinview:1.4.4'
 
+    //PAYSPRINT ONBOARDING START
     implementation "com.karumi:dexter:5.0.0"
     implementation 'com.github.yalantis:ucrop:2.2.6-native'
     implementation files('libs/onboardinglib_V.1.1.13.aar')
+    //PAYSPRINT ONBOARDING START
 
+
+    //RAZORPAY
     implementation 'com.razorpay:checkout:1.6.33'
 
 
