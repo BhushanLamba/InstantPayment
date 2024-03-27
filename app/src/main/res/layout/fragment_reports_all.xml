@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/light_blue"
+    tools:context=".ui.dashboard.AllReportsFragment">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/prepaid_report_ly"
+            android:gravity="center_vertical"
+            android:layout_margin="10dp"
+            android:background="@drawable/gradient_back"
+            android:backgroundTint="@color/white"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                app:tint="@color/primaryColor"
+                android:layout_margin="10dp"
+                android:src="@drawable/mobile"
+                android:layout_width="40dp"
+                android:layout_height="40dp"/>
+
+            <TextView
+                android:text="Prepaid Reports"
+                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/dth_report_ly"
+            android:gravity="center_vertical"
+            android:layout_margin="10dp"
+            android:background="@drawable/gradient_back"
+            android:backgroundTint="@color/white"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                app:tint="@color/primaryColor"
+                android:layout_margin="10dp"
+                android:src="@drawable/dish"
+                android:layout_width="40dp"
+                android:layout_height="40dp"/>
+
+            <TextView
+                android:text="DTH Reports"
+                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/dmt_report_ly"
+            android:gravity="center_vertical"
+            android:layout_margin="10dp"
+            android:background="@drawable/gradient_back"
+            android:backgroundTint="@color/white"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                app:tint="@color/primaryColor"
+                android:layout_margin="10dp"
+                android:src="@drawable/dmt"
+                android:layout_width="40dp"
+                android:layout_height="40dp"/>
+
+            <TextView
+                android:text="DMT Reports"
+                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/upi_dmt_report_ly"
+            android:gravity="center_vertical"
+            android:layout_margin="10dp"
+            android:background="@drawable/gradient_back"
+            android:backgroundTint="@color/white"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                app:tint="@color/primaryColor"
+                android:layout_margin="10dp"
+                android:src="@drawable/dmt"
+                android:layout_width="40dp"
+                android:layout_height="40dp"/>
+
+            <TextView
+                android:text="UPI DMT Reports"
+                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/electricity_report_ly"
+            android:gravity="center_vertical"
+            android:layout_margin="10dp"
+            android:background="@drawable/gradient_back"
+            android:backgroundTint="@color/white"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                app:tint="@color/primaryColor"
+                android:layout_margin="10dp"
+                android:src="@drawable/electrcity"
+                android:layout_width="40dp"
+                android:layout_height="40dp"/>
+
+            <TextView
+                android:text="Electricity Reports"
+                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/fastag_report_ly"
+            android:gravity="center_vertical"
+            android:layout_margin="10dp"
+            android:background="@drawable/gradient_back"
+            android:backgroundTint="@color/white"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                app:tint="@color/primaryColor"
+                android:layout_margin="10dp"
+                android:src="@drawable/fastag"
+                android:layout_width="40dp"
+                android:layout_height="40dp"/>
+
+            <TextView
+                android:text="FasTag Reports"
+                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/gas_report_ly"
+            android:gravity="center_vertical"
+            android:layout_margin="10dp"
+            android:background="@drawable/gradient_back"
+            android:backgroundTint="@color/white"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                app:tint="@color/primaryColor"
+                android:layout_margin="10dp"
+                android:src="@drawable/gas"
+                android:layout_width="40dp"
+                android:layout_height="40dp"/>
+
+            <TextView
+                android:text="Gas Reports"
+                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/loan_report_ly"
+            android:gravity="center_vertical"
+            android:layout_margin="10dp"
+            android:background="@drawable/gradient_back"
+            android:backgroundTint="@color/white"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                app:tint="@color/primaryColor"
+                android:layout_margin="10dp"
+                android:src="@drawable/loan"
+                android:layout_width="40dp"
+                android:layout_height="40dp"/>
+
+            <TextView
+                android:text="Loan Reports"
+                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/postpaid_report_ly"
+            android:gravity="center_vertical"
+            android:layout_margin="10dp"
+            android:background="@drawable/gradient_back"
+            android:backgroundTint="@color/white"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                app:tint="@color/primaryColor"
+                android:layout_margin="10dp"
+                android:src="@drawable/mobile"
+                android:layout_width="40dp"
+                android:layout_height="40dp"/>
+
+            <TextView
+                android:text="Postpaid Reports"
+                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/credit_card_report_ly"
+            android:gravity="center_vertical"
+            android:layout_margin="10dp"
+            android:background="@drawable/gradient_back"
+            android:backgroundTint="@color/white"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                app:tint="@color/primaryColor"
+                android:layout_margin="10dp"
+                android:src="@drawable/card"
+                android:layout_width="40dp"
+                android:layout_height="40dp"/>
+
+            <TextView
+                android:text="Credit Card Reports"
+                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lic_report_ly"
+            android:gravity="center_vertical"
+            android:layout_margin="10dp"
+            android:background="@drawable/gradient_back"
+            android:backgroundTint="@color/white"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                app:tint="@color/primaryColor"
+                android:layout_margin="10dp"
+                android:src="@drawable/insurance"
+                android:layout_width="40dp"
+                android:layout_height="40dp"/>
+
+            <TextView
+                android:text="LIC Reports"
+                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</ScrollView>

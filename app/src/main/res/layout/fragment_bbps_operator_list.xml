@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_grey"
+    tools:context=".ui.bbps.BbpsOperatorListFragment">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:elevation="4dp"
+        android:backgroundTint="@color/white"
+        android:layout_margin="10dp"
+        android:background="@drawable/gradient_back"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <EditText
+            android:singleLine="true"
+            android:drawablePadding="10dp"
+            android:drawableStart="@drawable/search"
+            android:textColorHint="@color/black"
+            android:textColor="@color/black"
+            android:hint="Search Provider Name"
+            android:padding="10dp"
+            android:backgroundTint="@color/light_grey"
+            android:background="@drawable/gradient_back"
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/operator_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+</FrameLayout>

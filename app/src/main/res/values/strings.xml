@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">InstantPayment</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="download"><u>Download Receipt</u></string>
+    <string name="operator">Operator <font color='F80F19'>*</font></string>
+    <string name="number">Number <font color='F80F19'>*</font></string>
+    <string name="note_content"><b>Note</b> : Your service provider may take up to few working days to consider your bill.</string>
+    <string name="first_name">First Name <font color='F80F19'>*</font></string>
+    <string name="last_name">Last Name <font color='F80F19'>*</font></string>
+    <string name="address">Address <font color='F80F19'>*</font></string>
+    <string name="pincode">Pincode <font color='F80F19'>*</font></string>
+    <string name="otp">OTP <font color='F80F19'>*</font></string>
+    <string name="bank">Bank  <font color='F80F19'>*</font></string>
+    <string name="bene_name">Beneficiary Name  <font color='F80F19'>*</font></string>
+    <string name="account_name">Account Number  <font color='F80F19'>*</font></string>
+    <string name="ifsc">IFSC  <font color='F80F19'>*</font></string>
+
+</resources>
