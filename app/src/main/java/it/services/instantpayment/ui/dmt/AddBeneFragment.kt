@@ -137,6 +137,7 @@ class AddBeneFragment : Fragment() {
 
                 is Response.Success -> {
                     progressDialog.dismiss()
+                    AlertDialog.Builder(context).setMessage("Verified").setPositiveButton("ok",null).show()
                     val beneName= response.data.toString()
                     binding.etName.setText(beneName)
 

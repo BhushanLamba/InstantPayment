@@ -84,4 +84,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
+    <LinearLayout
+        android:id="@+id/not_found_ly"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:src="@drawable/not_found"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_margin="10dp"
+            android:text="No data found"
+            android:textSize="18sp"
+            android:textColor="@color/primaryColor"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
 </LinearLayout>

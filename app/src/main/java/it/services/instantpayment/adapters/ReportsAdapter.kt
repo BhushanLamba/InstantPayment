@@ -96,6 +96,7 @@ class ReportsAdapter(
             val bankName = reportsList[position].getString("BankName")
             val txnId = reportsList[position].getString("TxnId")
             val mobileNo = reportsList[position].getString("Mobileno")
+            val beneName = reportsList[position].optString("beneName")
 
             holder.binding.apply {
                 tvDate.text = date
@@ -107,6 +108,7 @@ class ReportsAdapter(
                 tvBankName.text = bankName
                 tvAccountNo.text = accountNumber
                 tvMobileNo.text = mobileNo
+                tvBeneName.text = beneName
 
             }
         }

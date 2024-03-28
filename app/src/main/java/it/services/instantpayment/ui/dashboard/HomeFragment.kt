@@ -177,6 +177,9 @@ class HomeFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     private fun handleClicksAndEvents() {
         binding.apply {
+
+            binding.tvMobile.text=MainActivity.MOBILE_NO
+
             prepaidLy.setOnClickListener {
                 operatorViewModel.getOperator(MainActivity.LOGIN_SESSION, OPERATOR_KEY, "1")
             }

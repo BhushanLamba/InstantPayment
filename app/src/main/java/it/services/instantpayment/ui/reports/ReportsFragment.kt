@@ -100,7 +100,19 @@ class ReportsFragment : Fragment() {
                 }
 
                 override fun onTextChanged(inputChar: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    searchData(inputChar.toString())
+                    if(inputChar.toString().isNotEmpty())
+                    {
+                        searchData(inputChar.toString())
+                    }
+                    else
+                    {
+                        if (::reportList.isInitialized)
+                        {
+                            reportsAdapter.filterData(reportList)
+                            binding.recycler.visibility=View.VISIBLE
+                            binding.notFoundLy.visibility=View.GONE
+                        }
+                    }
                 }
 
                 override fun afterTextChanged(p0: Editable?) {
@@ -129,6 +141,10 @@ class ReportsFragment : Fragment() {
             if (filteredList.isNotEmpty()) {
                 reportsAdapter.filterData(filteredList)
             }
+            else{
+                binding.recycler.visibility=View.GONE
+                binding.notFoundLy.visibility=View.VISIBLE
+            }
 
         }
     }
@@ -140,6 +156,9 @@ class ReportsFragment : Fragment() {
 
 
                 is Response.Success -> {
+                    binding.recycler.visibility=View.VISIBLE
+                    binding.notFoundLy.visibility=View.GONE
+
                     reportList = response.data!!
                     reportsAdapter = ReportsAdapter(reportList, serviceName,object : AllClickInterface{
                         override fun allClick(data: Any, txnId: String) {
@@ -153,7 +172,8 @@ class ReportsFragment : Fragment() {
                     }
                 }
 
-                else -> {}
+                else -> { binding.recycler.visibility=View.GONE
+                    binding.notFoundLy.visibility=View.VISIBLE}
             }
         }
 
