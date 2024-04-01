@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_blue"
+    tools:context=".ui.paymentRequest.FundRequestFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/gradient_back"
+        android:backgroundTint="@color/white"
+        android:elevation="2dp"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:id="@+id/tv_service_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Payment Request"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:layout_width="90dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/logo" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="4dp"
+            android:layout_marginTop="20dp"
+            android:text="Bank*" />
+
+        <EditText
+            android:id="@+id/et_bank"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="4dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/gradient_back"
+            android:backgroundTint="@color/white"
+            android:clickable="false"
+            android:elevation="2dp"
+            android:focusableInTouchMode="false"
+            android:hint="Select bank"
+            android:padding="10dp"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/details_ly"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="4dp"
+                android:layout_marginTop="20dp"
+                android:text="Account no*" />
+
+            <EditText
+                android:id="@+id/et_account_no"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="4dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/gradient_back"
+                android:backgroundTint="@color/white"
+                android:clickable="false"
+                android:elevation="2dp"
+                android:focusableInTouchMode="false"
+                android:hint="Account no"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="4dp"
+                android:layout_marginTop="20dp"
+                android:text="IFSC*" />
+
+            <EditText
+                android:id="@+id/et_ifsc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="4dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/gradient_back"
+                android:backgroundTint="@color/white"
+                android:clickable="false"
+                android:elevation="2dp"
+                android:focusableInTouchMode="false"
+                android:hint="IFSC"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="4dp"
+                android:layout_marginTop="20dp"
+                android:text="Charges*" />
+
+            <EditText
+                android:id="@+id/et_charges"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="4dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/gradient_back"
+                android:backgroundTint="@color/white"
+                android:clickable="false"
+                android:elevation="2dp"
+                android:focusableInTouchMode="false"
+                android:hint="Charges"
+                android:inputType="number"
+                android:maxLength="10"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="4dp"
+                android:layout_marginTop="20dp"
+                android:text="Amount*" />
+
+            <EditText
+                android:id="@+id/et_amount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="4dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/gradient_back"
+                android:backgroundTint="@color/white"
+                android:elevation="2dp"
+                android:hint="Amount"
+                android:inputType="number"
+                android:maxLength="10"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="4dp"
+                android:layout_marginTop="20dp"
+                android:text="Txn Id*" />
+
+            <EditText
+                android:id="@+id/et_txn_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="4dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/gradient_back"
+                android:backgroundTint="@color/white"
+                android:elevation="2dp"
+                android:hint="Txn Id"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="4dp"
+                android:layout_marginTop="20dp"
+                android:text="Deposit Mode*" />
+
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:checked="true"
+                    android:id="@+id/rb_online"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ONLINE" />
+
+                <RadioButton
+                    android:id="@+id/rb_cash"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CASH" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="WALLET" />
+
+            </RadioGroup>
+
+
+            <Button
+                android:id="@+id/btn_proceed"
+                android:layout_margin="10dp"
+                android:text="Proceed"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</ScrollView>

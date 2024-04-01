@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView
+    android:background="@drawable/gradient_back"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:textColor="@color/white"
+    android:text="Extension"
+    android:textStyle="bold"
+    android:id="@+id/tv_extension"
+    android:layout_margin="10dp"
+    android:paddingHorizontal="20dp"
+    android:paddingVertical="10dp"
+    android:layout_height="wrap_content">
+
+
+
+</TextView>

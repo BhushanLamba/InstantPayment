@@ -85,12 +85,13 @@
                     app:drawableTint="@color/white" />
 
                 <TextView
+                    android:id="@+id/payment_request_ly"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:layout_weight="1"
                     android:drawablePadding="10dp"
-                    android:text="Auto Load Wallet"
+                    android:text="Payment Request"
                     android:textColor="@color/white"
                     android:textStyle="bold"
                     app:drawableStartCompat="@drawable/wallet"
@@ -342,7 +343,7 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
-                    android:id="@+id/aeps_ly"
+                    android:id="@+id/aeps_1_ly"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
@@ -365,6 +366,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/aeps_2_ly"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
@@ -622,6 +624,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/upi_ly"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"

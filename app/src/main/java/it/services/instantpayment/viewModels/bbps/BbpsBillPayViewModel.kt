@@ -11,10 +11,11 @@ import org.json.JSONObject
 
 class BbpsBillPayViewModel(private val repository: BbpsBillPayRepository): ViewModel() {
 
-    fun payBill(sessionKey:String,apiKey:String,serviceId:String,operatorId:String,mobileNo:String,accountNumber:String,amount:String,provider:String,dueDate:String,mpin:String)
+    fun payBill(sessionKey:String,apiKey:String,serviceId:String,operatorId:String,mobileNo:String,accountNumber:String
+                ,amount:String,provider:String,dueDate:String,mpin:String,apiResponse:String)
     {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.payBill(sessionKey, apiKey, serviceId, operatorId, mobileNo, accountNumber, amount, provider, dueDate,mpin)
+            repository.payBill(sessionKey, apiKey, serviceId, operatorId, mobileNo, accountNumber, amount, provider, dueDate,mpin,apiResponse)
         }
     }
 

@@ -173,7 +173,9 @@ class ReportsFragment : Fragment() {
                 }
 
                 else -> { binding.recycler.visibility=View.GONE
-                    binding.notFoundLy.visibility=View.VISIBLE}
+                    binding.notFoundLy.visibility=View.VISIBLE
+                    binding.recycler.visibility=View.GONE
+                }
             }
         }
 

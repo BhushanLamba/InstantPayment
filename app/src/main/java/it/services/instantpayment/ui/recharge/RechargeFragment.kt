@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatButton
 import androidx.fragment.app.Fragment
@@ -131,6 +132,7 @@ class RechargeFragment : Fragment() {
         balanceViewModel.getBalance(MainActivity.LOGIN_SESSION,ApiKeys.BALANCE_KEY)
     }
 
+    @SuppressLint("SetTextI18n")
     private fun handleClicksAndEvents() {
         binding.apply {
             tvProceed.setOnClickListener {
@@ -149,6 +151,9 @@ class RechargeFragment : Fragment() {
                     val btnCancel: AppCompatButton = mpinDialog.findViewById(R.id.btn_cancel)
                     val btnSubmit: AppCompatButton = mpinDialog.findViewById(R.id.btn_submit)
                     val mpinView: PinView = mpinDialog.findViewById(R.id.otp_pin_view)
+                    val tvInfo:TextView=mpinDialog.findViewById(R.id.tv_info)
+
+                    tvInfo.text="Operator  :  $operatorName\nNumber  :  $number\nAmount  :  ₹ $amount"
 
                     btnCancel.setOnClickListener { mpinDialog.dismiss() }
 

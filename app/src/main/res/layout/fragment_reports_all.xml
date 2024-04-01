@@ -113,6 +113,32 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/aeps_report_ly"
+            android:gravity="center_vertical"
+            android:layout_margin="10dp"
+            android:background="@drawable/gradient_back"
+            android:backgroundTint="@color/white"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                app:tint="@color/primaryColor"
+                android:layout_margin="10dp"
+                android:src="@drawable/aeps"
+                android:layout_width="40dp"
+                android:layout_height="40dp"/>
+
+            <TextView
+                android:text="AePS Reports"
+                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
             android:id="@+id/electricity_report_ly"
             android:gravity="center_vertical"
             android:layout_margin="10dp"
@@ -287,6 +313,158 @@
                 android:layout_height="wrap_content"/>
 
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/payment_request_report_ly"
+            android:gravity="center_vertical"
+            android:layout_margin="10dp"
+            android:background="@drawable/gradient_back"
+            android:backgroundTint="@color/white"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                app:tint="@color/primaryColor"
+                android:layout_margin="10dp"
+                android:src="@drawable/dmt"
+                android:layout_width="40dp"
+                android:layout_height="40dp"/>
+
+            <TextView
+                android:text="Payment Request Reports"
+                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/razor_pay_report_ly"
+            android:gravity="center_vertical"
+            android:layout_margin="10dp"
+            android:background="@drawable/gradient_back"
+            android:backgroundTint="@color/white"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_margin="10dp"
+                android:src="@drawable/razor_pay"
+                android:layout_width="40dp"
+                android:layout_height="40dp"/>
+
+            <TextView
+                android:text="Razorpay Reports"
+                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/upi_report_ly"
+            android:gravity="center_vertical"
+            android:layout_margin="10dp"
+            android:background="@drawable/gradient_back"
+            android:backgroundTint="@color/white"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_margin="10dp"
+                android:src="@drawable/upi"
+                android:layout_width="40dp"
+                android:layout_height="40dp"/>
+
+            <TextView
+                android:text="UPI Reports"
+                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ledger_ly"
+            android:gravity="center_vertical"
+            android:layout_margin="10dp"
+            android:background="@drawable/gradient_back"
+            android:backgroundTint="@color/white"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                app:tint="@color/primaryColor"
+                android:layout_margin="10dp"
+                android:src="@drawable/report"
+                android:layout_width="40dp"
+                android:layout_height="40dp"/>
+
+            <TextView
+                android:text="Ledger Reports"
+                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/wtr_report_ly"
+            android:gravity="center_vertical"
+            android:layout_margin="10dp"
+            android:background="@drawable/gradient_back"
+            android:backgroundTint="@color/white"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                app:tint="@color/primaryColor"
+                android:layout_margin="10dp"
+                android:src="@drawable/wallet"
+                android:layout_width="40dp"
+                android:layout_height="40dp"/>
+
+            <TextView
+                android:text="Wallet Transfer Reports"
+                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ptr_report_ly"
+            android:gravity="center_vertical"
+            android:layout_margin="10dp"
+            android:background="@drawable/gradient_back"
+            android:backgroundTint="@color/white"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                app:tint="@color/primaryColor"
+                android:layout_margin="10dp"
+                android:src="@drawable/wallet"
+                android:layout_width="40dp"
+                android:layout_height="40dp"/>
+
+            <TextView
+                android:text="Transfer to Parent Reports"
+                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+
+
 
     </LinearLayout>
 

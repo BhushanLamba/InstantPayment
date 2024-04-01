@@ -8,7 +8,7 @@ import it.services.instantpayment.databinding.BeneItemBinding
 import it.services.instantpayment.interfaces.AllClickInterface
 import it.services.instantpayment.models.BeneListModel
 
-class BeneListAdapter(private val dataList:ArrayList<BeneListModel>,private val allClickInterface: AllClickInterface) : RecyclerView.Adapter<BeneListAdapter.BeneListViewHolder>() {
+class BeneListAdapter(private var dataList:ArrayList<BeneListModel>,private val allClickInterface: AllClickInterface) : RecyclerView.Adapter<BeneListAdapter.BeneListViewHolder>() {
 
 
     class BeneListViewHolder(val binding: BeneItemBinding) :
@@ -51,5 +51,10 @@ class BeneListAdapter(private val dataList:ArrayList<BeneListModel>,private val 
         }
 
 
+    }
+
+    fun filterData(filteredList: ArrayList<BeneListModel>) {
+        dataList=filteredList
+        notifyDataSetChanged()
     }
 }

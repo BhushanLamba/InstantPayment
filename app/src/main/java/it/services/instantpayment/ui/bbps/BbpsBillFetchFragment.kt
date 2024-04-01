@@ -35,6 +35,7 @@ class BbpsBillFetchFragment : Fragment() {
     private lateinit var operatorName: String
     private lateinit var operatorId: String
     private lateinit var service: String
+    private lateinit var serviceId: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,6 +47,7 @@ class BbpsBillFetchFragment : Fragment() {
         progressDialog = CustomDialogs.getCustomProgressDialog(activity)
         operatorList = arguments?.getSerializable("operatorList") as ArrayList<OperatorModel>
         service = arguments?.getString("service", "").toString()
+        serviceId = arguments?.getString("serviceId", "").toString()
 
 
         setUpViewModel()
@@ -74,6 +76,8 @@ class BbpsBillFetchFragment : Fragment() {
                     it.data?.let { data ->
                         val bundle = Bundle()
                         bundle.putString("data", data.toString())
+                        bundle.putString("operatorId", operatorId)
+                        bundle.putString("serviceId", serviceId)
                         replaceFragment(BbpsBillDetailsFragment(), bundle)
                     }
                 }

@@ -29,8 +29,10 @@ import it.services.instantpayment.repository.OperatorRepository
 import it.services.instantpayment.repository.Response
 import it.services.instantpayment.ui.bbps.BbpsBillFetchFragment
 import it.services.instantpayment.ui.dmt.SenderMobileVerificationFragment
+import it.services.instantpayment.ui.paymentRequest.FundRequestFragment
 import it.services.instantpayment.ui.razorpay.PaymentActivity
 import it.services.instantpayment.ui.recharge.OperatorFragment
+import it.services.instantpayment.ui.upiGateway.UpiPaymentFragment
 import it.services.instantpayment.utils.ApiKeys.BALANCE_KEY
 import it.services.instantpayment.utils.ApiKeys.BBPS_OPERATOR_KEY
 import it.services.instantpayment.utils.ApiKeys.OPERATOR_KEY
@@ -57,6 +59,7 @@ class HomeFragment : Fragment() {
     private lateinit var activity: Activity
     private lateinit var progressDialog: AlertDialog
     private lateinit var bbpsServiceType: String
+    private lateinit var bbpsServiceId: String
 
 
     override fun onCreateView(
@@ -126,6 +129,7 @@ class HomeFragment : Fragment() {
                         val bundle = Bundle()
                         bundle.putSerializable("operatorList", data)
                         bundle.putString("service", bbpsServiceType)
+                        bundle.putString("serviceId", bbpsServiceId)
                         replaceFragment(BbpsBillFetchFragment(), bundle)
                     }
                 }
@@ -178,7 +182,11 @@ class HomeFragment : Fragment() {
     private fun handleClicksAndEvents() {
         binding.apply {
 
-            binding.tvMobile.text=MainActivity.MOBILE_NO
+            binding.tvMobile.text = MainActivity.MOBILE_NO
+
+            paymentRequestLy.setOnClickListener {
+                replaceFragment(FundRequestFragment(), Bundle())
+            }
 
             prepaidLy.setOnClickListener {
                 operatorViewModel.getOperator(MainActivity.LOGIN_SESSION, OPERATOR_KEY, "1")
@@ -196,6 +204,7 @@ class HomeFragment : Fragment() {
 
             electrcityLy.setOnClickListener {
                 bbpsServiceType = "Electricity"
+                bbpsServiceId = "3"
                 operatorViewModel.getBbpsOperator(
                     MainActivity.LOGIN_SESSION,
                     BBPS_OPERATOR_KEY,
@@ -205,6 +214,7 @@ class HomeFragment : Fragment() {
 
             fasTagLy.setOnClickListener {
                 bbpsServiceType = "FasTag"
+                bbpsServiceId = "4"
                 operatorViewModel.getBbpsOperator(
                     MainActivity.LOGIN_SESSION,
                     BBPS_OPERATOR_KEY,
@@ -213,6 +223,8 @@ class HomeFragment : Fragment() {
             }
 
             postpaidLy.setOnClickListener {
+                bbpsServiceType = "Postpaid"
+                bbpsServiceId = "5"
                 operatorViewModel.getBbpsOperator(
                     MainActivity.LOGIN_SESSION,
                     BBPS_OPERATOR_KEY,
@@ -222,6 +234,7 @@ class HomeFragment : Fragment() {
 
             loanLy.setOnClickListener {
                 bbpsServiceType = "Loan Repayment"
+                bbpsServiceId = "6"
                 operatorViewModel.getBbpsOperator(
                     MainActivity.LOGIN_SESSION,
                     BBPS_OPERATOR_KEY,
@@ -230,6 +243,7 @@ class HomeFragment : Fragment() {
             }
 
             licLy.setOnClickListener {
+                bbpsServiceId = "7"
                 bbpsServiceType = "Life Insurance Co."
                 operatorViewModel.getBbpsOperator(
                     MainActivity.LOGIN_SESSION,
@@ -239,6 +253,7 @@ class HomeFragment : Fragment() {
             }
 
             gasLy.setOnClickListener {
+                bbpsServiceId = "8"
                 bbpsServiceType = "Gas"
                 operatorViewModel.getBbpsOperator(
                     MainActivity.LOGIN_SESSION,
@@ -248,6 +263,7 @@ class HomeFragment : Fragment() {
             }
 
             creditCardLy.setOnClickListener {
+                bbpsServiceId = "9"
                 bbpsServiceType = "Credit Card"
                 operatorViewModel.getBbpsOperator(
                     MainActivity.LOGIN_SESSION,
@@ -257,21 +273,22 @@ class HomeFragment : Fragment() {
             }
 
             dmtLy.setOnClickListener {
-
                 replaceFragment(SenderMobileVerificationFragment(), Bundle())
             }
 
 
             dmtUpiLy.setOnClickListener {
-
                 val bundle = Bundle()
                 bundle.putString("serviceType", "UPI")
                 replaceFragment(SenderMobileVerificationFragment(), bundle)
             }
 
-            aepsLy.setOnClickListener {
+            aeps1Ly.setOnClickListener {
                 if (MainActivity.IS_AePS_APPROVED.equals("Approved", true)) {
-                    checkAppInstalledOrNot()
+                    AlertDialog.Builder(context)
+                        .setMessage("This service will be launching soon.")
+                        .setPositiveButton("OK", null)
+                        .show()
                 } else {
 
                     val partnerId = "PS004648"
@@ -293,29 +310,31 @@ class HomeFragment : Fragment() {
 
             }
 
+            aeps2Ly.setOnClickListener {
+                checkAppInstalledOrNot()
+            }
+
             razorPayLy.setOnClickListener {
-                startActivity(Intent(context,PaymentActivity::class.java))
+                startActivity(Intent(context, PaymentActivity::class.java))
+            }
+
+            upiLy.setOnClickListener {
+                replaceFragment(UpiPaymentFragment(), Bundle())
             }
 
         }
     }
 
 
-    private fun checkAppInstalledOrNot()
-    {
-        val intalled=appInstalledOrNot("com.aeps.aeps_api_user_sandbox")
+    private fun checkAppInstalledOrNot() {
+        val intalled = appInstalledOrNot("com.aeps.aeps_api_user_sandbox")
         try {
-            if (intalled)
-            {
+            if (intalled) {
                 sendDataToService("com.aeps.aeps_api_user_sandbox")
-            }
-            else
-            {
+            } else {
                 showAlert()
             }
-        }
-        catch (ignore:Exception)
-        {
+        } catch (ignore: Exception) {
             showAlert()
         }
     }
@@ -335,7 +354,7 @@ class HomeFragment : Fragment() {
         dataModel.location = "Infocity,BBSR"
         dataModel.agent = "Instant Retailer"
         dataModel.bankCode = "common"
-        dataModel.transactionType="0"
+        dataModel.transactionType = "0"
         /*dataModel.transactionType = when{
             binding.rbBe.isChecked ->  "0"
             binding.rbCw.isChecked -> "1"
@@ -347,15 +366,15 @@ class HomeFragment : Fragment() {
 
         val gson = Gson()
         val getData = gson.toJson(dataModel)
-        Log.d("dataModel", "sendDataToService: "+getData)
-        try{
+        Log.d("dataModel", "sendDataToService: " + getData)
+        try {
             val manager = requireActivity().packageManager
             val intent = manager.getLaunchIntentForPackage(packageName)
             intent!!.addCategory(Intent.CATEGORY_LAUNCHER)
             intent.flags = 0
             intent.putExtra("dataToService", getData)
-            startActivityForResult(intent,80)
-        }catch(e: Exception){
+            startActivityForResult(intent, 80)
+        } catch (e: Exception) {
             Toast.makeText(context, "Application Not Found", Toast.LENGTH_SHORT).show()
         }
     }
@@ -375,8 +394,8 @@ class HomeFragment : Fragment() {
         var agent: String? = null
         var skipReceipt: Boolean? = null
         var transactionAmount: String? = null
-        var transactionType : String? = null
-        var bankCode : String? = null
+        var transactionType: String? = null
+        var bankCode: String? = null
 
         override fun toString(): String {
             return super.toString()
@@ -424,17 +443,22 @@ class HomeFragment : Fragment() {
 
     private fun redirectToAppStore() {
         val uri = Uri.parse("https://liveappstore.in/shareapp?com.aeps.aeps_api_user_sandbox=")
-        val goToMarket =  Intent(Intent.ACTION_VIEW, uri);
+        val goToMarket = Intent(Intent.ACTION_VIEW, uri);
         goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
         goToMarket.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT)
         goToMarket.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK)
         try {
             startActivity(goToMarket);
-        } catch (e:Exception) {
+        } catch (e: Exception) {
             try {
-                startActivity( Intent(Intent.ACTION_VIEW, Uri.parse("https://liveappstore.in/shareapp?com.aeps.aeps_api_user_sandbox=")))
-            } catch ( exception:Exception) {
-                Toast.makeText(context,"Not Found",Toast.LENGTH_LONG).show()
+                startActivity(
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("https://liveappstore.in/shareapp?com.aeps.aeps_api_user_sandbox=")
+                    )
+                )
+            } catch (exception: Exception) {
+                Toast.makeText(context, "Not Found", Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -451,13 +475,12 @@ class HomeFragment : Fragment() {
     }
 
 
-
     private val aePSOnBoardingLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) {
         val data = it.data
         val message = data?.getStringExtra("message")
-        Toast.makeText(context,message,Toast.LENGTH_LONG).show()
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
 
     private fun setImageSlider() {

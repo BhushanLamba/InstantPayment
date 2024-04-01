@@ -13,11 +13,11 @@ class BbpsBillPayRepository(val webService: WebService) {
         get() = bbpsBillPayLiveData
 
     suspend fun payBill(sessionKey:String,apiKey:String,serviceId:String,operatorId:String,mobileNo:String,accountNumber:String,amount:String,
-                        provider:String,dueDate:String,mpin:String)
+                        provider:String,dueDate:String,mpin:String,apiResponse:String)
     {
         bbpsBillPayLiveData.postValue(Response.Loading())
 
-        val result=webService.payBill(sessionKey,apiKey,serviceId,operatorId,mobileNo,accountNumber,amount,provider,dueDate,mpin)
+        val result=webService.payBill(sessionKey,apiKey,serviceId,operatorId,mobileNo,accountNumber,amount,provider,dueDate,mpin,apiResponse)
 
         try {
             if (result.body() != null) {

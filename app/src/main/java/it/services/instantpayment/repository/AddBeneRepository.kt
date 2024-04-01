@@ -6,6 +6,7 @@ import it.services.instantpayment.models.BankModel
 import it.services.instantpayment.ui.dmt.SenderMobileVerificationFragment
 import it.services.instantpayment.utils.ApiKeys
 import it.services.instantpayment.utils.ApiKeys.ADD_BENE_UPI_KEY
+import it.services.instantpayment.utils.ApiKeys.VERIFY_BENE_KEY
 import it.services.instantpayment.utils.ApiKeys.VERIFY_BENE_UPI_KEY
 import it.services.instantpayment.webService.WebService
 import org.json.JSONObject
@@ -90,17 +91,29 @@ class AddBeneRepository(private val webService: WebService) {
         beneName: String
     ) {
         verifyBeneLiveData.postValue(Response.Loading())
-        val result =
-            webService.accountVerify(
-                ApiKeys.BASE_URL + "AccountVarify",
+        val result = if (SenderMobileVerificationFragment.sType.equals("UPI", true)) {
+
+                webService.accountVerify(
+                    ApiKeys.BASE_URL + "AccountVarify",
+                    sessionKey,
+                    VERIFY_BENE_KEY,
+                    senderMobile,
+                    ifsc,
+                    accountNo,
+                    bankName,
+                    beneName
+                )
+        }
+        else
+        {
+            webService.upiAccountVerify(
+                ApiKeys.BASE_URL + "UPIAccountVarify",
                 sessionKey,
                 VERIFY_BENE_UPI_KEY,
-                senderMobile,
-                ifsc,
-                accountNo,
-                bankName,
-                beneName
+                senderMobile,beneName,accountNo,ifsc
             )
+        }
+
         try {
             if (result.body() != null) {
                 val responseObject = JSONObject(result.body().toString())
@@ -118,7 +131,8 @@ class AddBeneRepository(private val webService: WebService) {
             } else {
                 verifyBeneLiveData.postValue(Response.Error("Try again later", ""))
             }
-        } catch (e: Exception) {
+        }
+        catch (e: Exception) {
             verifyBeneLiveData.postValue(e.localizedMessage?.let { Response.Error(it, "") })
         }
     }

@@ -9,7 +9,7 @@ import it.services.instantpayment.databinding.OperatorItemBinding
 import it.services.instantpayment.interfaces.AllClickInterface
 import it.services.instantpayment.models.OperatorModel
 
-class OperatorAdapter (private val operatorList:ArrayList<OperatorModel>,private val allClickInterface: AllClickInterface) : RecyclerView.Adapter<OperatorAdapter.OperatorViewModel>(){
+class OperatorAdapter (private var operatorList:ArrayList<OperatorModel>,private val allClickInterface: AllClickInterface) : RecyclerView.Adapter<OperatorAdapter.OperatorViewModel>(){
 
 
 
@@ -34,6 +34,12 @@ class OperatorAdapter (private val operatorList:ArrayList<OperatorModel>,private
         holder.itemView.setOnClickListener {
             allClickInterface.allClick(operatorList[position],"")
         }
+    }
+
+    fun filterData(filteredList: ArrayList<OperatorModel>) {
+        operatorList=filteredList
+        notifyDataSetChanged()
+
     }
 
     class OperatorViewModel(val binding:OperatorItemBinding) : RecyclerView.ViewHolder(binding.root)

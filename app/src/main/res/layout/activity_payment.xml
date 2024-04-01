@@ -46,6 +46,30 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="4dp"
             android:layout_marginTop="20dp"
+            android:text="Amount*" />
+
+        <EditText
+            android:id="@+id/et_amount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="4dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/gradient_back"
+            android:backgroundTint="@color/white"
+            android:elevation="2dp"
+            android:hint="Enter amount"
+            android:inputType="number"
+            android:maxLength="10"
+            android:padding="10dp"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="4dp"
+            android:layout_marginTop="20dp"
             android:text="Mobile No*" />
 
         <EditText
@@ -112,29 +136,7 @@
             android:textColor="@color/black"
             android:textStyle="bold" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="4dp"
-            android:layout_marginTop="20dp"
-            android:text="Amount*" />
 
-        <EditText
-            android:id="@+id/et_amount"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="4dp"
-            android:layout_marginTop="4dp"
-            android:background="@drawable/gradient_back"
-            android:backgroundTint="@color/white"
-            android:elevation="2dp"
-            android:hint="Enter amount"
-            android:inputType="number"
-            android:maxLength="10"
-            android:padding="10dp"
-            android:singleLine="true"
-            android:textColor="@color/black"
-            android:textStyle="bold" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_proceed"

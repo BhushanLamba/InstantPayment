@@ -13,9 +13,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import it.services.instantpayment.MainActivity
 import it.services.instantpayment.R
+import it.services.instantpayment.adapters.UpiExtensionAdapter
 import it.services.instantpayment.databinding.FragmentAddBeneBinding
+import it.services.instantpayment.interfaces.AllClickInterface
 import it.services.instantpayment.models.BankModel
 import it.services.instantpayment.repository.AddBeneRepository
 import it.services.instantpayment.repository.Response
@@ -45,6 +49,11 @@ class AddBeneFragment : Fragment() {
     private var accountNumber: String = ""
     private var senderMobile: String = ""
 
+    private val phonePeExtensionList = arrayListOf("@ybl", "@axl", "@ibl")
+    private val googlePayExtensionList = arrayListOf("@okicici", "@okaxis", "@okhdfc", "@oksbi")
+    private val paytmExtensionList = arrayListOf("@paytm")
+    private val amazonPayExtensionList = arrayListOf("@apl")
+
     private val addBeneLiveData = MutableLiveData<JSONObject>()
     val addBeneData: LiveData<JSONObject>
         get() = addBeneLiveData
@@ -68,7 +77,6 @@ class AddBeneFragment : Fragment() {
                 etAccountNo.hint = "Enter UPI ID"
                 tvIfsc.visibility = View.GONE
                 etIfsc.visibility = View.GONE
-                btnVerify.visibility = View.GONE
 
             }
         }
@@ -137,8 +145,9 @@ class AddBeneFragment : Fragment() {
 
                 is Response.Success -> {
                     progressDialog.dismiss()
-                    AlertDialog.Builder(context).setMessage("Verified").setPositiveButton("ok",null).show()
-                    val beneName= response.data.toString()
+                    AlertDialog.Builder(context).setMessage("Verified")
+                        .setPositiveButton("ok", null).show()
+                    val beneName = response.data.toString()
                     binding.etName.setText(beneName)
 
                 }
@@ -250,6 +259,70 @@ class AddBeneFragment : Fragment() {
                 ifsc = bankModel.ifsc
                 binding.etBank.setText(bankName)
                 binding.etIfsc.setText(ifsc)
+
+                if (SenderMobileVerificationFragment.sType.equals("UPI", true)) {
+                    binding.upiExtensionRecycler.layoutManager =
+                        LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+
+                    if (bankName.equals("PhonePe", true)) {
+                        binding.upiExtensionRecycler.adapter =
+                            UpiExtensionAdapter(phonePeExtensionList, object : AllClickInterface {
+                                @SuppressLint("SetTextI18n")
+                                override fun allClick(data: Any, extra: String) {
+                                    val upiID = binding.etAccountNo.text.toString().trim()
+                                    if (upiID.contains("@")) {
+                                        binding.etAccountNo.setText(upiID.split("@")[0] + extra)
+                                    } else {
+                                        binding.etAccountNo.setText(upiID + extra)
+                                    }
+                                }
+
+                            })
+                    } else if (bankName.equals("GooglePay", true)) {
+                        binding.upiExtensionRecycler.adapter =
+                            UpiExtensionAdapter(googlePayExtensionList, object : AllClickInterface {
+                                @SuppressLint("SetTextI18n")
+                                override fun allClick(data: Any, extra: String) {
+                                    val upiID = binding.etAccountNo.text.toString().trim()
+                                    if (upiID.contains("@")) {
+                                        binding.etAccountNo.setText(upiID.split("@")[0] + extra)
+                                    } else {
+                                        binding.etAccountNo.setText(upiID + extra)
+                                    }
+                                }
+
+                            })
+                    } else if (bankName.equals("Paytm", true)) {
+                        binding.upiExtensionRecycler.adapter =
+                            UpiExtensionAdapter(paytmExtensionList, object : AllClickInterface {
+                                @SuppressLint("SetTextI18n")
+                                override fun allClick(data: Any, extra: String) {
+                                    val upiID = binding.etAccountNo.text.toString().trim()
+                                    if (upiID.contains("@")) {
+                                        binding.etAccountNo.setText(upiID.split("@")[0] + extra)
+                                    } else {
+                                        binding.etAccountNo.setText(upiID + extra)
+                                    }
+                                }
+
+                            })
+                    } else if (bankName.equals("Amazon Pay", true)) {
+                        binding.upiExtensionRecycler.adapter =
+                            UpiExtensionAdapter(amazonPayExtensionList, object : AllClickInterface {
+                                @SuppressLint("SetTextI18n")
+                                override fun allClick(data: Any, extra: String) {
+                                    val upiID = binding.etAccountNo.text.toString().trim()
+                                    if (upiID.contains("@")) {
+                                        binding.etAccountNo.setText(upiID.split("@")[0] + extra)
+                                    } else {
+                                        binding.etAccountNo.setText(upiID + extra)
+                                    }
+                                }
+
+                            })
+                    }
+                }
+
             }
         }
 

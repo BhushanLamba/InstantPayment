@@ -9,6 +9,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import it.services.instantpayment.R
 import it.services.instantpayment.databinding.FragmentReportsAllBinding
+import it.services.instantpayment.ui.reports.LedgerFragment
+import it.services.instantpayment.ui.reports.PaymentGatewayReportFragment
+import it.services.instantpayment.ui.reports.PaymentRequestReportFragment
 import it.services.instantpayment.ui.reports.ReportsFragment
 
 class AllReportsFragment : Fragment() {
@@ -53,6 +56,12 @@ class AllReportsFragment : Fragment() {
             upiDmtReportLy.setOnClickListener {
                 val bundle = Bundle()
                 bundle.putString("serviceName", "UPI")
+                replaceFragment(ReportsFragment(), bundle)
+            }
+
+            aepsReportLy.setOnClickListener {
+                val bundle = Bundle()
+                bundle.putString("serviceName", "AEPS")
                 replaceFragment(ReportsFragment(), bundle)
             }
 
@@ -103,6 +112,40 @@ class AllReportsFragment : Fragment() {
                 bundle.putString("serviceName", "LIC")
                 replaceFragment(ReportsFragment(), bundle)
             }
+
+            paymentRequestReportLy.setOnClickListener {
+                replaceFragment(PaymentRequestReportFragment(),Bundle())
+            }
+
+            razorPayReportLy.setOnClickListener {
+                val bundle = Bundle()
+                bundle.putString("service", "Razorpay")
+                replaceFragment(PaymentGatewayReportFragment(), bundle)
+            }
+
+            upiReportLy.setOnClickListener {
+                val bundle = Bundle()
+                bundle.putString("service", "UPI")
+                replaceFragment(PaymentGatewayReportFragment(), bundle)
+            }
+
+            ledgerLy.setOnClickListener {
+                val bundle = Bundle()
+                bundle.putString("service", "LR")
+                replaceFragment(LedgerFragment(), bundle)
+            }
+
+            wtrReportLy.setOnClickListener {
+                val bundle = Bundle()
+                bundle.putString("service", "WTR")
+                replaceFragment(LedgerFragment(), bundle)
+            }
+            ptrReportLy.setOnClickListener {
+                val bundle = Bundle()
+                bundle.putString("service", "PTR")
+                replaceFragment(LedgerFragment(), bundle)
+            }
+
         }
     }
 

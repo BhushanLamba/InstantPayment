@@ -78,7 +78,8 @@ interface WebService {
         @Field("Amount") Amount: String,
         @Field("Provider") Provider: String,
         @Field("duedate") duedate: String,
-        @Field("MPIN") mpin: String
+        @Field("MPIN") mpin: String,
+        @Field("APIResponse") APIResponse: String
     ): Response<JsonObject>
 
     @FormUrlEncoded
@@ -169,6 +170,18 @@ interface WebService {
         @Field("AccountNo") accountNo: String,
         @Field("BankName") bankName: String,
         @Field("BeneName") beneName: String
+    ): Response<JsonObject>
+
+    @FormUrlEncoded
+    @POST
+    suspend fun upiAccountVerify(
+        @Url url: String,
+        @Field("SessionKey") sessionKey: String,
+        @Field("APIKey") apiKey: String,
+        @Field("SenderMobile") senderMobile: String,
+        @Field("BeneName") BeneName: String,
+        @Field("UPIID") UPIID: String,
+        @Field("IfscCode") IfscCode: String
     ): Response<JsonObject>
 
     @FormUrlEncoded
@@ -293,6 +306,18 @@ interface WebService {
 
     @FormUrlEncoded
     @POST
+    suspend fun initiateUpiPayment(
+        @Url url: String,
+        @Field("SessionKey") sessionKey: String,
+        @Field("APIKey") apiKey: String,
+        @Field("Amount") Amount: String,
+        @Field("MobileNo") MobileNo: String,
+        @Field("EmailId") EmailId: String,
+        @Field("CustomerName") CustomerName: String
+    ): Response<JsonObject>
+
+    @FormUrlEncoded
+    @POST
     suspend fun updatePayment(
         @Url url: String,
         @Field("SessionKey") sessionKey: String,
@@ -301,4 +326,59 @@ interface WebService {
         @Field("comresponse") comresponse: String,
         @Field("txnStatus") txnStatus:String
     ): Response<JsonObject>
+
+    @FormUrlEncoded
+    @POST
+    suspend fun getAdminBanks(
+        @Url url: String,
+        @Field("SessionKey") sessionKey: String,
+        @Field("APIKey") apiKey: String
+    ):Response<JsonObject>
+
+    @FormUrlEncoded
+    @POST
+    suspend fun fundRequest(
+        @Url url: String,
+        @Field("SessionKey") sessionKey: String,
+        @Field("APIKey") apiKey: String,
+        @Field("BankId") BankId:String,
+        @Field("Amount") Amount:String,
+        @Field("Usertype") Usertype:String,
+        @Field("BankName") BankName:String,
+        @Field("TxnId") TxnId:String,
+        @Field("TxnSlip") TxnSlip:String,
+        @Field("DepositMode") DepositMode:String
+    ):Response<JsonObject>
+
+    @FormUrlEncoded
+    @POST
+    suspend fun fundRequestReport(
+        @Url url: String,
+        @Field("SessionKey") sessionKey: String,
+        @Field("APIKey") apiKey: String,
+        @Field("DateFrom") DateFrom:String,
+        @Field("DateTo") DateTo:String,
+    ):Response<JsonObject>
+
+    @FormUrlEncoded
+    @POST
+    suspend fun gatewayReport(
+        @Url url: String,
+        @Field("SessionKey") sessionKey: String,
+        @Field("APIKey") apiKey: String,
+        @Field("From") From:String,
+        @Field("To") To:String,
+        @Field("ServiceName") ServiceName:String
+    ):Response<JsonObject>
+
+    @FormUrlEncoded
+    @POST
+    suspend fun getLedger(
+        @Url url: String,
+        @Field("SessionKey") sessionKey: String,
+        @Field("APIKey") apiKey: String,
+        @Field("From") From:String,
+        @Field("To") To:String,
+        @Field("ServiceName") ServiceName:String
+    ):Response<JsonObject>
 }
