@@ -78,5 +78,9 @@ dependencies {
     //RAZORPAY
     implementation 'com.razorpay:checkout:1.6.33'
 
+    //QR Scanner
+    implementation 'me.dm7.barcodescanner:zxing:1.9.13'// for scan qrcode
+
+
 
 }

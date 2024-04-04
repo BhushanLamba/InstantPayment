@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import it.services.instantpayment.MainActivity
 import it.services.instantpayment.models.GatewayReportModel
-import it.services.instantpayment.models.PaymentRequestReportModel
 import it.services.instantpayment.utils.ApiKeys
 import it.services.instantpayment.webService.WebService
 import org.json.JSONObject
@@ -39,11 +38,13 @@ class PaymentGatewayReportRepository(val webService: WebService)
                         val orderId = dataObject.getString("OrderId")
                         var date = dataObject.getString("ReqDate")
                         val status = dataObject.getString("Status")
+                        val txnId = dataObject.getString("txn_Id")
+                        val panCard = dataObject.getString("Pancard")
 
                         date=date.split("T")[0]
 
 
-                        val model = GatewayReportModel(amount,orderId, date, status)
+                        val model = GatewayReportModel(amount,orderId, date, status,txnId,panCard)
 
                         reportList.add(model)
 

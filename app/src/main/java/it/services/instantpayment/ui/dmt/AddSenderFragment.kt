@@ -25,6 +25,7 @@ import it.services.instantpayment.viewModels.dmt.senderVerification.SenderMobile
 import it.services.instantpayment.viewModels.dmt.senderVerification.SenderMobileVerificationViewModelFactory
 import it.services.instantpayment.webService.RetrofitClient
 import it.services.instantpayment.webService.WebService
+import java.lang.Exception
 
 
 class AddSenderFragment : Fragment() {
@@ -39,6 +40,7 @@ class AddSenderFragment : Fragment() {
     private lateinit var address: String
     private lateinit var mobileNumber: String
     private lateinit var otp: String
+    private lateinit var state:String
 
     private lateinit var addSenderViewModel: AddSenderViewModel
     private lateinit var verifySenderViewModel: SenderMobileVerificationViewModel
@@ -84,21 +86,38 @@ class AddSenderFragment : Fragment() {
 //                    )
                     Log.d("sender", "setUpViewObservers: $response")
                     binding.apply {
-                        etFirstName.isClickable = false
-                        etFirstName.isFocusableInTouchMode = false
 
-                        etLastName.isClickable = false
-                        etLastName.isFocusableInTouchMode = false
+                        val responseObject=response.data
+                        try {
 
-                        etPincode.isClickable = false
-                        etPincode.isFocusableInTouchMode = false
+                            val dataArray=responseObject!!.getJSONArray("Data")
+                            val dataObject=dataArray.getJSONObject(0)
+                            state=dataObject.getString("state")
 
-                        etAddress.isClickable = false
-                        etAddress.isFocusableInTouchMode = false
+                            etFirstName.isClickable = false
+                            etFirstName.isFocusableInTouchMode = false
 
-                        btnProceed.visibility = View.GONE
+                            etLastName.isClickable = false
+                            etLastName.isFocusableInTouchMode = false
 
-                        otpLy.visibility = View.VISIBLE
+                            etPincode.isClickable = false
+                            etPincode.isFocusableInTouchMode = false
+
+                            etAddress.isClickable = false
+                            etAddress.isFocusableInTouchMode = false
+
+                            btnProceed.visibility = View.GONE
+
+                            otpLy.visibility = View.VISIBLE
+
+
+                        }
+                        catch (e:Exception)
+                        {
+                            Toast.makeText(context,"Please try after sometime.",Toast.LENGTH_LONG).show()
+                        }
+
+
                     }
                 }
             }
@@ -206,7 +225,7 @@ class AddSenderFragment : Fragment() {
                         MainActivity.LOGIN_SESSION,
                         ApiKeys.VALIDATE_SENDER_KEY,
                         mobileNumber,
-                        otp,""
+                        otp,state
                     )
                 }
             }

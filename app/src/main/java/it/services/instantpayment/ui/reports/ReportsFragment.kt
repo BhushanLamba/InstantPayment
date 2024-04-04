@@ -1,5 +1,6 @@
 package it.services.instantpayment.ui.reports
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
@@ -46,6 +47,7 @@ class ReportsFragment : Fragment() {
     private lateinit var reportsAdapter: ReportsAdapter
 
 
+    @SuppressLint("SetTextI18n")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -55,6 +57,8 @@ class ReportsFragment : Fragment() {
         context = requireContext()
         activity = requireActivity()
         serviceName = arguments?.getString("serviceName", "All").toString()
+
+        binding.tvTitle.text="$serviceName  Reports"
 
         apiDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
 
@@ -131,7 +135,7 @@ class ReportsFragment : Fragment() {
         if (::reportList.isInitialized)
         {
             for (jsonObject in reportList) {
-                if (jsonObject.getString("Mobileno").contains(searchText) ||
+                if (jsonObject.getString("Mobile no").contains(searchText) ||
                     jsonObject.getString("AccountNo").contains(searchText)
                 ) {
                     filteredList.add(jsonObject)

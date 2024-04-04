@@ -59,7 +59,7 @@ class SenderVerificationRepository(private val webService: WebService) {
                 verificationLiveData.postValue(Response.Error("Try again later", ""))
             }
         } catch (e: Exception) {
-            verificationLiveData.postValue(Response.Error(e.localizedMessage, ""))
+            verificationLiveData.postValue(e.localizedMessage?.let { Response.Error(it, "") })
         }
     }
 }

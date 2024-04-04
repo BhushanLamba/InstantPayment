@@ -4,11 +4,18 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -25,6 +32,7 @@ import it.services.instantpayment.repository.AddBeneRepository
 import it.services.instantpayment.repository.Response
 import it.services.instantpayment.utils.ApiKeys
 import it.services.instantpayment.utils.CustomDialogs
+import it.services.instantpayment.utils.ScannerViewActivity
 import it.services.instantpayment.viewModels.dmt.addBene.AddBeneViewModel
 import it.services.instantpayment.viewModels.dmt.addBene.AddBeneViewModelFactory
 import it.services.instantpayment.webService.RetrofitClient
@@ -77,6 +85,7 @@ class AddBeneFragment : Fragment() {
                 etAccountNo.hint = "Enter UPI ID"
                 tvIfsc.visibility = View.GONE
                 etIfsc.visibility = View.GONE
+                imgQr.visibility=View.VISIBLE
 
             }
         }
@@ -217,8 +226,58 @@ class AddBeneFragment : Fragment() {
                     )
                 }
             }
+
+            imgQr.setOnClickListener {
+                checkCameraPermission()
+
+            }
         }
     }
+    @SuppressLint("SetTextI18n")
+    private var resultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+
+            if (result.data!=null)
+            {
+                val data: Intent? = result.data
+                val qrData = data?.getStringExtra("qrCodeData")
+                Log.d("qrData", "qrData : $qrData")
+
+                val uri = Uri.parse(qrData)
+                val paValue = uri.getQueryParameter("pa")
+                val pnValue = uri.getQueryParameter("pn")
+
+                binding.etAccountNo.setText(paValue)
+                binding.etName.setText(pnValue)
+
+                var pnValueExtension=paValue!!.split("@")[1]
+                pnValueExtension="@$pnValueExtension"
+
+
+
+                if(phonePeExtensionList.contains(pnValueExtension))
+                {
+                    binding.etBank.setText("PhonePe")
+                }
+                else if(googlePayExtensionList.contains(pnValueExtension))
+                {
+                    binding.etBank.setText("GooglePay")
+                }
+
+                else if(paytmExtensionList.contains(pnValueExtension))
+                {
+                    binding.etBank.setText("Paytm")
+                }
+
+                else if(amazonPayExtensionList.contains(pnValueExtension))
+                {
+                    binding.etBank.setText("Amazon Pay")
+                }
+
+
+            }
+
+        }
 
     private fun checkValidation(): Boolean {
         binding.apply {
@@ -247,6 +306,32 @@ class AddBeneFragment : Fragment() {
             return true
         }
     }
+
+
+    private val CAMERA_PERMISSION_REQUEST_CODE = 100
+
+    private fun checkCameraPermission() {
+        if (ContextCompat.checkSelfPermission(
+                context,
+                android.Manifest.permission.CAMERA
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // Permission is not granted
+            // You can show a rationale here and then request the permission
+            ActivityCompat.requestPermissions(
+                activity,
+                arrayOf(android.Manifest.permission.CAMERA),
+                CAMERA_PERMISSION_REQUEST_CODE
+            )
+        } else {
+            // Permission has already been granted
+            // Proceed with the camera operation
+            // For example: openCamera()
+
+            resultLauncher.launch(Intent(context, ScannerViewActivity::class.java))
+        }
+    }
+
 
     private fun replaceFragment(fragment: Fragment, bundle: Bundle) {
         fragment.arguments = bundle
@@ -332,5 +417,7 @@ class AddBeneFragment : Fragment() {
         fragmentTransaction.addToBackStack("")
         fragmentTransaction.commit()
     }
+
+
 
 }

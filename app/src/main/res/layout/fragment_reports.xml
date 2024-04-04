@@ -19,6 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
+                android:id="@+id/tv_title"
                 android:textSize="18sp"
                 android:text="Report"
                 android:layout_marginStart="10dp"

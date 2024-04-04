@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/light_blue"
     tools:context=".ui.dmt.AddBeneFragment">
 
@@ -64,22 +65,43 @@
                 android:layout_marginTop="20dp"
                 android:text="@string/bank" />
 
-            <EditText
-                android:id="@+id/et_bank"
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="4dp"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/gradient_back"
-                android:backgroundTint="@color/white"
-                android:elevation="2dp"
-                android:hint="Select Bank Name"
-                android:clickable="false"
-                android:focusableInTouchMode="false"
-                android:padding="10dp"
-                android:singleLine="true"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content">
+                <EditText
+                    android:layout_weight="0.2"
+                    android:id="@+id/et_bank"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="4dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/gradient_back"
+                    android:backgroundTint="@color/white"
+                    android:elevation="2dp"
+                    android:hint="Select Bank Name"
+                    android:clickable="false"
+                    android:focusableInTouchMode="false"
+                    android:padding="10dp"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/img_qr"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    app:tint="@color/primaryColor"
+                    android:src="@drawable/qr_code"
+                    android:layout_marginHorizontal="4dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.8"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"/>
+
+
+            </LinearLayout>
+
 
             <TextView
                 android:id="@+id/tv_ifsc"

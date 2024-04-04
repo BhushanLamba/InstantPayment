@@ -1,5 +1,6 @@
 package it.services.instantpayment.ui.reports
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
@@ -42,6 +43,7 @@ class PaymentGatewayReportFragment : Fragment() {
     private lateinit var adapter: PaymentGatewayReportAdapter
 
 
+    @SuppressLint("SetTextI18n")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -63,6 +65,11 @@ class PaymentGatewayReportFragment : Fragment() {
         fromDate = apiDateFormat.format(fromDateCalender.time)
         toDate = apiDateFormat.format(fromDateCalender.time)
         serviceType = arguments?.getString("service").toString()
+
+        if (serviceType.equals("UPI",true))
+        {
+            binding.tvTitle.text="UPI Gateway"
+        }
 
         setUpViewModels()
         setUpObserver()
@@ -127,7 +134,7 @@ class PaymentGatewayReportFragment : Fragment() {
         if (::dataList.isInitialized)
         {
             for (model in dataList) {
-                if (model.orderId.lowercase().contains(searchText)
+                if (model.orderId.lowercase().contains(searchText) || model.txnId.lowercase().contains(searchText)|| model.panCard.lowercase().contains(searchText)
                 ) {
                     filteredList.add(model)
                 }

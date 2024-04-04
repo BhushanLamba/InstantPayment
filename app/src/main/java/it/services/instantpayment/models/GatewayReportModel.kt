@@ -1,3 +1,10 @@
 package it.services.instantpayment.models
 
-data class GatewayReportModel(val amount:String,val orderId:String,val date:String,val status:String)
+data class GatewayReportModel(
+    val amount: String,
+    val orderId: String,
+    val date: String,
+    val status: String,
+    val txnId: String,
+    val panCard: String
+)
