@@ -173,5 +173,19 @@
             android:layout_height="wrap_content"/>
     </LinearLayout>
 
+    <Button
+        android:id="@+id/btn_change_password"
+        android:layout_margin="10dp"
+        android:text="Change Password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/btn_change_mpin"
+        android:layout_margin="10dp"
+        android:text="Change MPIN"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
 
 </LinearLayout>

@@ -381,4 +381,24 @@ interface WebService {
         @Field("To") To:String,
         @Field("ServiceName") ServiceName:String
     ):Response<JsonObject>
+
+
+    @FormUrlEncoded
+    @POST
+    suspend fun sendOtpPasswordPin(
+        @Url url:String,
+        @Field("Phone") Phone: String,
+                                   @Field("EmailId") EmailId: String,
+                                   @Field("PanCard") PanCard:String):Response<JsonObject>
+
+
+    //ADDED NewPassword & NewTxnPin in same api to use same function
+    @FormUrlEncoded
+    @POST
+    suspend fun changePasswordPin(
+        @Url url:String,
+        @Field("UserId") UserId: String,
+        @Field("OTP") OTP: String,
+        @Field("NewPassword") NewPassword:String,
+        @Field("NewTxnPin") NewTxnPin:String):Response<JsonObject>
 }

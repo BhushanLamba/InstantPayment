@@ -19,8 +19,10 @@ import android.view.ViewGroup
 import android.widget.ScrollView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import it.services.instantpayment.R
 import it.services.instantpayment.databinding.FragmentRechargeTransactionSlipBinding
+import it.services.instantpayment.ui.login.LoginActivity
 import org.json.JSONObject
 import java.io.File
 import java.io.FileNotFoundException
@@ -50,6 +52,7 @@ class RechargeTransactionSlipFragment : Fragment() {
     }
 
     private fun handleClicksAndEvents() {
+
         binding.apply {
             tvDownload.setOnClickListener {
                 val bitmap:Bitmap= takeScreenshot(binding.receiptLy,binding.receiptLy.getChildAt(0).height,binding.receiptLy.getChildAt(0).width)
@@ -143,6 +146,8 @@ class RechargeTransactionSlipFragment : Fragment() {
             val amount = dataObject.getString("Amount")
 
             binding.apply {
+                Glide.with(imgLogo).load(LoginActivity.logoImage).into(imgLogo)
+
                 tvMessage.text = message
                 tvOperator.text = operator
                 tvOrderId.text = txnId

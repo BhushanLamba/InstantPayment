@@ -19,6 +19,7 @@ import androidx.appcompat.widget.AppCompatButton
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.chaos.view.PinView
 import it.services.instantpayment.MainActivity
 import it.services.instantpayment.R
@@ -29,6 +30,7 @@ import it.services.instantpayment.models.BankModel
 import it.services.instantpayment.models.BeneListModel
 import it.services.instantpayment.repository.BeneListRepository
 import it.services.instantpayment.repository.Response
+import it.services.instantpayment.ui.login.LoginActivity
 import it.services.instantpayment.utils.ApiKeys
 import it.services.instantpayment.utils.CustomDialogs
 import it.services.instantpayment.viewModels.dmt.beneList.BeneListViewModel
@@ -66,6 +68,8 @@ class BeneListFragment : Fragment() {
 
     private fun handleClickAndEvents() {
         binding.apply {
+            Glide.with(imgLogo).load(LoginActivity.logoImage).into(imgLogo)
+
             btnAddBene.setOnClickListener {
                 val bundle = Bundle()
                 bundle.putString("senderMobile", senderNumber)

@@ -11,12 +11,14 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import it.services.instantpayment.MainActivity
 import it.services.instantpayment.R
 import it.services.instantpayment.databinding.FragmentAddSenderBinding
 import it.services.instantpayment.repository.AddSenderRepository
 import it.services.instantpayment.repository.Response
 import it.services.instantpayment.repository.SenderVerificationRepository
+import it.services.instantpayment.ui.login.LoginActivity
 import it.services.instantpayment.utils.ApiKeys
 import it.services.instantpayment.utils.CustomDialogs
 import it.services.instantpayment.viewModels.dmt.addSender.AddSenderViewModel
@@ -196,6 +198,8 @@ class AddSenderFragment : Fragment() {
 
     private fun handleClickAndEvents() {
         binding.apply {
+            Glide.with(imgLogo).load(LoginActivity.logoImage).into(imgLogo)
+
             btnProceed.setOnClickListener {
                 fName = etFirstName.text.toString().trim()
                 lName = etLastName.text.toString().trim()

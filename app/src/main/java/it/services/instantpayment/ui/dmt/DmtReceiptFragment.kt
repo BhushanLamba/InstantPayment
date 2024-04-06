@@ -19,9 +19,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ScrollView
 import android.widget.Toast
+import com.bumptech.glide.Glide
 import it.services.instantpayment.R
 import it.services.instantpayment.databinding.BankItemBinding
 import it.services.instantpayment.databinding.FragmentDmtReceiptBinding
+import it.services.instantpayment.ui.login.LoginActivity
 import org.json.JSONObject
 import java.io.File
 import java.io.FileNotFoundException
@@ -91,6 +93,8 @@ class DmtReceiptFragment : Fragment() {
 
     private fun handleClicksAndEvents() {
         binding.apply {
+            Glide.with(imgLogo).load(LoginActivity.logoImage).into(imgLogo)
+
             tvDownload.setOnClickListener {
                 val bitmap: Bitmap = takeScreenshot(binding.receiptLy,binding.receiptLy.getChildAt(0).height,binding.receiptLy.getChildAt(0).width)
                 bitmapToFile(bitmap)

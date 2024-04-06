@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import it.services.instantpayment.utils.ApiKeys
 import it.services.instantpayment.utils.ApiKeys.LOGIN_KEY
 import it.services.instantpayment.utils.SharedPref
 import it.services.instantpayment.utils.SharedPref.LOGIN_DATA_KEY
@@ -49,6 +50,8 @@ class LoginRepository(private val webService: WebService) {
 
                 if (statusCode.equals("1")) {
                     SharedPref.setString(context, LOGIN_DATA_KEY, responseObject.toString())
+                    val logoImage=responseObject.getString("LogoImage")
+                    SharedPref.setString(context,SharedPref.LOGO_IMAGE,ApiKeys.IMAGE_URL+logoImage)
                     loginLiveData.postValue(Response.Success(responseObject))
                 } else {
                     val message = responseObject.getString("Message")
@@ -59,7 +62,7 @@ class LoginRepository(private val webService: WebService) {
                 loginLiveData.postValue(Response.Error(result.message(), ""))
             }
         } catch (e: Exception) {
-            loginLiveData.postValue(Response.Error(e.localizedMessage, ""))
+            loginLiveData.postValue(e.localizedMessage?.let { Response.Error(it, "") })
         }
 
     }

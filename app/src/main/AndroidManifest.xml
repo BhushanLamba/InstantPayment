@@ -31,6 +31,9 @@
             android:name=".utils.ScannerViewActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.changePasswordPin.ChangePasswordPinActivity"
+            android:exported="false" />
+        <activity
             android:name=".utils.WebViewActivity"
             android:exported="false" />
         <activity

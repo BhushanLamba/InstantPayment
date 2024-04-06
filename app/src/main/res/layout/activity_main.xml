@@ -27,6 +27,7 @@
             android:layout_height="36dp"/>
         
         <TextView
+            android:id="@+id/tv_company_name"
             android:textSize="18sp"
             android:text="Instant Payment"
             android:textColor="@color/white"

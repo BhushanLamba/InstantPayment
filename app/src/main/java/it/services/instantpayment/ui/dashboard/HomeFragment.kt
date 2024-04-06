@@ -1,5 +1,7 @@
 package it.services.instantpayment.ui.dashboard
 
+import android.animation.ArgbEvaluator
+import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Activity.RESULT_OK
@@ -7,6 +9,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -20,9 +23,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.denzcoskun.imageslider.constants.ScaleTypes
 import com.denzcoskun.imageslider.models.SlideModel
 import com.google.gson.Gson
-import com.paysprint.onboardinglib.activities.HostActivity
 import it.services.instantpayment.MainActivity
-import it.services.instantpayment.R
 import it.services.instantpayment.databinding.FragmentHomeBinding
 import it.services.instantpayment.repository.BalanceRepository
 import it.services.instantpayment.repository.OperatorRepository
@@ -80,6 +81,7 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setObservers() {
         operatorViewModel.operatorData.observe(viewLifecycleOwner) {
 
@@ -178,22 +180,42 @@ class HomeFragment : Fragment() {
 
     }
 
+
     @SuppressLint("SetTextI18n")
     private fun handleClicksAndEvents() {
         binding.apply {
 
-            binding.tvMobile.text = MainActivity.MOBILE_NO
+            binding.tvMobile.text = "WELCOME\n${MainActivity.MOBILE_NO}"
+            binding.tvName.text = MainActivity.NAME
 
             paymentRequestLy.setOnClickListener {
+
                 replaceFragment(FundRequestFragment(), Bundle())
+
             }
 
             prepaidLy.setOnClickListener {
-                operatorViewModel.getOperator(MainActivity.LOGIN_SESSION, OPERATOR_KEY, "1")
+                if (MainActivity.checkPermission("PREPAID"))
+                    operatorViewModel.getOperator(MainActivity.LOGIN_SESSION, OPERATOR_KEY, "1")
+                else
+                    CustomDialogs.getMessageDialog(
+                        activity,
+                        "This service is not activated.\nPlease contact admin.",
+                        false
+                    )
+
             }
 
             dthLy.setOnClickListener {
-                operatorViewModel.getOperator(MainActivity.LOGIN_SESSION, OPERATOR_KEY, "2")
+                if (MainActivity.checkPermission("DTH"))
+                    operatorViewModel.getOperator(MainActivity.LOGIN_SESSION, OPERATOR_KEY, "2")
+                else
+                    CustomDialogs.getMessageDialog(
+                        activity,
+                        "This service is not activated.\nPlease contact admin.",
+                        false
+                    )
+
             }
 
             tvBalance.setOnClickListener {
@@ -203,123 +225,252 @@ class HomeFragment : Fragment() {
             }
 
             electrcityLy.setOnClickListener {
-                bbpsServiceType = "Electricity"
-                bbpsServiceId = "3"
-                operatorViewModel.getBbpsOperator(
-                    MainActivity.LOGIN_SESSION,
-                    BBPS_OPERATOR_KEY,
-                    "3"
-                )
+                if (MainActivity.checkPermission("BILLPAYMENT")) {
+                    bbpsServiceType = "Electricity"
+                    bbpsServiceId = "3"
+                    operatorViewModel.getBbpsOperator(
+                        MainActivity.LOGIN_SESSION,
+                        BBPS_OPERATOR_KEY,
+                        "3"
+                    )
+                } else
+                    CustomDialogs.getMessageDialog(
+                        activity,
+                        "This service is not activated.\nPlease contact admin.",
+                        false
+                    )
+
             }
 
             fasTagLy.setOnClickListener {
-                bbpsServiceType = "FasTag"
-                bbpsServiceId = "4"
-                operatorViewModel.getBbpsOperator(
-                    MainActivity.LOGIN_SESSION,
-                    BBPS_OPERATOR_KEY,
-                    "4"
-                )
+
+                if (MainActivity.checkPermission("BILLPAYMENT")) {
+                    bbpsServiceType = "FasTag"
+                    bbpsServiceId = "4"
+                    operatorViewModel.getBbpsOperator(
+                        MainActivity.LOGIN_SESSION,
+                        BBPS_OPERATOR_KEY,
+                        "4"
+                    )
+                } else
+                    CustomDialogs.getMessageDialog(
+                        activity,
+                        "This service is not activated.\nPlease contact admin.",
+                        false
+                    )
+
+
             }
 
             postpaidLy.setOnClickListener {
-                bbpsServiceType = "Postpaid"
-                bbpsServiceId = "5"
-                operatorViewModel.getBbpsOperator(
-                    MainActivity.LOGIN_SESSION,
-                    BBPS_OPERATOR_KEY,
-                    "5"
-                )
+
+                if (MainActivity.checkPermission("BILLPAYMENT")) {
+                    bbpsServiceType = "Postpaid"
+                    bbpsServiceId = "5"
+                    operatorViewModel.getBbpsOperator(
+                        MainActivity.LOGIN_SESSION,
+                        BBPS_OPERATOR_KEY,
+                        "5"
+                    )
+                } else
+                    CustomDialogs.getMessageDialog(
+                        activity,
+                        "This service is not activated.\nPlease contact admin.",
+                        false
+                    )
+
+
             }
 
             loanLy.setOnClickListener {
-                bbpsServiceType = "Loan Repayment"
-                bbpsServiceId = "6"
-                operatorViewModel.getBbpsOperator(
-                    MainActivity.LOGIN_SESSION,
-                    BBPS_OPERATOR_KEY,
-                    "6"
-                )
+
+                if (MainActivity.checkPermission("BILLPAYMENT")) {
+                    bbpsServiceType = "Loan Repayment"
+                    bbpsServiceId = "6"
+                    operatorViewModel.getBbpsOperator(
+                        MainActivity.LOGIN_SESSION,
+                        BBPS_OPERATOR_KEY,
+                        "6"
+                    )
+                } else
+                    CustomDialogs.getMessageDialog(
+                        activity,
+                        "This service is not activated.\nPlease contact admin.",
+                        false
+                    )
+
+
             }
 
             licLy.setOnClickListener {
-                bbpsServiceId = "7"
-                bbpsServiceType = "Life Insurance Co."
-                operatorViewModel.getBbpsOperator(
-                    MainActivity.LOGIN_SESSION,
-                    BBPS_OPERATOR_KEY,
-                    "7"
-                )
+
+                if (MainActivity.checkPermission("BILLPAYMENT")) {
+                    bbpsServiceId = "7"
+                    bbpsServiceType = "Life Insurance Co."
+                    operatorViewModel.getBbpsOperator(
+                        MainActivity.LOGIN_SESSION,
+                        BBPS_OPERATOR_KEY,
+                        "7"
+                    )
+                } else
+                    CustomDialogs.getMessageDialog(
+                        activity,
+                        "This service is not activated.\nPlease contact admin.",
+                        false
+                    )
+
+
             }
 
             gasLy.setOnClickListener {
-                bbpsServiceId = "8"
-                bbpsServiceType = "Gas"
-                operatorViewModel.getBbpsOperator(
-                    MainActivity.LOGIN_SESSION,
-                    BBPS_OPERATOR_KEY,
-                    "8"
-                )
+
+                if (MainActivity.checkPermission("BILLPAYMENT")) {
+                    bbpsServiceId = "8"
+                    bbpsServiceType = "Gas"
+                    operatorViewModel.getBbpsOperator(
+                        MainActivity.LOGIN_SESSION,
+                        BBPS_OPERATOR_KEY,
+                        "8"
+                    )
+                } else
+                    CustomDialogs.getMessageDialog(
+                        activity,
+                        "This service is not activated.\nPlease contact admin.",
+                        false
+                    )
+
+
             }
 
             creditCardLy.setOnClickListener {
-                bbpsServiceId = "9"
-                bbpsServiceType = "Credit Card"
-                operatorViewModel.getBbpsOperator(
-                    MainActivity.LOGIN_SESSION,
-                    BBPS_OPERATOR_KEY,
-                    "9"
-                )
+
+                if (MainActivity.checkPermission("BILLPAYMENT")) {
+                    bbpsServiceId = "9"
+                    bbpsServiceType = "Credit Card"
+                    operatorViewModel.getBbpsOperator(
+                        MainActivity.LOGIN_SESSION,
+                        BBPS_OPERATOR_KEY,
+                        "9"
+                    )
+                } else
+                    CustomDialogs.getMessageDialog(
+                        activity,
+                        "This service is not activated.\nPlease contact admin.",
+                        false
+                    )
+
+
             }
 
             dmtLy.setOnClickListener {
                 replaceFragment(SenderMobileVerificationFragment(), Bundle())
+
             }
 
 
             dmtUpiLy.setOnClickListener {
-                val bundle = Bundle()
-                bundle.putString("serviceType", "UPI")
-                replaceFragment(SenderMobileVerificationFragment(), bundle)
-            }
 
-            aeps1Ly.setOnClickListener {
-                if (MainActivity.IS_AePS_APPROVED.equals("Approved", true)) {
-                    AlertDialog.Builder(context)
-                        .setMessage("This service will be launching soon.")
-                        .setPositiveButton("OK", null)
-                        .show()
-                } else {
+                if (MainActivity.checkPermission("UPI")) {
+                    val bundle = Bundle()
+                    bundle.putString("serviceType", "UPI")
+                    replaceFragment(SenderMobileVerificationFragment(), bundle)
+                } else
+                    CustomDialogs.getMessageDialog(
+                        activity,
+                        "This service is not activated.\nPlease contact admin.",
+                        false
+                    )
 
-                    val partnerId = "PS004648"
-                    val partnerKey =
-                        "UFMwMDQ2NDg2OTZjNmY4ZTc3Mjc3MmVlNGJiOWFkMGQyYWFmMjY3MjE2OTY4NTk3NTk="
-                    val intent = Intent(context, HostActivity::class.java)
-                    intent.putExtra("pId", partnerId)//partner Id provided in credential
-                    intent.putExtra("pApiKey", partnerKey)//JWT API Key provided in credential
-                    intent.putExtra("mCode", "IP${MainActivity.MOBILE_NO}")//Merchant Code
-                    intent.putExtra("mobile", MainActivity.MOBILE_NO)// merchant mobile number
-                    intent.putExtra("lat", "42.10")
-                    intent.putExtra("lng", "76.00")
-                    intent.putExtra("firm", MainActivity.COMPANY_NAME)
-                    intent.putExtra("email", MainActivity.EMAIL_ID)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-
-                    aePSOnBoardingLauncher.launch(intent)
-                }
 
             }
 
             aeps2Ly.setOnClickListener {
-                checkAppInstalledOrNot()
+                CustomDialogs.getMessageDialog(
+                    activity,
+                    "This service is not activated.\nPlease contact admin.",
+                    false
+                )
+
+                /*if (MainActivity.checkPermission("AEPS2")) {
+                    if (MainActivity.IS_AePS_APPROVED.equals("Approved", true)) {
+                        AlertDialog.Builder(context)
+                            .setMessage("This service will be launching soon.")
+                            .setPositiveButton("OK", null)
+                            .show()
+                    } else {
+
+                        val partnerId = "PS004648"
+                        val partnerKey =
+                            "UFMwMDQ2NDg2OTZjNmY4ZTc3Mjc3MmVlNGJiOWFkMGQyYWFmMjY3MjE2OTY4NTk3NTk="
+                        val intent = Intent(context, HostActivity::class.java)
+                        intent.putExtra("pId", partnerId)//partner Id provided in credential
+                        intent.putExtra("pApiKey", partnerKey)//JWT API Key provided in credential
+                        intent.putExtra("mCode", "IP${MainActivity.MOBILE_NO}")//Merchant Code
+                        intent.putExtra("mobile", MainActivity.MOBILE_NO)// merchant mobile number
+                        intent.putExtra("lat", "42.10")
+                        intent.putExtra("lng", "76.00")
+                        intent.putExtra("firm", MainActivity.COMPANY_NAME)
+                        intent.putExtra("email", MainActivity.EMAIL_ID)
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+
+                        aePSOnBoardingLauncher.launch(intent)
+                    }
+                }
+
+                else
+                    CustomDialogs.getMessageDialog(activity,"This service is not activated.\nPlease contact admin.",false)
+
+*/
+
+
+            }
+
+            aeps1Ly.setOnClickListener {
+                if (MainActivity.checkPermission("AEPS1")) {
+                    checkAppInstalledOrNot()
+                } else
+                    CustomDialogs.getMessageDialog(
+                        activity,
+                        "This service is not activated.\nPlease contact admin.",
+                        false
+                    )
+
             }
 
             razorPayLy.setOnClickListener {
-                startActivity(Intent(context, PaymentActivity::class.java))
+                if (MainActivity.checkPermission("PAYMENT GATEWAY")) {
+                    startActivity(Intent(context, PaymentActivity::class.java))
+                } else
+                    CustomDialogs.getMessageDialog(
+                        activity,
+                        "This service is not activated.\nPlease contact admin.",
+                        false
+                    )
+
             }
 
             upiLy.setOnClickListener {
-                replaceFragment(UpiPaymentFragment(), Bundle())
+                if (MainActivity.checkPermission("UPI GATEWAY")) {
+                    replaceFragment(UpiPaymentFragment(), Bundle())
+                } else
+                    CustomDialogs.getMessageDialog(
+                        activity,
+                        "This service is not activated.\nPlease contact admin.",
+                        false
+                    )
+
+            }
+
+            tvTopUp.setOnClickListener {
+                if (MainActivity.checkPermission("UPI GATEWAY")) {
+                    replaceFragment(UpiPaymentFragment(), Bundle())
+                } else
+                    CustomDialogs.getMessageDialog(
+                        activity,
+                        "This service is not activated.\nPlease contact admin.",
+                        false
+                    )
+
             }
 
         }
@@ -327,10 +478,10 @@ class HomeFragment : Fragment() {
 
 
     private fun checkAppInstalledOrNot() {
-        val intalled = appInstalledOrNot("com.aeps.aeps_api_user_sandbox")
+        val intalled = appInstalledOrNot("com.aeps.aeps_api_user_production")
         try {
             if (intalled) {
-                sendDataToService("com.aeps.aeps_api_user_sandbox")
+                sendDataToService("com.aeps.aeps_api_user_production")
             } else {
                 showAlert()
             }
@@ -345,10 +496,10 @@ class HomeFragment : Fragment() {
         dataModel.paramB = ""
         dataModel.paramC = ""
         dataModel.applicationType = ""
-        dataModel.clientID = "EMI8PIj5Esi7T5Q4LVH5X5LHe5uNwqIp0BKdL3sCl8WHlAAb"
-        dataModel.clientSecret = "Q4jAlwLuSUcNNE87D2W3b8PQHv25aKxiYrotlXcxcyX6AOx8BdcLprJCqFGHGVXG"
-        dataModel.userNameFromCoreApp = "aepsTestR"
-        dataModel.API_USER_NAME_VALUE = "isutest"
+        dataModel.clientID = "HUZT7jTCzo8VxZwQtivRnN2k0IZKuXIO9vVwmZU9LRYtcppL"
+        dataModel.clientSecret = "4A13Ykfae1zIfTS9Ee1R9EbfPwnGHBPtmlHkk0LEZEanM1aTdsb7NtVPt5RS5svA"
+        dataModel.userNameFromCoreApp = MainActivity.USERNAME
+        dataModel.API_USER_NAME_VALUE = "instpymntapi"
         dataModel.SHOP_NAME = "iServeU"
         dataModel.BRAND_NAME = "Instant Payment"
         dataModel.location = "Infocity,BBSR"
@@ -442,7 +593,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun redirectToAppStore() {
-        val uri = Uri.parse("https://liveappstore.in/shareapp?com.aeps.aeps_api_user_sandbox=")
+        val uri = Uri.parse("https://liveappstore.in/shareapp?com.aeps.aeps_api_user_production=")
         val goToMarket = Intent(Intent.ACTION_VIEW, uri);
         goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
         goToMarket.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT)
@@ -454,7 +605,7 @@ class HomeFragment : Fragment() {
                 startActivity(
                     Intent(
                         Intent.ACTION_VIEW,
-                        Uri.parse("https://liveappstore.in/shareapp?com.aeps.aeps_api_user_sandbox=")
+                        Uri.parse("https://liveappstore.in/shareapp?com.aeps.aeps_api_user_production=")
                     )
                 )
             } catch (exception: Exception) {
@@ -485,8 +636,8 @@ class HomeFragment : Fragment() {
 
     private fun setImageSlider() {
         mySliderList = ArrayList()
-        mySliderList.add(SlideModel(R.drawable.slider1, ScaleTypes.FIT))
-        mySliderList.add(SlideModel(R.drawable.slider2, ScaleTypes.FIT))
+        mySliderList.add(SlideModel(it.services.instantpayment.R.drawable.slider1, ScaleTypes.FIT))
+        mySliderList.add(SlideModel(it.services.instantpayment.R.drawable.slider2, ScaleTypes.FIT))
 
         binding.imageSlider.setImageList(mySliderList, ScaleTypes.FIT)
     }
@@ -495,7 +646,7 @@ class HomeFragment : Fragment() {
         fragment.arguments = bundle
         val fragmentManager = requireActivity().supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.add(R.id.frame_container, fragment)
+        fragmentTransaction.add(it.services.instantpayment.R.id.frame_container, fragment)
         fragmentTransaction.addToBackStack("")
         fragmentTransaction.commit()
     }

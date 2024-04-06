@@ -2,6 +2,7 @@ package it.services.instantpayment.utils
 
 object ApiKeys {
     const val BASE_URL="https://instantpayment.co.in/api/"
+    const val IMAGE_URL="https://instantpayment.co.in/userpanel/"
     const val LOGIN_KEY="Login001"
     const val OPERATOR_KEY="GetOperator001"
     const val BBPS_OPERATOR_KEY="GetbbpsOperator001"
@@ -29,6 +30,7 @@ object ApiKeys {
     const val INITIATE_PAYMENT_KEY="PaymentIniiate001"
     const val INITIATE_PAYMENT_UPI_KEY="InitiateUPIPayment001"
     const val UPDATE_PAYMENT_KEY="UpdateStatus001"
+    const val UPDATE_UPI_PAYMENT_KEY="UpdateUpiTXN001"
     const val ADMIN_BANK_KEY="GetPaymentBank001"
     const val PAYMENT_REQUEST_KEY="PaymentRequest001"
     const val PAYMENT_REQUEST_REPORT_KEY="PaymentRequestReport001"

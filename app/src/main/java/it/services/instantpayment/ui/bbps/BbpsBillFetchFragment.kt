@@ -10,12 +10,14 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import it.services.instantpayment.MainActivity
 import it.services.instantpayment.R
 import it.services.instantpayment.databinding.FragmentBbpsBillFetchBinding
 import it.services.instantpayment.models.OperatorModel
 import it.services.instantpayment.repository.BbpsBillFetchRepository
 import it.services.instantpayment.repository.Response
+import it.services.instantpayment.ui.login.LoginActivity
 import it.services.instantpayment.utils.ApiKeys.BBPS_FETCH_KEY
 import it.services.instantpayment.utils.CustomDialogs
 import it.services.instantpayment.viewModels.bbps.BbpsBillFetchViewModel
@@ -99,6 +101,7 @@ class BbpsBillFetchFragment : Fragment() {
     private fun handleClicksAndEvents() {
         binding.apply {
             tvServiceName.text = service
+            Glide.with(imgLogo).load(LoginActivity.logoImage).into(imgLogo)
 
             btnFetchBill.setOnClickListener {
                 if (etNumber.text.toString().trim().equals("", true)) {

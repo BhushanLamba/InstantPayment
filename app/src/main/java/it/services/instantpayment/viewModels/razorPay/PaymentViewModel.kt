@@ -17,10 +17,10 @@ class PaymentViewModel(private val repository:PaymentRepository) : ViewModel() {
         }
     }
 
-    fun updatePayment(sessionKey: String, apiKey: String,orderId:String,response:String,status:String)
+    fun updatePayment(endPoint:String,sessionKey: String, apiKey: String,orderId:String,response:String,status:String)
     {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.updatePayment(sessionKey, apiKey, orderId, response,status)
+            repository.updatePayment(endPoint,sessionKey, apiKey, orderId, response,status)
         }
     }
 

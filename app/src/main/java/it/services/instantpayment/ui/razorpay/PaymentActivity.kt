@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.razorpay.Checkout
 import com.razorpay.ExternalWalletListener
 import com.razorpay.PaymentData
@@ -15,6 +17,7 @@ import it.services.instantpayment.MainActivity
 import it.services.instantpayment.databinding.ActivityPaymentBinding
 import it.services.instantpayment.repository.PaymentRepository
 import it.services.instantpayment.repository.Response
+import it.services.instantpayment.ui.login.LoginActivity
 import it.services.instantpayment.utils.ApiKeys
 import it.services.instantpayment.utils.ApiKeys.INITIATE_PAYMENT_KEY
 import it.services.instantpayment.utils.CustomDialogs
@@ -50,6 +53,8 @@ class PaymentActivity : AppCompatActivity(), PaymentResultWithDataListener, Exte
         setUpObservers()
 
         binding.apply {
+            Glide.with(imgLogo).load(LoginActivity.logoImage).into(imgLogo)
+
             btnProceed.setOnClickListener {
                 amount = etAmount.text.toString().trim()
                 mobileNumber = etNumber.text.toString().trim()
@@ -145,6 +150,7 @@ class PaymentActivity : AppCompatActivity(), PaymentResultWithDataListener, Exte
     override fun onPaymentSuccess(response: String, p1: PaymentData?) {
         Toast.makeText(activity, response, Toast.LENGTH_LONG).show()
         paymentViewModel.updatePayment(
+            "UpdatePaymentStatus",
             MainActivity.LOGIN_SESSION,
             ApiKeys.UPDATE_PAYMENT_KEY,
             orderId,
@@ -156,6 +162,7 @@ class PaymentActivity : AppCompatActivity(), PaymentResultWithDataListener, Exte
     override fun onPaymentError(p0: Int, response: String, p2: PaymentData?) {
         Toast.makeText(activity, response, Toast.LENGTH_LONG).show()
         paymentViewModel.updatePayment(
+            "UpdatePaymentStatus",
             MainActivity.LOGIN_SESSION,
             ApiKeys.UPDATE_PAYMENT_KEY,
             orderId,
@@ -168,6 +175,7 @@ class PaymentActivity : AppCompatActivity(), PaymentResultWithDataListener, Exte
     override fun onExternalWalletSelected(response: String, p1: PaymentData?) {
         Toast.makeText(activity, response, Toast.LENGTH_LONG).show()
         paymentViewModel.updatePayment(
+            "UpdatePaymentStatus",
             MainActivity.LOGIN_SESSION,
             ApiKeys.UPDATE_PAYMENT_KEY,
             orderId,

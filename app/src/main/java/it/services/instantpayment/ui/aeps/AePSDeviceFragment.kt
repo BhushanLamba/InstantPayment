@@ -15,7 +15,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import it.services.instantpayment.databinding.FragmentAePSDeviceBinding
+import it.services.instantpayment.ui.login.LoginActivity
 import it.services.instantpayment.utils.SharedPref
 
 
@@ -35,6 +37,7 @@ class AePSDeviceFragment : Fragment() {
     ): View {
 
         binding = FragmentAePSDeviceBinding.inflate(inflater, container, false)
+
         context = requireContext()
         activity = requireActivity()
 
@@ -45,6 +48,9 @@ class AePSDeviceFragment : Fragment() {
     private fun clickEvents() {
 
         binding.apply {
+
+
+
             rgDevices.setOnCheckedChangeListener { _, _ ->
 
                 if (rbMantra.isChecked) {
@@ -65,6 +71,8 @@ class AePSDeviceFragment : Fragment() {
                 }
 
             }
+
+
 
             tvProceed.setOnClickListener {
                 if (isPackageExisted(devicePackage))

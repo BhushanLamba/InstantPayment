@@ -22,6 +22,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import it.services.instantpayment.MainActivity
 import it.services.instantpayment.R
 import it.services.instantpayment.adapters.UpiExtensionAdapter
@@ -30,6 +31,7 @@ import it.services.instantpayment.interfaces.AllClickInterface
 import it.services.instantpayment.models.BankModel
 import it.services.instantpayment.repository.AddBeneRepository
 import it.services.instantpayment.repository.Response
+import it.services.instantpayment.ui.login.LoginActivity
 import it.services.instantpayment.utils.ApiKeys
 import it.services.instantpayment.utils.CustomDialogs
 import it.services.instantpayment.utils.ScannerViewActivity
@@ -180,6 +182,8 @@ class AddBeneFragment : Fragment() {
 
     private fun handleClicksAndEvents() {
         binding.apply {
+            Glide.with(imgLogo).load(LoginActivity.logoImage).into(imgLogo)
+
             etBank.setOnClickListener {
                 if (SenderMobileVerificationFragment.sType.equals("UPI", true)) {
                     bankList = ArrayList()

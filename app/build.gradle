@@ -82,5 +82,8 @@ dependencies {
     implementation 'me.dm7.barcodescanner:zxing:1.9.13'// for scan qrcode
 
 
+    implementation 'com.github.bumptech.glide:glide:4.16.0'
+
+
 
 }

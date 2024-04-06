@@ -46,10 +46,10 @@ class PaymentRepository(val webService: WebService) {
         }
     }
 
-    suspend fun updatePayment(sessionKey: String, apiKey: String,orderId:String,response:String,status:String) {
+    suspend fun updatePayment(endPoint:String,sessionKey: String, apiKey: String,orderId:String,response:String,status:String) {
         updatePaymentLiveData.postValue(Response.Loading())
 
-        val result = webService.updatePayment(ApiKeys.BASE_URL+"UpdatePaymentStatus",sessionKey, apiKey,orderId,response,status)
+        val result = webService.updatePayment(ApiKeys.BASE_URL+endPoint,sessionKey, apiKey,orderId,response,status)
 
         try {
             if (result.body() != null) {

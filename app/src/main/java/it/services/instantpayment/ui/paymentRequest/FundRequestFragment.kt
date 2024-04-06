@@ -10,11 +10,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import it.services.instantpayment.R
 import it.services.instantpayment.databinding.FragmentFundRequestBinding
 import it.services.instantpayment.models.AdminBanksModel
 import it.services.instantpayment.repository.PaymentRequestRepository
 import it.services.instantpayment.repository.Response
+import it.services.instantpayment.ui.login.LoginActivity
 import it.services.instantpayment.utils.CustomDialogs
 import it.services.instantpayment.viewModels.paymentRequest.PaymentRequestViewModel
 import it.services.instantpayment.viewModels.paymentRequest.PaymentRequestViewModelFactory
@@ -52,6 +54,8 @@ class FundRequestFragment : Fragment() {
 
     private fun handleClicksAndEvents() {
         binding.apply {
+            Glide.with(imgLogo).load(LoginActivity.logoImage).into(imgLogo)
+
             etBank.setOnClickListener {
                 val bundle = Bundle()
                 bundle.putSerializable("bankList", bankList)

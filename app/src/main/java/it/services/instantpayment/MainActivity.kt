@@ -15,6 +15,7 @@ import it.services.instantpayment.ui.dashboard.HomeFragment
 import it.services.instantpayment.ui.dashboard.ProfileFragment
 import it.services.instantpayment.ui.login.LoginActivity
 import it.services.instantpayment.utils.SharedPref
+import org.json.JSONArray
 import org.json.JSONObject
 
 class MainActivity : AppCompatActivity() {
@@ -30,6 +31,24 @@ class MainActivity : AppCompatActivity() {
         lateinit var COMPANY_NAME: String
         lateinit var EMAIL_ID: String
         lateinit var MOBILE_NO: String
+        lateinit var USERNAME: String
+        lateinit var NAME: String
+        lateinit var PERMISSION_ARRAY: JSONArray
+
+        fun checkPermission( searchServiceName:String):Boolean
+        {
+            for (position in 0 until PERMISSION_ARRAY.length())
+            {
+                val permissionObject= PERMISSION_ARRAY.getJSONObject(position)
+                val serviceName=permissionObject.getString("ServiceName")
+                if (serviceName.equals(searchServiceName,true))
+                {
+                    val serviceStatus=permissionObject.getString("Status")
+                    return serviceStatus.equals("Active",true)
+                }
+            }
+            return false
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,6 +67,10 @@ class MainActivity : AppCompatActivity() {
         COMPANY_NAME = dataObject.getString("CompanyName")
         EMAIL_ID = dataObject.getString("EmailId")
         MOBILE_NO = dataObject.getString("Phone")
+        USERNAME = dataObject.getString("Username")
+        NAME = dataObject.getString("Name")
+        PERMISSION_ARRAY= LOGIN_DATA.getJSONArray("Permission")
+
 
         replaceFragment(HomeFragment(), Bundle())
         handleClickEvents()
@@ -56,6 +79,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun handleClickEvents() {
         binding.apply {
+            tvCompanyName.text= COMPANY_NAME
+
             homeLy.setOnClickListener {
                 tvHome.visibility = View.VISIBLE
                 tvProfile.visibility = View.GONE

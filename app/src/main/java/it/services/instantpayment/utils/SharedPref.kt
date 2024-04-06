@@ -10,6 +10,7 @@ object SharedPref {
     const val LOGIN_DATA_KEY="loginData"
     const val USER_NAME="userName"
     const val PASSWORD="password"
+    const val LOGO_IMAGE="logoImage"
     const val DEVICE_NAME="deviceName"
     const val DEVICE_PACKAGE="devicePackage"
 

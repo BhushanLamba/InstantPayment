@@ -12,12 +12,14 @@ import android.widget.Toast
 import androidx.appcompat.widget.AppCompatButton
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import com.chaos.view.PinView
 import it.services.instantpayment.MainActivity
 import it.services.instantpayment.R
 import it.services.instantpayment.databinding.FragmentBbpsBillDetailsBinding
 import it.services.instantpayment.repository.BbpsBillPayRepository
 import it.services.instantpayment.repository.Response
+import it.services.instantpayment.ui.login.LoginActivity
 import it.services.instantpayment.utils.ApiKeys.BBPS_PAY_KEY
 import it.services.instantpayment.utils.CustomDialogs
 import it.services.instantpayment.viewModels.bbps.BbpsBillPayViewModel
@@ -116,6 +118,8 @@ class BbpsBillDetailsFragment : Fragment() {
 
     private fun handleClickAndEvents() {
         binding.apply {
+            Glide.with(imgLogo).load(LoginActivity.logoImage).into(imgLogo)
+
             btnPayBill.setOnClickListener {
                 val mpinDialog = CustomDialogs.getMpinDialog(activity)
 

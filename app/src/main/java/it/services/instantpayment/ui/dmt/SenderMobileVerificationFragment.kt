@@ -11,11 +11,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import it.services.instantpayment.MainActivity
 import it.services.instantpayment.R
 import it.services.instantpayment.databinding.FragmentSenderMobileVerificationBinding
 import it.services.instantpayment.repository.Response
 import it.services.instantpayment.repository.SenderVerificationRepository
+import it.services.instantpayment.ui.login.LoginActivity
 import it.services.instantpayment.utils.ApiKeys
 import it.services.instantpayment.utils.CustomDialogs
 import it.services.instantpayment.viewModels.dmt.senderVerification.SenderMobileVerificationViewModel
@@ -115,6 +117,8 @@ class SenderMobileVerificationFragment : Fragment() {
 
     private fun handleClickAndEvents() {
         binding.apply {
+            Glide.with(imgLogo).load(LoginActivity.logoImage).into(imgLogo)
+
             btnValidate.setOnClickListener {
                 number = etNumber.text.toString().trim()
 

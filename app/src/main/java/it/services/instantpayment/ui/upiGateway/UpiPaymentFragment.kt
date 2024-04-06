@@ -11,9 +11,11 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import it.services.instantpayment.databinding.FragmentUpiPaymentActivityBinding
 import it.services.instantpayment.repository.Response
 import it.services.instantpayment.repository.UpiGatewayRepository
+import it.services.instantpayment.ui.login.LoginActivity
 import it.services.instantpayment.utils.CustomDialogs
 import it.services.instantpayment.utils.WebViewActivity
 import it.services.instantpayment.viewModels.upiGateway.UpiGatewayViewModel
@@ -47,8 +49,9 @@ class UpiPaymentFragment : Fragment() {
 
         setUpViewModels()
         setUpObservers()
-
         binding.apply {
+            Glide.with(imgLogo).load(LoginActivity.logoImage).into(imgLogo)
+
             btnProceed.setOnClickListener {
                 amount = etAmount.text.toString().trim()
                 mobileNo = etNumber.text.toString().trim()
@@ -61,6 +64,8 @@ class UpiPaymentFragment : Fragment() {
 
             }
         }
+
+
 
         return binding.root
     }
@@ -85,6 +90,11 @@ class UpiPaymentFragment : Fragment() {
                 }
 
             }
+        }
+
+        WebViewActivity.data.observe(viewLifecycleOwner)
+        {
+            getActivity()?.supportFragmentManager?.popBackStackImmediate()
         }
     }
 

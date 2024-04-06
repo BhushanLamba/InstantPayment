@@ -135,6 +135,7 @@ class RechargeFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     private fun handleClicksAndEvents() {
         binding.apply {
+
             tvProceed.setOnClickListener {
                 number = etNumber.text.toString().trim()
                 amount = etAmount.text.toString().trim()
