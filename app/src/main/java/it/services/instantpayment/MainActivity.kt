@@ -1,5 +1,6 @@
 package it.services.instantpayment
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.DialogInterface
 import android.content.DialogInterface.OnClickListener
@@ -77,9 +78,19 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    @SuppressLint("SetTextI18n")
     private fun handleClickEvents() {
         binding.apply {
-            tvCompanyName.text= COMPANY_NAME
+
+            if (COMPANY_NAME.length<15)
+            {
+                tvCompanyName.text= COMPANY_NAME
+            }
+            else
+            {
+                tvCompanyName.text= "${COMPANY_NAME.substring(0, 13)}..."
+
+            }
 
             homeLy.setOnClickListener {
                 tvHome.visibility = View.VISIBLE

@@ -13,8 +13,11 @@ android {
         targetSdk 34
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+
     }
 
     buildTypes {
@@ -84,6 +87,16 @@ dependencies {
 
     implementation 'com.github.bumptech.glide:glide:4.16.0'
 
+
+    //////////////FINO MATM/////////////////
+    implementation files('libs/finosdk.aar')
+    implementation 'de.greenrobot:greendao:2.1.0'
+    implementation 'org.greenrobot:eventbus:3.0.0'
+    implementation 'com.karumi:dexter:4.2.0'
+    implementation 'com.datatheorem.android.trustkit:trustkit:1.1.2'
+    implementation 'androidx.multidex:multidex:2.0.1'
+
+    //////////////FINO MATM/////////////////
 
 
 }

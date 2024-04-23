@@ -187,10 +187,10 @@ class AddBeneFragment : Fragment() {
             etBank.setOnClickListener {
                 if (SenderMobileVerificationFragment.sType.equals("UPI", true)) {
                     bankList = ArrayList()
-                    val phonePeModel = BankModel("PhonePe", "0", "0")
-                    val googlePayModel = BankModel("GooglePay", "0", "0")
-                    val paytmModel = BankModel("Paytm", "0", "0")
-                    val amazonPayModel = BankModel("Amazon Pay", "0", "0")
+                    val phonePeModel = BankModel("PhonePe", "0", "0", "https://instantpayment.co.in/icon/phonepe.png")
+                    val googlePayModel = BankModel("GooglePay", "0", "0", "https://instantpayment.co.in/icon/gpay.png")
+                    val paytmModel = BankModel("Paytm", "0", "0", "https://instantpayment.co.in/icon/paytm.png")
+                    val amazonPayModel = BankModel("Amazon Pay", "0", "0", "https://instantpayment.co.in/icon/apay.png")
 
                     bankList.add(phonePeModel)
                     bankList.add(googlePayModel)

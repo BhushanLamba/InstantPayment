@@ -88,7 +88,7 @@
                     <TextView
                         android:id="@+id/tv_amount"
                         android:layout_width="wrap_content"
-                        android:layout_height="18dp"
+                        android:layout_height="wrap_content"
                         android:text="₹ 00"
                         android:textColor="@color/black"
                         android:textSize="18sp"

@@ -49,10 +49,39 @@ class SenderMobileVerificationFragment : Fragment() {
         context = requireContext()
         activity = requireActivity()
 
+
+
         serviceType = arguments?.getString("serviceType").toString()
 
         if (!serviceType.equals("null",true)) {
             binding.rgSType.visibility = View.GONE
+        }
+        else
+        {
+            if (!MainActivity.checkPermission("DMT1"))
+            {
+                binding.rbDmt1.isChecked=false
+                binding.rbDmt1.visibility=View.GONE
+                if (MainActivity.checkPermission("DMT2"))
+                {
+                    binding.rbDmt2.isChecked=true
+                    binding.rbDmt2.visibility=View.VISIBLE
+
+                }
+                else
+                {
+                    binding.rbDmt2.isChecked=false
+                    binding.rbDmt2.visibility=View.GONE
+                }
+            }
+            else
+            {
+                if (!MainActivity.checkPermission("DMT2"))
+                {
+                    binding.rbDmt2.isChecked=false
+                    binding.rbDmt2.visibility=View.GONE
+                }
+            }
         }
 
         progressDialog = CustomDialogs.getCustomProgressDialog(activity)
@@ -123,11 +152,22 @@ class SenderMobileVerificationFragment : Fragment() {
                 number = etNumber.text.toString().trim()
 
                 if (number.trim().length == 10) {
-                    sType = if (serviceType.equals("UPI", true)) { serviceType } else {
+                    sType = if (serviceType.equals("UPI", true)) { serviceType }
+                    else {
                         if (rbDmt1.isChecked) {
                             "DMT1"
-                        } else {
+                        }
+                        else if (rbDmt2.isChecked) {
                             "DMT2"
+                        }
+                        else
+                        {
+                            CustomDialogs.getMessageDialog(
+                                activity,
+                                "This service is not activated.\nPlease contact admin.",
+                                false
+                            )
+                            return@setOnClickListener
                         }
 
                     }

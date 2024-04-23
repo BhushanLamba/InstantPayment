@@ -15,9 +15,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import com.bumptech.glide.Glide
 import it.services.instantpayment.databinding.FragmentAePSDeviceBinding
-import it.services.instantpayment.ui.login.LoginActivity
 import it.services.instantpayment.utils.SharedPref
 
 
@@ -50,7 +48,6 @@ class AePSDeviceFragment : Fragment() {
         binding.apply {
 
 
-
             rgDevices.setOnCheckedChangeListener { _, _ ->
 
                 if (rbMantra.isChecked) {
@@ -62,6 +59,9 @@ class AePSDeviceFragment : Fragment() {
                 } else if (rbMorpho.isChecked) {
                     device = "Morpho"
                     devicePackage = "com.scl.rdservice"
+                } else if (rbMorpho.isChecked) {
+                    device = "Morpho L1"
+                    devicePackage = "com.idemia.l1rdservice"
                 } else if (rbStartek.isChecked) {
                     device = "Startek"
                     devicePackage = "com.acpl.registersdk"
@@ -75,15 +75,12 @@ class AePSDeviceFragment : Fragment() {
 
 
             tvProceed.setOnClickListener {
-                if (isPackageExisted(devicePackage))
-                {
-                    SharedPref.setString(context,SharedPref.DEVICE_NAME,device)
-                    SharedPref.setString(context,SharedPref.DEVICE_PACKAGE,devicePackage)
+                if (isPackageExisted(devicePackage)) {
+                    SharedPref.setString(context, SharedPref.DEVICE_NAME, device)
+                    SharedPref.setString(context, SharedPref.DEVICE_PACKAGE, devicePackage)
 
                     getActivity()?.supportFragmentManager?.popBackStackImmediate()
-                }
-                else
-                {
+                } else {
                     AlertDialog.Builder(context)
                         .setTitle("Confirmation")
                         .setMessage("Please install $device RD Service")

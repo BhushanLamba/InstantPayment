@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import it.services.instantpayment.databinding.OperatorItemBinding
 import it.services.instantpayment.interfaces.AllClickInterface
 import it.services.instantpayment.models.OperatorModel
@@ -26,6 +27,8 @@ class OperatorAdapter (private var operatorList:ArrayList<OperatorModel>,private
 
     override fun onBindViewHolder(holder: OperatorViewModel, position: Int) {
      holder.binding.apply {
+         val operatorImage=operatorList[position].operatorImage
+         Glide.with(holder.binding.imgOperator).load(operatorImage).into(holder.binding.imgOperator)
          val operatorName=operatorList[position].operatorName
 
          tvOperator.text=operatorName

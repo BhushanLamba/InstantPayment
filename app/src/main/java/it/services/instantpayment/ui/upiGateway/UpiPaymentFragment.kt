@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import it.services.instantpayment.MainActivity
 import it.services.instantpayment.databinding.FragmentUpiPaymentActivityBinding
 import it.services.instantpayment.repository.Response
 import it.services.instantpayment.repository.UpiGatewayRepository
@@ -31,8 +32,8 @@ class UpiPaymentFragment : Fragment() {
     private lateinit var activity: Activity
     private lateinit var amount: String
     private lateinit var mobileNo: String
-    private lateinit var emailId: String
-    private lateinit var customerName: String
+    private var emailId=""
+    private var customerName=""
     private lateinit var upiLink: String
     private lateinit var upiGatewayViewModel: UpiGatewayViewModel
     private lateinit var progressDialog: AlertDialog
@@ -55,8 +56,8 @@ class UpiPaymentFragment : Fragment() {
             btnProceed.setOnClickListener {
                 amount = etAmount.text.toString().trim()
                 mobileNo = etNumber.text.toString().trim()
-                emailId = etEmail.text.toString().trim()
-                customerName = etCustomerName.text.toString().trim()
+                emailId = MainActivity.EMAIL_ID
+                customerName = MainActivity.NAME
 
                 upiGatewayViewModel.initiatePayment(
                     amount, mobileNo, emailId, customerName

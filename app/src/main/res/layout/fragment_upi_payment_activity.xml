@@ -90,52 +90,6 @@
             android:textColor="@color/black"
             android:textStyle="bold" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="4dp"
-            android:layout_marginTop="20dp"
-            android:text="Email Id*" />
-
-        <EditText
-            android:id="@+id/et_email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
-            android:layout_marginHorizontal="4dp"
-            android:layout_marginTop="4dp"
-            android:background="@drawable/gradient_back"
-            android:backgroundTint="@color/white"
-            android:elevation="2dp"
-            android:hint="Enter email id"
-            android:padding="10dp"
-            android:singleLine="true"
-            android:textColor="@color/black"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="4dp"
-            android:layout_marginTop="20dp"
-            android:text="Customer name*" />
-
-        <EditText
-            android:id="@+id/et_customer_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="4dp"
-            android:layout_marginTop="4dp"
-            android:background="@drawable/gradient_back"
-            android:backgroundTint="@color/white"
-            android:elevation="2dp"
-            android:hint="Enter customer name"
-            android:padding="10dp"
-            android:singleLine="true"
-            android:textColor="@color/black"
-            android:textStyle="bold" />
-
-
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_proceed"

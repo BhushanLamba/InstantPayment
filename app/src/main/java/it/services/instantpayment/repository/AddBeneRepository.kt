@@ -93,24 +93,24 @@ class AddBeneRepository(private val webService: WebService) {
         verifyBeneLiveData.postValue(Response.Loading())
         val result = if (SenderMobileVerificationFragment.sType.equals("UPI", true)) {
 
-                webService.accountVerify(
-                    ApiKeys.BASE_URL + "AccountVarify",
-                    sessionKey,
-                    VERIFY_BENE_KEY,
-                    senderMobile,
-                    ifsc,
-                    accountNo,
-                    bankName,
-                    beneName
-                )
-        }
-        else
-        {
+
             webService.upiAccountVerify(
                 ApiKeys.BASE_URL + "UPIAccountVarify",
                 sessionKey,
                 VERIFY_BENE_UPI_KEY,
-                senderMobile,beneName,accountNo,ifsc
+                senderMobile, beneName, accountNo, ifsc
+            )
+        } else {
+
+            webService.accountVerify(
+                ApiKeys.BASE_URL + "AccountVarify",
+                sessionKey,
+                VERIFY_BENE_KEY,
+                senderMobile,
+                ifsc,
+                accountNo,
+                bankName,
+                beneName
             )
         }
 
@@ -119,9 +119,9 @@ class AddBeneRepository(private val webService: WebService) {
                 val responseObject = JSONObject(result.body().toString())
                 val statusCode = responseObject.getString("Status_Code")
                 if (statusCode.equals("1")) {
-                    val dataArray=responseObject.getJSONArray("Data")
-                    val dataObject=dataArray.getJSONObject(0)
-                    val beneName=dataObject.getString("BeneName")
+                    val dataArray = responseObject.getJSONArray("Data")
+                    val dataObject = dataArray.getJSONObject(0)
+                    val beneName = dataObject.getString("BeneName")
 
                     verifyBeneLiveData.postValue(Response.Success(beneName))
                 } else {
@@ -131,8 +131,7 @@ class AddBeneRepository(private val webService: WebService) {
             } else {
                 verifyBeneLiveData.postValue(Response.Error("Try again later", ""))
             }
-        }
-        catch (e: Exception) {
+        } catch (e: Exception) {
             verifyBeneLiveData.postValue(e.localizedMessage?.let { Response.Error(it, "") })
         }
     }
@@ -156,8 +155,9 @@ class AddBeneRepository(private val webService: WebService) {
                         val bankName = dataObject.getString("Bankname")
                         val ifsc = dataObject.getString("Ifsc")
                         val bankId = dataObject.getString("BankId")
+                        val bankImage = dataObject.getString("Picture")
 
-                        val bankModel = BankModel(bankName, ifsc, bankId)
+                        val bankModel = BankModel(bankName, ifsc, bankId,bankImage)
                         bankList.add(bankModel)
                     }
                     bankLiveData.postValue(Response.Success(bankList))

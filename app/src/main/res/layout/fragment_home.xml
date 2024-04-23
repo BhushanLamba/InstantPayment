@@ -123,6 +123,8 @@
 
 
         <TextView
+            android:visibility="gone"
+            tools:visibility="visible"
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -132,7 +134,7 @@
             android:drawablePadding="10dp"
             android:elevation="6dp"
             android:padding="10dp"
-            android:text="HelpLine Number 9991657766"
+            android:text="HelpLine Number 9996962024"
             android:textColor="@color/black"
             app:drawableStartCompat="@drawable/comment" />
 
@@ -395,6 +397,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/matm_ly"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"

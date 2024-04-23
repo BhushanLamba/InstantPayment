@@ -1,7 +1,5 @@
 package it.services.instantpayment.ui.dashboard
 
-import android.animation.ArgbEvaluator
-import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Activity.RESULT_OK
@@ -9,7 +7,6 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -17,19 +14,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.denzcoskun.imageslider.constants.ScaleTypes
 import com.denzcoskun.imageslider.models.SlideModel
-import com.google.gson.Gson
+import com.finopaytech.finosdk.activity.MainTransactionActivity
+import com.finopaytech.finosdk.encryption.AES_BC
+import com.finopaytech.finosdk.helpers.Utils
 import it.services.instantpayment.MainActivity
 import it.services.instantpayment.databinding.FragmentHomeBinding
 import it.services.instantpayment.repository.BalanceRepository
 import it.services.instantpayment.repository.OperatorRepository
 import it.services.instantpayment.repository.Response
+import it.services.instantpayment.ui.aeps.AePSServiceFragment
 import it.services.instantpayment.ui.bbps.BbpsBillFetchFragment
 import it.services.instantpayment.ui.dmt.SenderMobileVerificationFragment
+import it.services.instantpayment.ui.matm.MatmFragment
 import it.services.instantpayment.ui.paymentRequest.FundRequestFragment
 import it.services.instantpayment.ui.razorpay.PaymentActivity
 import it.services.instantpayment.ui.recharge.OperatorFragment
@@ -44,7 +46,7 @@ import it.services.instantpayment.viewModels.operator.OperatorVideoModelFactory
 import it.services.instantpayment.viewModels.operator.OperatorViewModel
 import it.services.instantpayment.webService.RetrofitClient
 import it.services.instantpayment.webService.WebService
-import java.util.Random
+import org.json.JSONObject
 
 
 class HomeFragment : Fragment() {
@@ -461,6 +463,27 @@ class HomeFragment : Fragment() {
 
             }
 
+            matmLy.setOnClickListener {
+
+                /*val clientRegId=MainActivity.MOBILE_NO+System.currentTimeMillis()
+                
+                val requestData = getEncryptedRequest(
+                    "8010076222", "156", "https://www.google.com/", "1000", "1",
+                    clientRegId, "680e8aff-6938-4ae1-a197-b981e278069a"
+                )
+                val headerRequest: String =
+                    getEncryptedHeader("9d035089-4edf-4019-8761-67c35490e76f", "225", "982b0d01-b262-4ece-a2a2-45be82212ba1")
+
+                val intent = Intent(getActivity(), MainTransactionActivity::class.java)
+                intent.putExtra("RequestData", requestData)
+                intent.putExtra("HeaderData", headerRequest)
+                intent.putExtra("ReturnTime", 5)
+                //startActivityForScanDevice_Fino_D80.launch(intent)
+                startActivity(intent)*/
+
+                replaceFragment(MatmFragment(),Bundle())
+            }
+
             tvTopUp.setOnClickListener {
                 if (MainActivity.checkPermission("UPI GATEWAY")) {
                     replaceFragment(UpiPaymentFragment(), Bundle())
@@ -476,12 +499,58 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun getEncryptedHeader(
+        authKey: String?,
+        clientId: String?,
+        encryptionheaderkey: String?
+    ): String {
+        var headerrequest = ""
+        val headerdata = JSONObject()
+        headerrequest = try {
+            headerdata.put("AuthKey", authKey)
+            headerdata.put("ClientId", clientId)
+            Utils.replaceNewLine(
+                AES_BC.getInstance().encryptEncode(headerdata.toString(), encryptionheaderkey)
+            )
+        } catch (e: java.lang.Exception) {
+            ""
+        }
+        return headerrequest
+    }
+
+    fun getEncryptedRequest(
+        merchantId: String?,
+        serviceid: String?,
+        returnurl: String?,
+        version: String?,
+        amount: String?,
+        clientRefID: String?,
+        encryptionkey: String?
+    ): String? {
+        var strRequestData: String? = ""
+        val jsonRequestDataObj = JSONObject() // inner object request
+        strRequestData = try {
+            jsonRequestDataObj.put("MerchantId", merchantId)
+            jsonRequestDataObj.put("SERVICEID", serviceid)
+            jsonRequestDataObj.put("RETURNURL", returnurl)
+            jsonRequestDataObj.put("Version", version)
+            jsonRequestDataObj.put("Amount", amount)
+            jsonRequestDataObj.put("ClientRefID", clientRefID)
+            Utils.replaceNewLine(
+                AES_BC.getInstance().encryptEncode(jsonRequestDataObj.toString(), encryptionkey)
+            )
+        } catch (e: java.lang.Exception) {
+            ""
+        }
+        return strRequestData
+    }
+
 
     private fun checkAppInstalledOrNot() {
         val intalled = appInstalledOrNot("com.aeps.aeps_api_user_production")
         try {
             if (intalled) {
-                sendDataToService("com.aeps.aeps_api_user_production")
+                replaceFragment(AePSServiceFragment(),Bundle())
             } else {
                 showAlert()
             }
@@ -490,45 +559,6 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun sendDataToService(packageName: String) {
-        val dataModel = DataModel()
-        dataModel.clientRefID = Random().nextInt().toString()
-        dataModel.paramB = ""
-        dataModel.paramC = ""
-        dataModel.applicationType = ""
-        dataModel.clientID = "HUZT7jTCzo8VxZwQtivRnN2k0IZKuXIO9vVwmZU9LRYtcppL"
-        dataModel.clientSecret = "4A13Ykfae1zIfTS9Ee1R9EbfPwnGHBPtmlHkk0LEZEanM1aTdsb7NtVPt5RS5svA"
-        dataModel.userNameFromCoreApp = MainActivity.USERNAME
-        dataModel.API_USER_NAME_VALUE = "instpymntapi"
-        dataModel.SHOP_NAME = "iServeU"
-        dataModel.BRAND_NAME = "Instant Payment"
-        dataModel.location = "Infocity,BBSR"
-        dataModel.agent = "Instant Retailer"
-        dataModel.bankCode = "common"
-        dataModel.transactionType = "0"
-        /*dataModel.transactionType = when{
-            binding.rbBe.isChecked ->  "0"
-            binding.rbCw.isChecked -> "1"
-            binding.rbMini.isChecked -> "2"
-            binding.rbAdhaarpay.isChecked -> "3"
-            binding.rbCd.isChecked -> "4"
-            else -> ""
-        }*/
-
-        val gson = Gson()
-        val getData = gson.toJson(dataModel)
-        Log.d("dataModel", "sendDataToService: " + getData)
-        try {
-            val manager = requireActivity().packageManager
-            val intent = manager.getLaunchIntentForPackage(packageName)
-            intent!!.addCategory(Intent.CATEGORY_LAUNCHER)
-            intent.flags = 0
-            intent.putExtra("dataToService", getData)
-            startActivityForResult(intent, 80)
-        } catch (e: Exception) {
-            Toast.makeText(context, "Application Not Found", Toast.LENGTH_SHORT).show()
-        }
-    }
 
     class DataModel {
         var applicationType: String? = null
@@ -572,9 +602,7 @@ class HomeFragment : Fragment() {
 
     private fun showAlert() {
         try {
-            val alertbuilderupdate: AlertDialog.Builder
-            alertbuilderupdate =
-                AlertDialog.Builder(context, android.R.style.Theme_Material_Light_Dialog_Alert)
+            val alertbuilderupdate: AlertDialog.Builder = AlertDialog.Builder(context, android.R.style.Theme_Material_Light_Dialog_Alert)
             alertbuilderupdate.setCancelable(false)
             val message = "Please download the AEPS SERVICE app ."
             alertbuilderupdate.setTitle("Alert")

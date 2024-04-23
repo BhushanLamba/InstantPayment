@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.appcompat.widget.AppCompatButton
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import com.chaos.view.PinView
 import it.services.instantpayment.MainActivity
 import it.services.instantpayment.R
@@ -46,6 +47,7 @@ class RechargeFragment : Fragment() {
     private lateinit var operatorName: String
     private lateinit var operatorId: String
     private lateinit var serviceId: String
+    private lateinit var operatorImage: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -129,7 +131,7 @@ class RechargeFragment : Fragment() {
             this,
             BalanceViewModelFactory(balanceRepository)
         )[BalanceViewModel::class.java]
-        balanceViewModel.getBalance(MainActivity.LOGIN_SESSION,ApiKeys.BALANCE_KEY)
+        balanceViewModel.getBalance(MainActivity.LOGIN_SESSION, ApiKeys.BALANCE_KEY)
     }
 
     @SuppressLint("SetTextI18n")
@@ -152,9 +154,10 @@ class RechargeFragment : Fragment() {
                     val btnCancel: AppCompatButton = mpinDialog.findViewById(R.id.btn_cancel)
                     val btnSubmit: AppCompatButton = mpinDialog.findViewById(R.id.btn_submit)
                     val mpinView: PinView = mpinDialog.findViewById(R.id.otp_pin_view)
-                    val tvInfo:TextView=mpinDialog.findViewById(R.id.tv_info)
+                    val tvInfo: TextView = mpinDialog.findViewById(R.id.tv_info)
 
-                    tvInfo.text="Operator  :  $operatorName\nNumber  :  $number\nAmount  :  ₹ $amount"
+                    tvInfo.text =
+                        "Operator  :  $operatorName\nNumber  :  $number\nAmount  :  ₹ $amount"
 
                     btnCancel.setOnClickListener { mpinDialog.dismiss() }
 
@@ -186,12 +189,17 @@ class RechargeFragment : Fragment() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun getSetData() {
+        operatorImage = arguments?.getString("operatorImage").toString()
+        Glide.with(binding.imgOperator).load(operatorImage).into(binding.imgOperator)
+
         operatorName = arguments?.getString("operatorName").toString()
         operatorId = arguments?.getString("operatorId").toString()
         serviceId = arguments?.getString("serviceId").toString()
 
         binding.tvOperator.text = operatorName
+        binding.tvCompanyName.text = "${MainActivity.COMPANY_NAME} Wallet"
     }
 
     private fun replaceFragment(fragment: Fragment, bundle: Bundle) {

@@ -42,8 +42,9 @@ class OperatorRepository(private val webService: WebService) {
                         val id=dataObject.getString("Id")
                         val serviceId=dataObject.getString("ServiceId")
                         val operatorName=dataObject.getString("OperatorName")
+                        val operatorImage=dataObject.getString("Picture")
 
-                        val operatorModel=OperatorModel(id, serviceId, operatorName)
+                        val operatorModel=OperatorModel(id, serviceId, operatorName,operatorImage)
 
                         operatorList.add(operatorModel)
                     }
@@ -87,8 +88,9 @@ class OperatorRepository(private val webService: WebService) {
 
                         val id=dataObject.getString("Id")
                         val operatorName=dataObject.getString("OperatorName")
+                        val operatorImage=dataObject.getString("Picture")
 
-                        val operatorModel=OperatorModel(id, serviceId, operatorName)
+                        val operatorModel=OperatorModel(id, serviceId, operatorName, operatorImage)
 
                         operatorList.add(operatorModel)
                     }

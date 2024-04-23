@@ -3,6 +3,7 @@ package it.services.instantpayment.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import it.services.instantpayment.databinding.BankItemBinding
 import it.services.instantpayment.interfaces.AllClickInterface
 import it.services.instantpayment.models.BankModel
@@ -31,6 +32,8 @@ class BankAdapter(
 
     override fun onBindViewHolder(holder: BankViewHolder, position: Int) {
 
+        val bankImage = bankList[position].bankImage
+        Glide.with(holder.binding.imgOperator).load(bankImage).into(holder.binding.imgOperator)
         val bankName = bankList[position].bankName
 
         holder.binding.apply {
