@@ -31,6 +31,7 @@ class AePSServiceFragment : Fragment() {
         context = requireContext()
         activity = requireActivity()
 
+
         binding.apply {
             cashWithdrawalLy.setOnClickListener {
                 sendDataToService("1")
