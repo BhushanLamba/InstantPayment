@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.JsonObject
 import it.services.instantpayment.models.BeneListModel
+import it.services.instantpayment.ui.dmt.BeneListFragment
 import it.services.instantpayment.ui.dmt.SenderMobileVerificationFragment
 import it.services.instantpayment.utils.ApiKeys
 import it.services.instantpayment.webService.WebService
@@ -27,14 +28,32 @@ class BeneListRepository(private val webService: WebService) {
 
         val response: retrofit2.Response<JsonObject> =
             if (SenderMobileVerificationFragment.sType.equals("UPI", false)) {
-                webService.getBeneListUpi(
+                /*webService.getBeneListUpi(
                     ApiKeys.BASE_URL + "UPIBeneList",
                     sessionKey,
                     ApiKeys.BENE_LIST_UPI_KEY,
                     mobileNumber
+                )*/
+
+                webService.getBeneListFino(
+                    sessionKey,
+                    apiKey,
+                    mobileNumber,
+                    SenderMobileVerificationFragment.sType
                 )
 
-            } else {
+            }
+            else if (SenderMobileVerificationFragment.sType.equals("DMT3",true))
+            {
+                webService.getBeneListFino(
+                    sessionKey,
+                    apiKey,
+                    mobileNumber,
+                    SenderMobileVerificationFragment.sType
+                )
+            }
+
+            else {
                 webService.getBeneList(
                     sessionKey,
                     apiKey,
@@ -62,10 +81,25 @@ class BeneListRepository(private val webService: WebService) {
                         var ifsc=""
                         var bankName=""
                         var beneId=""
-                        if (SenderMobileVerificationFragment.sType.equals("UPI", false)) {
+                        var isBankVerified=""
+                        var beneName=""
+                        /*if (SenderMobileVerificationFragment.sType.equals("UPI", false)) {
                             accountNumber = dataObject.getString("upi_id")
                             beneId = dataObject.getString("benficiary_id")
+                            isBankVerified = dataObject.getString("is_bank_verified")
+                            beneName = dataObject.getString("name")
 
+                        }
+                        else*/
+                        if (SenderMobileVerificationFragment.sType.equals("DMT3",true)
+                            || SenderMobileVerificationFragment.sType.equals("UPI",true))
+                        {
+                            ifsc = dataObject.getString("IFSCCode")
+                            bankName = dataObject.getString("BankName")
+                            accountNumber = dataObject.getString("AccountNo")
+                            beneId = dataObject.getString("Id")
+                            isBankVerified = dataObject.optString("is_bank_verified")
+                            beneName = dataObject.optString("BeneName")
                         }
                         else
                         {
@@ -73,11 +107,9 @@ class BeneListRepository(private val webService: WebService) {
                             bankName = dataObject.getString("bank_name")
                             accountNumber = dataObject.getString("account_number")
                             beneId = dataObject.getString("beneId")
-
-
+                            isBankVerified = dataObject.getString("is_bank_verified")
+                            beneName = dataObject.getString("name")
                         }
-                        val isBankVerified = dataObject.getString("is_bank_verified")
-                        val beneName = dataObject.getString("name")
 
                         val beneListModel = BeneListModel(
                             beneName,
@@ -119,9 +151,10 @@ class BeneListRepository(private val webService: WebService) {
         payBeneLiveData.postValue(Response.Loading())
 
         val response: retrofit2.Response<JsonObject> =
-            if (SenderMobileVerificationFragment.sType.equals("UPI", false)) {
+            if (SenderMobileVerificationFragment.sType.equals("UPI", false)
+                || SenderMobileVerificationFragment.sType.equals("DMT3", false)) {
                 webService.payBeneUPI(
-                    ApiKeys.BASE_URL + "UPIMoneyTransfer",
+                    ApiKeys.BASE_URL + "UPI2MoneyTransfer",
                     sessionKey,
                     ApiKeys.PAY_BENE_UPI_KEY,
                     mobileNumber,
@@ -132,9 +165,11 @@ class BeneListRepository(private val webService: WebService) {
                     beneId,
                     amount,
                     SenderMobileVerificationFragment.sType,
-                    mpin
+                    mpin,
+                    BeneListFragment.SENDER_NAME
                 )
-            } else {
+            }
+            else {
                 webService.payBene(
                     sessionKey,
                     apiKey,
@@ -148,8 +183,6 @@ class BeneListRepository(private val webService: WebService) {
                     SenderMobileVerificationFragment.sType,transactionMode,mpin
                 )
             }
-
-
 
         try {
             if (response.isSuccessful) {

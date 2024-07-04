@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        tools:layout="@layout/fragment_home"
+        android:name="it.services.instantpayment.ui.dashboard.HomeFragment"
+        android:label="HomeFragment">
+        <action
+            android:id="@+id/action_homeFragment_to_fundRequestFragment"
+            app:destination="@id/fundRequestFragment"/>
+        <action
+            android:id="@+id/action_homeFragment_to_operatorFragment"
+            app:destination="@id/operatorFragment"/>
+        <action
+            android:id="@+id/action_homeFragment_to_senderMobileVerificationFragment"
+            app:destination="@id/senderMobileVerificationFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_aePSServiceFragment"
+            app:destination="@id/aePSServiceFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_paymentActivity"
+            app:destination="@id/paymentActivity" />
+        <action
+            android:id="@+id/action_homeFragment_to_upiPaymentFragment"
+            app:destination="@id/upiPaymentFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_matmFragment"
+            app:destination="@id/matmFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_bbpsBillFetchFragment"
+            app:destination="@id/bbpsBillFetchFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="it.services.instantpayment.ui.dashboard.ProfileFragment"
+        android:label="ProfileFragment"
+        tools:layout="@layout/fragment_profile"/>
+    <fragment
+        android:id="@+id/allReportsFragment"
+        android:name="it.services.instantpayment.ui.dashboard.AllReportsFragment"
+        android:label="fragment_reports_all"
+        tools:layout="@layout/fragment_reports_all" />
+    <fragment
+        android:id="@+id/fundRequestFragment"
+        android:name="it.services.instantpayment.ui.paymentRequest.FundRequestFragment"
+        android:label="fragment_fund_request"
+        tools:layout="@layout/fragment_fund_request" />
+    <dialog
+        android:id="@+id/operatorFragment"
+        android:name="it.services.instantpayment.ui.recharge.OperatorFragment"
+        android:label="fragment_operator"
+        tools:layout="@layout/fragment_operator" />
+    <dialog
+        android:id="@+id/bbpsOperatorListFragment"
+        android:name="it.services.instantpayment.ui.bbps.BbpsOperatorListFragment"
+        android:label="fragment_bbps_operator_list"
+        tools:layout="@layout/fragment_bbps_operator_list" >
+        <action
+            android:id="@+id/action_bbpsOperatorListFragment_to_bbpsBillFetchFragment"
+            app:destination="@id/bbpsBillFetchFragment" />
+    </dialog>
+    <fragment
+        android:id="@+id/senderMobileVerificationFragment"
+        android:name="it.services.instantpayment.ui.dmt.SenderMobileVerificationFragment"
+        android:label="fragment_sender_mobile_verification"
+        tools:layout="@layout/fragment_sender_mobile_verification" />
+    <fragment
+        android:id="@+id/aePSServiceFragment"
+        android:name="it.services.instantpayment.ui.aeps.AePSServiceFragment"
+        android:label="fragment_ae_p_s_service"
+        tools:layout="@layout/fragment_ae_p_s_service" />
+    <activity
+        android:id="@+id/paymentActivity"
+        android:name="it.services.instantpayment.ui.razorpay.PaymentActivity"
+        android:label="activity_payment"
+        tools:layout="@layout/activity_payment" />
+    <fragment
+        android:id="@+id/upiPaymentFragment"
+        android:name="it.services.instantpayment.ui.upiGateway.UpiPaymentFragment"
+        android:label="fragment_upi_payment_activity"
+        tools:layout="@layout/fragment_upi_payment_activity" />
+    <fragment
+        android:id="@+id/matmFragment"
+        android:name="it.services.instantpayment.ui.matm.MatmFragment"
+        android:label="fragment_matm"
+        tools:layout="@layout/fragment_matm" />
+    <dialog
+        android:id="@+id/bbpsBillFetchFragment"
+        android:name="it.services.instantpayment.ui.bbps.BbpsBillFetchFragment"
+        android:label="fragment_bbps_bill_fetch"
+        tools:layout="@layout/fragment_bbps_bill_fetch" >
+        <action
+            android:id="@+id/action_bbpsBillFetchFragment_to_bbpsOperatorListFragment"
+            app:destination="@id/bbpsOperatorListFragment"
+            />
+        <action
+            android:id="@+id/action_bbpsBillFetchFragment_to_bbpsBillDetailsFragment"
+            app:destination="@id/bbpsBillDetailsFragment" />
+    </dialog>
+    <fragment
+        android:id="@+id/bbpsBillDetailsFragment"
+        android:name="it.services.instantpayment.ui.bbps.BbpsBillDetailsFragment"
+        android:label="fragment_bbps_bill_details"
+        tools:layout="@layout/fragment_bbps_bill_details" />
+
+</navigation>

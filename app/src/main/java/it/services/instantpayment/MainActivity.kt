@@ -2,14 +2,16 @@ package it.services.instantpayment
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.DialogInterface
-import android.content.DialogInterface.OnClickListener
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ReportFragment.Companion.reportFragment
+import androidx.navigation.NavController
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.NavHostFragment
 import it.services.instantpayment.databinding.ActivityMainBinding
 import it.services.instantpayment.ui.dashboard.AllReportsFragment
 import it.services.instantpayment.ui.dashboard.HomeFragment
@@ -24,6 +26,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var context: Context
     private lateinit var activity: MainActivity
+    private lateinit var navHostFragment:NavHostFragment
+    private lateinit var navController:NavController
 
     companion object {
         lateinit var LOGIN_SESSION: String
@@ -34,6 +38,7 @@ class MainActivity : AppCompatActivity() {
         lateinit var MOBILE_NO: String
         lateinit var USERNAME: String
         lateinit var NAME: String
+        lateinit var USER_TYPE: String
         lateinit var PERMISSION_ARRAY: JSONArray
 
         fun checkPermission( searchServiceName:String):Boolean
@@ -70,13 +75,17 @@ class MainActivity : AppCompatActivity() {
         MOBILE_NO = dataObject.getString("Phone")
         USERNAME = dataObject.getString("Username")
         NAME = dataObject.getString("Name")
+        USER_TYPE = dataObject.getString("Usertype")
         PERMISSION_ARRAY= LOGIN_DATA.getJSONArray("Permission")
 
+        navHostFragment=supportFragmentManager.findFragmentById(R.id.frame_container) as NavHostFragment
+        navController=navHostFragment.navController
 
-        replaceFragment(HomeFragment(), Bundle())
+        //replaceFragment(HomeFragment(), Bundle())
         handleClickEvents()
 
     }
+
 
     @SuppressLint("SetTextI18n")
     private fun handleClickEvents() {
@@ -96,21 +105,26 @@ class MainActivity : AppCompatActivity() {
                 tvHome.visibility = View.VISIBLE
                 tvProfile.visibility = View.GONE
                 tvReport.visibility = View.GONE
-                replaceFragment(HomeFragment(), Bundle())
+                //replaceFragment(HomeFragment(), Bundle())
+                navController.navigate(R.id.homeFragment)
+
             }
 
             profileLy.setOnClickListener {
                 tvHome.visibility = View.GONE
                 tvReport.visibility = View.GONE
                 tvProfile.visibility = View.VISIBLE
-                replaceFragment(ProfileFragment(),Bundle())
+                //replaceFragment(ProfileFragment(),Bundle())
+                navController.navigate(R.id.profileFragment)
+
             }
 
             reportsLy.setOnClickListener {
                 tvHome.visibility = View.GONE
                 tvProfile.visibility = View.GONE
                 tvReport.visibility = View.VISIBLE
-                replaceFragment(AllReportsFragment(), Bundle())
+                //replaceFragment(AllReportsFragment(), Bundle())
+                navController.navigate(R.id.allReportsFragment)
             }
 
             logoutLy.setOnClickListener {
@@ -131,7 +145,8 @@ class MainActivity : AppCompatActivity() {
                 tvHome.visibility = View.GONE
                 tvReport.visibility = View.GONE
                 tvProfile.visibility = View.VISIBLE
-                 replaceFragment(ProfileFragment(),Bundle())
+                 //replaceFragment(ProfileFragment(),Bundle())
+                navController.navigate(R.id.profileFragment)
             }
 
 
@@ -140,10 +155,10 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun replaceFragment(fragment: Fragment, bundle: Bundle) {
-        fragment.arguments = bundle
+        /*fragment.arguments = bundle
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.frame_container, fragment)
-        fragmentTransaction.commit()
+        fragmentTransaction.commit()*/
     }
 }

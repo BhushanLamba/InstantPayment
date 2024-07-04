@@ -3,6 +3,7 @@ package it.services.instantpayment.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import it.services.instantpayment.models.BankModel
+import it.services.instantpayment.ui.dmt.BeneListFragment
 import it.services.instantpayment.ui.dmt.SenderMobileVerificationFragment
 import it.services.instantpayment.utils.ApiKeys
 import it.services.instantpayment.utils.ApiKeys.ADD_BENE_UPI_KEY
@@ -36,8 +37,9 @@ class AddBeneRepository(private val webService: WebService) {
     ) {
         addBeneLiveData.postValue(Response.Loading())
         val result =
-            if (SenderMobileVerificationFragment.sType.equals("UPI", true)) {
-                webService.addBeneUpi(
+            if (SenderMobileVerificationFragment.sType.equals("UPI", true)
+                ||SenderMobileVerificationFragment.sType.equals("DMT3", true)) {
+                /*webService.addBeneUpi(
                     sessionKey,
                     ADD_BENE_UPI_KEY,
                     senderMobile,
@@ -46,9 +48,19 @@ class AddBeneRepository(private val webService: WebService) {
                     bankName,
                     beneName,
                     SenderMobileVerificationFragment.sType
+                )*/
+                webService.addBeneUpi(senderMobile,sessionKey,"AddBene001",
+                    BeneListFragment.SENDER_ID,beneName,accountNo,ifsc,bankName,"YES"
                 )
 
-            } else {
+            }
+            /*else if(SenderMobileVerificationFragment.sType.equals("DMT3", true))
+            {
+                webService.addBeneUpi(senderMobile,sessionKey,"AddBene001",SenderMobileVerificationFragment
+                )
+            }*/
+
+            else {
                 webService.addBene(
                     sessionKey,
                     apiKey,

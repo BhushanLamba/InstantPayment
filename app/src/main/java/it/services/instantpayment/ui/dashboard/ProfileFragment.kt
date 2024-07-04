@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import it.services.instantpayment.R
 import it.services.instantpayment.databinding.FragmentProfileBinding
+import it.services.instantpayment.models.ProfileModel
 import it.services.instantpayment.ui.changePasswordPin.ChangePasswordPinActivity
 import it.services.instantpayment.utils.SharedPref
 import org.json.JSONObject
@@ -72,13 +73,16 @@ class ProfileFragment : Fragment() {
             phone=dataObject.getString("Phone")
             panCard=dataObject.getString("PanCard")
 
-            binding.apply {
+            val profile=ProfileModel("",name,firmName,emailId,phone,panCard)
+            binding.user=profile
+
+            /*binding.apply {
                 tvName.text=name
                 tvFirmName.text=firmName
                 tvEmail.text=emailId
                 tvPhone.text=phone
                 tvPan.text=panCard
-            }
+            }*/
 
         }
         catch (ignore:Exception)

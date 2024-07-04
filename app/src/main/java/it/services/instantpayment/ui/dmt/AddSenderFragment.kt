@@ -89,28 +89,42 @@ class AddSenderFragment : Fragment() {
                     Log.d("sender", "setUpViewObservers: $response")
                     binding.apply {
 
+
                         val responseObject=response.data
                         try {
+                            if (SenderMobileVerificationFragment.sType.equals("DMT3",true)
+                                || SenderMobileVerificationFragment.sType.equals("UPI",true))
+                            {
+                                fragmentManager?.popBackStackImmediate()
+                                verifySenderViewModel.verifySender(
+                                    MainActivity.LOGIN_SESSION,
+                                    ApiKeys.SENDER_VERIFY_KEY,
+                                    mobileNumber
+                                )
+                            }
+                            else
+                            {
 
-                            val dataArray=responseObject!!.getJSONArray("Data")
-                            val dataObject=dataArray.getJSONObject(0)
-                            state=dataObject.getString("state")
+                                val dataArray=responseObject!!.getJSONArray("Data")
+                                val dataObject=dataArray.getJSONObject(0)
+                                state=dataObject.getString("state")
 
-                            etFirstName.isClickable = false
-                            etFirstName.isFocusableInTouchMode = false
+                                etFirstName.isClickable = false
+                                etFirstName.isFocusableInTouchMode = false
 
-                            etLastName.isClickable = false
-                            etLastName.isFocusableInTouchMode = false
+                                etLastName.isClickable = false
+                                etLastName.isFocusableInTouchMode = false
 
-                            etPincode.isClickable = false
-                            etPincode.isFocusableInTouchMode = false
+                                etPincode.isClickable = false
+                                etPincode.isFocusableInTouchMode = false
 
-                            etAddress.isClickable = false
-                            etAddress.isFocusableInTouchMode = false
+                                etAddress.isClickable = false
+                                etAddress.isFocusableInTouchMode = false
 
-                            btnProceed.visibility = View.GONE
+                                btnProceed.visibility = View.GONE
 
-                            otpLy.visibility = View.VISIBLE
+                                otpLy.visibility = View.VISIBLE
+                            }
 
 
                         }
@@ -188,8 +202,7 @@ class AddSenderFragment : Fragment() {
         val verifySenderRepository = SenderVerificationRepository(webService)
         addSenderViewModel = ViewModelProvider(
             this,
-            AddSenderViewModelFactory(repository)
-        )[AddSenderViewModel::class.java]
+            AddSenderViewModelFactory(repository))[AddSenderViewModel::class.java]
         verifySenderViewModel = ViewModelProvider(
             this,
             SenderMobileVerificationViewModelFactory(verifySenderRepository)

@@ -49,6 +49,13 @@ class BeneListFragment : Fragment() {
     private lateinit var progressDialog: AlertDialog
     private lateinit var beneList:ArrayList<BeneListModel>
     private lateinit var beneAdapter:BeneListAdapter
+
+    companion object
+    {
+        var SENDER_ID=""
+        var SENDER_NAME=""
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -298,8 +305,22 @@ class BeneListFragment : Fragment() {
             val dataArray = responseData.getJSONArray("Data")
 
             val dataObject = dataArray.getJSONObject(0)
-            val name = dataObject.getString("first_name")
-            val limit = dataObject.getString("available_limit")
+            var name =""
+            var limit =""
+            if (SenderMobileVerificationFragment.sType.equals("DMT3",true) ||
+                SenderMobileVerificationFragment.sType.equals("UPI",true))
+            {
+                name= dataObject.getString("SenderName")
+                limit= dataObject.getString("Limit")
+                SENDER_ID=dataObject.getString("Id")
+                SENDER_NAME=name
+
+            }
+            else
+            {
+                name= dataObject.getString("first_name")
+                limit= dataObject.getString("available_limit")
+            }
 
             binding.apply {
                 tvRemitterNameMobile.text = "$name | $senderNumber"

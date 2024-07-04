@@ -1,5 +1,6 @@
 package it.services.instantpayment.ui.dmt
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
@@ -8,10 +9,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.widget.AppCompatButton
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.chaos.view.PinView
 import it.services.instantpayment.MainActivity
 import it.services.instantpayment.R
 import it.services.instantpayment.databinding.FragmentSenderMobileVerificationBinding
@@ -38,7 +42,6 @@ class SenderMobileVerificationFragment : Fragment() {
 
     companion object {
         var sType = "DMT1"
-
     }
 
     override fun onCreateView(
@@ -102,9 +105,17 @@ class SenderMobileVerificationFragment : Fragment() {
                 is Response.Error -> {
                     progressDialog.dismiss()
                     if (response.statusCode.equals("0")) {
-                        val bundle = Bundle()
-                        bundle.putString("number", number)
-                        replaceFragment(AddSenderFragment(), bundle)
+                        if (sType.equals("DMT3",true)
+                            || sType.equals("UPI",true))
+                        {
+                            senderMobileVerificationViewModel.sendOtp(number)
+                        }
+                        else
+                        {
+                            val bundle = Bundle()
+                            bundle.putString("number", number)
+                            replaceFragment(AddSenderFragment(), bundle)
+                        }
                     }
                     Toast.makeText(context, response.errMessage, Toast.LENGTH_LONG).show()
                 }
@@ -121,6 +132,59 @@ class SenderMobileVerificationFragment : Fragment() {
                 }
             }
         }
+
+        senderMobileVerificationViewModel.sendOtpData.observe(viewLifecycleOwner)
+        {
+                response ->
+            when (response) {
+                is Response.Loading -> {
+                    progressDialog.show()
+                }
+
+                is Response.Error -> {
+                    progressDialog.dismiss()
+                    Toast.makeText(context, response.errMessage, Toast.LENGTH_LONG).show()
+                }
+
+                is Response.Success -> {
+                    progressDialog.dismiss()
+                    val otp=response.data?.getString("Data")
+                    showOtpDialog(otp.toString())
+
+                }
+            }
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun showOtpDialog(otp:String) {
+        val otpDialog = CustomDialogs.getMpinDialog(activity)
+        val btnCancel: AppCompatButton = otpDialog.findViewById(R.id.btn_cancel)
+        val btnSubmit: AppCompatButton = otpDialog.findViewById(R.id.btn_submit)
+        val mpinView: PinView = otpDialog.findViewById(R.id.otp_pin_view)
+        val tvInfo: TextView = otpDialog.findViewById(R.id.tv_info)
+
+        btnCancel.setOnClickListener { otpDialog.dismiss() }
+        tvInfo.text="Enter OTP"
+        mpinView.hint="XXXX"
+
+        btnSubmit.setOnClickListener{
+            val enteredOtp=mpinView.text.toString()
+            if (enteredOtp.equals(otp,true))
+            {
+                val bundle = Bundle()
+                bundle.putString("number", number)
+                otpDialog.dismiss()
+                replaceFragment(AddSenderFragment(), bundle)
+            }
+            else
+            {
+                Toast.makeText(context,"Wrong OTP",Toast.LENGTH_LONG).show()
+            }
+
+        }
+
+
     }
 
     private fun replaceFragment(fragment: Fragment, bundle: Bundle) {
@@ -159,6 +223,9 @@ class SenderMobileVerificationFragment : Fragment() {
                         }
                         else if (rbDmt2.isChecked) {
                             "DMT2"
+                        }
+                        else if (rbDmt3.isChecked) {
+                            "DMT3"
                         }
                         else
                         {

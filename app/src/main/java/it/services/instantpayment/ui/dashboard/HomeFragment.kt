@@ -18,13 +18,18 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.denzcoskun.imageslider.constants.ScaleTypes
 import com.denzcoskun.imageslider.models.SlideModel
 import com.finopaytech.finosdk.activity.MainTransactionActivity
 import com.finopaytech.finosdk.encryption.AES_BC
 import com.finopaytech.finosdk.helpers.Utils
 import it.services.instantpayment.MainActivity
+import it.services.instantpayment.R
 import it.services.instantpayment.databinding.FragmentHomeBinding
+import it.services.instantpayment.models.User
 import it.services.instantpayment.repository.BalanceRepository
 import it.services.instantpayment.repository.OperatorRepository
 import it.services.instantpayment.repository.Response
@@ -48,7 +53,6 @@ import it.services.instantpayment.webService.RetrofitClient
 import it.services.instantpayment.webService.WebService
 import org.json.JSONObject
 
-
 class HomeFragment : Fragment() {
 
     private lateinit var mySliderList: ArrayList<SlideModel>
@@ -63,7 +67,8 @@ class HomeFragment : Fragment() {
     private lateinit var progressDialog: AlertDialog
     private lateinit var bbpsServiceType: String
     private lateinit var bbpsServiceId: String
-
+    private lateinit var navHostFragment: NavHostFragment
+    private lateinit var navController: NavController
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -75,12 +80,28 @@ class HomeFragment : Fragment() {
         context = requireContext()
         activity = requireActivity()
         progressDialog = CustomDialogs.getCustomProgressDialog(activity)
+        navHostFragment=getActivity()?.supportFragmentManager?.findFragmentById(R.id.frame_container) as NavHostFragment
+        navController=navHostFragment.navController
+        setUpDashBoard()
         setImageSlider()
         setUpViewModel()
         handleClicksAndEvents()
         setObservers()
 
         return binding.root
+    }
+
+    private fun setUpDashBoard() {
+        if (MainActivity.USER_TYPE.equals("RT",true))
+        {
+            binding.retailerLy.visibility=View.VISIBLE
+            binding.distributorLy.visibility=View.GONE
+        }
+        else
+        {
+            binding.retailerLy.visibility=View.GONE
+            binding.distributorLy.visibility=View.VISIBLE
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -105,7 +126,8 @@ class HomeFragment : Fragment() {
                     it.data?.let { data ->
                         val bundle = Bundle()
                         bundle.putSerializable("operatorList", data)
-                        replaceFragment(OperatorFragment(), bundle)
+                        //replaceFragment(OperatorFragment(), bundle)
+                        navController.navigate(R.id.action_homeFragment_to_operatorFragment,bundle)
                     }
                 }
 
@@ -134,7 +156,8 @@ class HomeFragment : Fragment() {
                         bundle.putSerializable("operatorList", data)
                         bundle.putString("service", bbpsServiceType)
                         bundle.putString("serviceId", bbpsServiceId)
-                        replaceFragment(BbpsBillFetchFragment(), bundle)
+                            //replaceFragment(BbpsBillFetchFragment(), bundle)
+                        findNavController().navigate(R.id.action_homeFragment_to_bbpsBillFetchFragment,bundle)
                     }
                 }
 
@@ -187,12 +210,15 @@ class HomeFragment : Fragment() {
     private fun handleClicksAndEvents() {
         binding.apply {
 
-            binding.tvMobile.text = "WELCOME\n${MainActivity.MOBILE_NO}"
-            binding.tvName.text = MainActivity.NAME
+            //binding.tvMobile.text = "WELCOME\n${MainActivity.MOBILE_NO}"
+            //binding.tvName.text = MainActivity.NAME
+            binding.user=User(MainActivity.NAME,MainActivity.MOBILE_NO)
+
 
             paymentRequestLy.setOnClickListener {
 
-                replaceFragment(FundRequestFragment(), Bundle())
+                //replaceFragment(FundRequestFragment(), Bundle())
+                findNavController().navigate(R.id.action_homeFragment_to_fundRequestFragment)
 
             }
 
@@ -365,7 +391,8 @@ class HomeFragment : Fragment() {
             }
 
             dmtLy.setOnClickListener {
-                replaceFragment(SenderMobileVerificationFragment(), Bundle())
+                //replaceFragment(SenderMobileVerificationFragment(), Bundle())
+                findNavController().navigate(R.id.action_homeFragment_to_senderMobileVerificationFragment,Bundle())
 
             }
 
@@ -375,7 +402,8 @@ class HomeFragment : Fragment() {
                 if (MainActivity.checkPermission("UPI")) {
                     val bundle = Bundle()
                     bundle.putString("serviceType", "UPI")
-                    replaceFragment(SenderMobileVerificationFragment(), bundle)
+                    //replaceFragment(SenderMobileVerificationFragment(), bundle)
+                    findNavController().navigate(R.id.action_homeFragment_to_senderMobileVerificationFragment,bundle)
                 } else
                     CustomDialogs.getMessageDialog(
                         activity,
@@ -387,6 +415,18 @@ class HomeFragment : Fragment() {
             }
 
             aeps2Ly.setOnClickListener {
+                if (MainActivity.checkPermission("AEPS2")) {
+                    checkAppInstalledOrNot()
+                } else
+                    CustomDialogs.getMessageDialog(
+                        activity,
+                        "This service is not activated.\nPlease contact admin.",
+                        false
+                    )
+
+            }
+
+            aeps1Ly.setOnClickListener {
                 CustomDialogs.getMessageDialog(
                     activity,
                     "This service is not activated.\nPlease contact admin.",
@@ -425,23 +465,13 @@ class HomeFragment : Fragment() {
 */
 
 
-            }
-
-            aeps1Ly.setOnClickListener {
-                if (MainActivity.checkPermission("AEPS1")) {
-                    checkAppInstalledOrNot()
-                } else
-                    CustomDialogs.getMessageDialog(
-                        activity,
-                        "This service is not activated.\nPlease contact admin.",
-                        false
-                    )
 
             }
 
             razorPayLy.setOnClickListener {
                 if (MainActivity.checkPermission("PAYMENT GATEWAY")) {
-                    startActivity(Intent(context, PaymentActivity::class.java))
+                    //startActivity(Intent(context, PaymentActivity::class.java))
+                    findNavController().navigate(R.id.action_homeFragment_to_paymentActivity)
                 } else
                     CustomDialogs.getMessageDialog(
                         activity,
@@ -453,7 +483,8 @@ class HomeFragment : Fragment() {
 
             upiLy.setOnClickListener {
                 if (MainActivity.checkPermission("UPI GATEWAY")) {
-                    replaceFragment(UpiPaymentFragment(), Bundle())
+                    //replaceFragment(UpiPaymentFragment(), Bundle())
+                    findNavController().navigate(R.id.action_homeFragment_to_upiPaymentFragment)
                 } else
                     CustomDialogs.getMessageDialog(
                         activity,
@@ -481,12 +512,14 @@ class HomeFragment : Fragment() {
                 //startActivityForScanDevice_Fino_D80.launch(intent)
                 startActivity(intent)*/
 
-                replaceFragment(MatmFragment(),Bundle())
+                //replaceFragment(MatmFragment(),Bundle())
+                findNavController().navigate(R.id.action_homeFragment_to_matmFragment)
             }
 
             tvTopUp.setOnClickListener {
                 if (MainActivity.checkPermission("UPI GATEWAY")) {
-                    replaceFragment(UpiPaymentFragment(), Bundle())
+                    //replaceFragment(UpiPaymentFragment(), Bundle())
+                    findNavController().navigate(R.id.action_homeFragment_to_upiPaymentFragment)
                 } else
                     CustomDialogs.getMessageDialog(
                         activity,
@@ -550,7 +583,8 @@ class HomeFragment : Fragment() {
         val intalled = appInstalledOrNot("com.aeps.aeps_api_user_production")
         try {
             if (intalled) {
-                replaceFragment(AePSServiceFragment(),Bundle())
+                //replaceFragment(AePSServiceFragment(),Bundle())
+                findNavController().navigate(R.id.action_homeFragment_to_aePSServiceFragment)
             } else {
                 showAlert()
             }
@@ -558,7 +592,6 @@ class HomeFragment : Fragment() {
             showAlert()
         }
     }
-
 
     class DataModel {
         var applicationType: String? = null
@@ -598,7 +631,6 @@ class HomeFragment : Fragment() {
             }
         }
     }
-
 
     private fun showAlert() {
         try {
@@ -642,7 +674,6 @@ class HomeFragment : Fragment() {
         }
     }
 
-
     private fun appInstalledOrNot(uri: String): Boolean {
         val pm: PackageManager = requireActivity().packageManager
         try {
@@ -653,10 +684,8 @@ class HomeFragment : Fragment() {
         return false
     }
 
-
     private val aePSOnBoardingLauncher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) {
+        ActivityResultContracts.StartActivityForResult()) {
         val data = it.data
         val message = data?.getStringExtra("message")
         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
@@ -670,7 +699,7 @@ class HomeFragment : Fragment() {
         binding.imageSlider.setImageList(mySliderList, ScaleTypes.FIT)
     }
 
-    private fun replaceFragment(fragment: Fragment, bundle: Bundle) {
+    private fun replaceFragment(fragment: Fragment, bundle:   Bundle) {
         fragment.arguments = bundle
         val fragmentManager = requireActivity().supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()

@@ -35,7 +35,7 @@ class AddSenderRepository(private val webService: WebService) {
         val result: retrofit2.Response<JsonObject> =
 
             if (SenderMobileVerificationFragment.sType.equals("UPI", true)) {
-                webService.addSenderUpi(
+                /*webService.addSenderUpi(
                     ApiKeys.BASE_URL + "UPISenderRegistraion",
                     sessionKey,
                     ApiKeys.ADD_SENDER_UPI_KEY,
@@ -44,9 +44,34 @@ class AddSenderRepository(private val webService: WebService) {
                     lastName,
                     address,
                     pinCode
+                )*/
+                webService.addSenderFino(
+                    sessionKey,
+                    "Addsender001",
+                    mobileNumber,
+                    "$firstName $lastName",
+                    lastName,
+                    address,
+                    pinCode,
+                    SenderMobileVerificationFragment.sType
                 )
 
-            } else {
+            }
+            else if(SenderMobileVerificationFragment.sType.equals("DMT3",true))
+            {
+                webService.addSenderFino(
+                    sessionKey,
+                    "Addsender001",
+                    mobileNumber,
+                    "$firstName $lastName",
+                    lastName,
+                    address,
+                    pinCode,
+                    SenderMobileVerificationFragment.sType
+                )
+            }
+
+            else {
                 webService.addSender(
                     sessionKey,
                     apiKey,
@@ -89,7 +114,7 @@ class AddSenderRepository(private val webService: WebService) {
         val result: retrofit2.Response<JsonObject> =
             if (SenderMobileVerificationFragment.sType.equals("UPI", false)) {
                 webService.verifySenderRegistrationUpi(
-                    ApiKeys.BASE_URL + "UPISenderValidateOTP",
+                    ApiKeys.BASE_URL + "UPI2AccountVarify",
                     sessionKey, ApiKeys.VALIDATE_SENDER_UPI_KEY, mobileNumber, otp, state
                 )
             } else {

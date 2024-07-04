@@ -6,20 +6,25 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import it.services.instantpayment.R
 import it.services.instantpayment.adapters.OperatorAdapter
 import it.services.instantpayment.databinding.FragmentOperatorBinding
 import it.services.instantpayment.interfaces.AllClickInterface
-import it.services.instantpayment.models.BankModel
 import it.services.instantpayment.models.OperatorModel
 
-class OperatorFragment : Fragment() {
+class OperatorFragment : DialogFragment() {
 
     private lateinit var binding: FragmentOperatorBinding
     private lateinit var operatorList: ArrayList<OperatorModel>
-    private lateinit var operatorAdaptor:OperatorAdapter
+    private lateinit var operatorAdaptor: OperatorAdapter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(STYLE_NORMAL, R.style.FullScreenDialogStyle)
+    }
 
 
     override fun onCreateView(
@@ -50,7 +55,7 @@ class OperatorFragment : Fragment() {
         operatorList = arguments?.getSerializable("operatorList") as ArrayList<OperatorModel>
 
         operatorAdaptor = OperatorAdapter(operatorList, object : AllClickInterface {
-            override fun allClick(data: Any,type:String) {
+            override fun allClick(data: Any, type: String) {
                 val operatorModel = data as OperatorModel
                 val operatorName = operatorModel.operatorName
                 val operatorId = operatorModel.id
@@ -61,7 +66,7 @@ class OperatorFragment : Fragment() {
                 bundle.putString("operatorName", operatorName)
                 bundle.putString("operatorId", operatorId)
                 bundle.putString("serviceId", serviceId)
-                    bundle.putString("operatorImage", operatorImage)
+                bundle.putString("operatorImage", operatorImage)
 
                 replaceFragment(RechargeFragment(), bundle)
 

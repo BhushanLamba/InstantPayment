@@ -5,11 +5,13 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import it.services.instantpayment.MainActivity
+import it.services.instantpayment.R
 import it.services.instantpayment.databinding.ActivityLoginBinding
 import it.services.instantpayment.repository.LoginRepository
 import it.services.instantpayment.repository.Response
@@ -18,6 +20,7 @@ import it.services.instantpayment.utils.CustomDialogs
 import it.services.instantpayment.utils.DeviceInfo
 import it.services.instantpayment.utils.LocationUtils
 import it.services.instantpayment.utils.LocationViewModelFactory
+import it.services.instantpayment.utils.RootChecker
 import it.services.instantpayment.utils.SharedPref
 import it.services.instantpayment.utils.SharedPref.LOGO_IMAGE
 import it.services.instantpayment.utils.SharedPref.PASSWORD
@@ -41,9 +44,8 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var progressDialog: AlertDialog
 
-    companion object
-    {
-        var logoImage:String=""
+    companion object {
+        var logoImage: String = ""
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,6 +60,16 @@ class LoginActivity : AppCompatActivity() {
         setUpViewModel()
 
         handleClicksAndEvents()
+
+        if (RootChecker.isDeviceRooted()) {
+            val messageDialog = CustomDialogs.getMessageDialog(
+                activity,
+                "Sorry, This application can't be used with rooted device",
+                false
+            )
+            val btnOk = messageDialog.findViewById<Button>(R.id.btn_ok)
+            btnOk.setOnClickListener { finish() }
+        }
 
     }
 
@@ -90,7 +102,7 @@ class LoginActivity : AppCompatActivity() {
                     progressDialog.dismiss()
                     it.data?.let {
                         if (binding.ckbRemember.isChecked) {
-                            logoImage= SharedPref.getString(context, LOGO_IMAGE).toString()
+                            logoImage = SharedPref.getString(context, LOGO_IMAGE).toString()
 
                             SharedPref.setString(context, USER_NAME, userName)
                             SharedPref.setString(context, PASSWORD, password)
@@ -127,7 +139,7 @@ class LoginActivity : AppCompatActivity() {
 
         if (!(userName.equals("", true) && password.equals("", true))) {
             binding.apply {
-                logoImage= SharedPref.getString(context, LOGO_IMAGE).toString()
+                logoImage = SharedPref.getString(context, LOGO_IMAGE).toString()
                 Glide.with(imgLogo).load(logoImage).into(imgLogo)
                 etUserId.setText(userName)
                 etPassword.setText(password)
@@ -170,9 +182,9 @@ class LoginActivity : AppCompatActivity() {
             }
 
             tvForgetPassword.setOnClickListener {
-                val intent=Intent(context,ChangePasswordPinActivity::class.java)
-                intent.putExtra("sType","Password")
-                intent.putExtra("isForget",true)
+                val intent = Intent(context, ChangePasswordPinActivity::class.java)
+                intent.putExtra("sType", "Password")
+                intent.putExtra("isForget", true)
                 startActivity(intent)
             }
         }

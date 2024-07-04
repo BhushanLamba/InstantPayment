@@ -8,8 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import it.services.instantpayment.MainActivity
 import it.services.instantpayment.R
@@ -20,12 +23,13 @@ import it.services.instantpayment.repository.Response
 import it.services.instantpayment.ui.login.LoginActivity
 import it.services.instantpayment.utils.ApiKeys.BBPS_FETCH_KEY
 import it.services.instantpayment.utils.CustomDialogs
+import it.services.instantpayment.viewModels.bbps.BBPSSelectOperatorViewModel
 import it.services.instantpayment.viewModels.bbps.BbpsBillFetchViewModel
 import it.services.instantpayment.viewModels.bbps.BbpsBillFetchViewModelFactory
 import it.services.instantpayment.webService.RetrofitClient
 import it.services.instantpayment.webService.WebService
 
-class BbpsBillFetchFragment : Fragment() {
+class BbpsBillFetchFragment : DialogFragment() {
 
     private lateinit var operatorList: ArrayList<OperatorModel>
     private lateinit var binding: FragmentBbpsBillFetchBinding
@@ -39,6 +43,11 @@ class BbpsBillFetchFragment : Fragment() {
     private lateinit var service: String
     private lateinit var serviceId: String
 
+    private val bbpsSelectOperatorViewModel:BBPSSelectOperatorViewModel by activityViewModels()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(STYLE_NORMAL, R.style.FullScreenDialogStyle)
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -80,7 +89,8 @@ class BbpsBillFetchFragment : Fragment() {
                         bundle.putString("data", data.toString())
                         bundle.putString("operatorId", operatorId)
                         bundle.putString("serviceId", serviceId)
-                        replaceFragment(BbpsBillDetailsFragment(), bundle)
+                        //replaceFragment(BbpsBillDetailsFragment(), bundle)
+                        findNavController().navigate(R.id.action_bbpsBillFetchFragment_to_bbpsBillDetailsFragment)
                     }
                 }
 
@@ -123,7 +133,16 @@ class BbpsBillFetchFragment : Fragment() {
             tvOperator.setOnClickListener {
                 val bundle = Bundle()
                 bundle.putSerializable("operatorList", operatorList)
-                replaceFragment(BbpsOperatorListFragment(), bundle)
+
+                //replaceFragment(BbpsOperatorListFragment(), bundle)
+                findNavController().navigate(R.id.action_bbpsBillFetchFragment_to_bbpsOperatorListFragment,bundle)
+                val fragment=BbpsOperatorListFragment()
+                bbpsSelectOperatorViewModel.operatorData.observe(viewLifecycleOwner)
+                {
+                    operatorName = it.operatorName
+                    operatorId = it.id
+                    binding.tvOperator.text = operatorName
+                }
             }
         }
     }

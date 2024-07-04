@@ -65,6 +65,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
+            <RadioButton
+                android:id="@+id/rb_dmt3"
+                android:layout_marginStart="20dp"
+                android:textStyle="bold"
+                android:textColor="@color/primaryColor"
+                android:text="DMT 3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
 
         </RadioGroup>
 

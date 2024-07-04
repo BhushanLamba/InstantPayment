@@ -20,4 +20,14 @@ class SenderMobileVerificationViewModel(private val repository: SenderVerificati
 
     val verifySenderData:LiveData<Response<JSONObject>>
         get() = repository.verificationData
+
+    fun sendOtp(mobile:String)
+    {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.sendOtp(mobile)
+        }
+    }
+
+    val sendOtpData:LiveData<Response<JSONObject>>
+        get()=repository.sendOtpData
 }

@@ -8,7 +8,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.razorpay.Checkout
 import com.razorpay.ExternalWalletListener
 import com.razorpay.PaymentData
@@ -65,7 +64,6 @@ class PaymentActivity : AppCompatActivity(), PaymentResultWithDataListener, Exte
                     MainActivity.LOGIN_SESSION, INITIATE_PAYMENT_KEY, amount,
                     mobileNumber, panNumberNumber, aadhaarNumber
                 )
-
             }
         }
 
@@ -95,7 +93,26 @@ class PaymentActivity : AppCompatActivity(), PaymentResultWithDataListener, Exte
 
         paymentViewModel.updatePaymentData.observe(this)
         {
-            finish()
+            when (it) {
+                is Response.Loading -> {
+                    progressDialog.show()
+                }
+
+                is Response.Error -> {
+                    progressDialog.dismiss()
+                    CustomDialogs.getMessageDialog(activity, it.errMessage.toString(), false)
+                }
+
+                is Response.Success -> {
+                    progressDialog.dismiss()
+                    CustomDialogs.getMessageDialog(
+                        activity,
+                        "Your payment has done. Please note your order Id $orderId",
+                        false
+                    )
+                }
+
+            }
         }
     }
 
@@ -139,7 +156,8 @@ class PaymentActivity : AppCompatActivity(), PaymentResultWithDataListener, Exte
             prefill.put("contact", mobileNumber)
 
             options.put("prefill", prefill)
-            co.setKeyID("rzp_live_ccf8cDWgjWkpM6")
+            //co.setKeyID("rzp_live_ccf8cDWgjWkpM6")
+            co.setKeyID("rzp_live_DJgqCD9wHSivgU")
             co.open(activity, options)
         } catch (e: Exception) {
             Toast.makeText(activity, "Error in payment: " + e.message, Toast.LENGTH_LONG).show()

@@ -92,12 +92,35 @@ interface WebService {
     ): Response<JsonObject>
 
     @FormUrlEncoded
+    @POST("HSenderinfo")
+    suspend fun verifySenderFino(
+        @Field("SessionKey") sessionKey: String,
+        @Field("APIKey") apiKey: String,
+        @Field("SenderMobile") senderMobile: String,
+        @Field("Stype") sType: String
+    ): Response<JsonObject>
+
+    @FormUrlEncoded
     @POST("SenderRegistraion")
     suspend fun addSender(
         @Field("SessionKey") sessionKey: String,
         @Field("APIKey") apiKey: String,
         @Field("SenderMobile") senderMobile: String,
         @Field("FirstName") firstName: String,
+        @Field("LastName") lastName: String,
+        @Field("Address") address: String,
+        @Field("Pincode") pinCode: String,
+        @Field("Stype") sType: String
+
+    ): Response<JsonObject>
+
+    @FormUrlEncoded
+    @POST("HAddSender")
+    suspend fun addSenderFino(
+        @Field("SessionKey") sessionKey: String,
+        @Field("APIKey") apiKey: String,
+        @Field("SenderMobile") senderMobile: String,
+        @Field("SenderName") SenderName: String,
         @Field("LastName") lastName: String,
         @Field("Address") address: String,
         @Field("Pincode") pinCode: String,
@@ -128,6 +151,16 @@ interface WebService {
     ): Response<JsonObject>
 
     @FormUrlEncoded
+    @POST("HBeneInfo")
+    suspend fun getBeneListFino(
+        @Field("SessionKey") sessionKey: String,
+        @Field("APIKey") apiKey: String,
+        @Field("SenderMobile") senderMobile: String,
+        @Field("Stype") sType: String
+
+    ): Response<JsonObject>
+
+    @FormUrlEncoded
     @POST("BeneRegistraion")
     suspend fun addBene(
         @Field("SessionKey") sessionKey: String,
@@ -138,6 +171,21 @@ interface WebService {
         @Field("BankName") bankName: String,
         @Field("BeneName") beneName: String,
         @Field("Stype") sType: String
+
+    ): Response<JsonObject>
+
+    @FormUrlEncoded
+    @POST("HAddBene")
+    suspend fun addBeneUpi(
+        @Field("SenderMobile") SenderMobile: String,
+        @Field("SessionKey") SessionKey: String,
+        @Field("APIKey") APIKey: String,
+        @Field("SenderId") SenderId: String,
+        @Field("BeneName") BeneName: String,
+        @Field("AccountNo") AccountNo: String,
+        @Field("IFSCCode") IFSCCode: String,
+        @Field("BankName") BankName: String,
+        @Field("AVStatus") AVStatus:String
 
     ): Response<JsonObject>
 
@@ -266,7 +314,8 @@ interface WebService {
         @Field("BeneId") beneId: String,
         @Field("Amount") amount: String,
         @Field("Stype") sType: String,
-        @Field("MPIN") mpin: String
+        @Field("MPIN") mpin: String,
+        @Field("SenderName") SenderName:String
 
     ): Response<JsonObject>
 
@@ -401,4 +450,8 @@ interface WebService {
         @Field("OTP") OTP: String,
         @Field("NewPassword") NewPassword:String,
         @Field("NewTxnPin") NewTxnPin:String):Response<JsonObject>
+
+    @FormUrlEncoded
+    @POST("SendOTP")
+    suspend fun sendOtp(@Field("Mobile") Mobile:String):Response<JsonObject>
 }

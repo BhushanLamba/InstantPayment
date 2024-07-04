@@ -65,7 +65,10 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <FrameLayout
+    <androidx.fragment.app.FragmentContainerView
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/nav_graph"
         android:id="@+id/frame_container"
         app:layout_constraintBottom_toTopOf="@id/bottom_bar_ly"
         app:layout_constraintTop_toBottomOf="@id/top_bar_ly"
@@ -179,5 +182,7 @@
 
 
     </LinearLayout>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

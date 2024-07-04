@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +25,7 @@ class MatmFragment : Fragment() {
     private var serviceId = "156"
     private lateinit var amount: String
     private lateinit var mobileNumber: String
+    private lateinit var merchantId: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,7 +34,7 @@ class MatmFragment : Fragment() {
         binding = FragmentMatmBinding.inflate(inflater, container, false)
         context = requireContext()
         activity = requireActivity()
-
+        merchantId="8684020633"
         handleClickEvents()
 
         return binding.root
@@ -44,10 +46,10 @@ class MatmFragment : Fragment() {
             rgService.setOnCheckedChangeListener { _, _ ->
                 if (rbCashWithdrawal.isChecked) {
                     amountLy.visibility = View.VISIBLE
-                    serviceId = "156"
+                    serviceId = "171"
                 } else {
                     amountLy.visibility = View.GONE
-                    serviceId = "157"
+                    serviceId = "172"
                     etAmount.setText("")
                 }
             }
@@ -55,6 +57,12 @@ class MatmFragment : Fragment() {
             btnProceed.setOnClickListener {
                 amount = etAmount.text.toString().trim()
                 mobileNumber = etNumber.text.toString().trim()
+
+                if (serviceId.equals("172"))
+                {
+                    amount="0";
+                }
+
                 if (mobileNumber.length != 10) {
                     etNumber.error = "Invalid"
                     return@setOnClickListener
@@ -65,7 +73,7 @@ class MatmFragment : Fragment() {
                     val clientRegId = MainActivity.MOBILE_NO + System.currentTimeMillis()
 
                     val requestData = getEncryptedRequest(
-                        mobileNumber, serviceId, "https://www.google.com/", "1000", amount,
+                        merchantId, serviceId, "https://www.google.com/", "1000", amount,
                         clientRegId, "680e8aff-6938-4ae1-a197-b981e278069a"
                     )
                     val headerRequest: String =
@@ -117,6 +125,8 @@ class MatmFragment : Fragment() {
     ): String? {
         var strRequestData: String? = ""
         val jsonRequestDataObj = JSONObject() // inner object request
+
+
         strRequestData = try {
             jsonRequestDataObj.put("MerchantId", merchantId)
             jsonRequestDataObj.put("SERVICEID", serviceId)
@@ -124,6 +134,8 @@ class MatmFragment : Fragment() {
             jsonRequestDataObj.put("Version", version)
             jsonRequestDataObj.put("Amount", amount)
             jsonRequestDataObj.put("ClientRefID", clientRefID)
+
+            Log.d("requestJson", "getEncryptedRequest: $jsonRequestDataObj")
             Utils.replaceNewLine(
                 AES_BC.getInstance().encryptEncode(jsonRequestDataObj.toString(), encryptionkey)
             )
