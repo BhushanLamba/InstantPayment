@@ -70,6 +70,7 @@ class HomeFragment : Fragment() {
     private lateinit var navHostFragment: NavHostFragment
     private lateinit var navController: NavController
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -127,7 +128,9 @@ class HomeFragment : Fragment() {
                         val bundle = Bundle()
                         bundle.putSerializable("operatorList", data)
                         //replaceFragment(OperatorFragment(), bundle)
+                        if (operatorViewModel.isNavigate)
                         navController.navigate(R.id.action_homeFragment_to_operatorFragment,bundle)
+                        operatorViewModel.isNavigate=false
                     }
                 }
 
@@ -223,8 +226,10 @@ class HomeFragment : Fragment() {
             }
 
             prepaidLy.setOnClickListener {
-                if (MainActivity.checkPermission("PREPAID"))
+                if (MainActivity.checkPermission("PREPAID")) {
+                    operatorViewModel.isNavigate=true
                     operatorViewModel.getOperator(MainActivity.LOGIN_SESSION, OPERATOR_KEY, "1")
+                }
                 else
                     CustomDialogs.getMessageDialog(
                         activity,
@@ -235,8 +240,10 @@ class HomeFragment : Fragment() {
             }
 
             dthLy.setOnClickListener {
-                if (MainActivity.checkPermission("DTH"))
+                if (MainActivity.checkPermission("DTH")) {
+                    operatorViewModel.isNavigate=true
                     operatorViewModel.getOperator(MainActivity.LOGIN_SESSION, OPERATOR_KEY, "2")
+                }
                 else
                     CustomDialogs.getMessageDialog(
                         activity,

@@ -1,6 +1,7 @@
 package it.services.instantpayment.ui.matm
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -10,11 +11,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.finopaytech.finosdk.activity.MainTransactionActivity
 import com.finopaytech.finosdk.encryption.AES_BC
 import com.finopaytech.finosdk.helpers.Utils
 import it.services.instantpayment.MainActivity
 import it.services.instantpayment.databinding.FragmentMatmBinding
+import it.services.instantpayment.repository.MatmRepository
+import it.services.instantpayment.repository.Response
+import it.services.instantpayment.utils.CustomDialogs
+import it.services.instantpayment.viewModels.matm.MAtmViewModelFactory
+import it.services.instantpayment.viewModels.matm.MatmViewModel
+import it.services.instantpayment.webService.RetrofitClient
+import it.services.instantpayment.webService.WebService
 import org.json.JSONObject
 
 class MatmFragment : Fragment() {
@@ -26,6 +35,9 @@ class MatmFragment : Fragment() {
     private lateinit var amount: String
     private lateinit var mobileNumber: String
     private lateinit var merchantId: String
+    private lateinit var matmViewModel: MatmViewModel
+    private lateinit var progressDialog:AlertDialog
+    private lateinit var service:String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,10 +46,59 @@ class MatmFragment : Fragment() {
         binding = FragmentMatmBinding.inflate(inflater, container, false)
         context = requireContext()
         activity = requireActivity()
-        merchantId="8684020633"
+        //merchantId="8684020633"
+        merchantId=MainActivity.MOBILE_NO
+        progressDialog=CustomDialogs.getCustomProgressDialog(activity)
+        setUpViewModel()
+        setUpObserver()
         handleClickEvents()
 
         return binding.root
+    }
+
+    private fun setUpObserver() {
+        matmViewModel.mAtmInitiateData.observe(viewLifecycleOwner)
+        {
+            when(it)
+            {
+                is Response.Error ->{
+                    progressDialog.dismiss()
+                    CustomDialogs.getMessageDialog(activity,it.errMessage.toString(),false)
+                }
+                is Response.Loading -> {
+                    progressDialog.show()
+                }
+                is Response.Success -> {
+                    progressDialog.dismiss()
+                    val clientRegId = it.data
+
+                   val requestData = getEncryptedRequest(
+                       merchantId, serviceId, "https://www.google.com/", "1000", amount,
+                       clientRegId, "680e8aff-6938-4ae1-a197-b981e278069a"
+                   )
+                   val headerRequest: String =
+                       getEncryptedHeader(
+                           "9d035089-4edf-4019-8761-67c35490e76f",
+                           "225",
+                           "982b0d01-b262-4ece-a2a2-45be82212ba1"
+                       )
+
+                   val intent = Intent(getActivity(), MainTransactionActivity::class.java)
+                   intent.putExtra("RequestData", requestData)
+                   intent.putExtra("HeaderData", headerRequest)
+                   intent.putExtra("ReturnTime", 5)
+                   startActivity(intent)
+                }
+            }
+        }
+    }
+
+    private fun setUpViewModel() {
+
+        val webService=RetrofitClient.getInstance().create(WebService::class.java)
+        val repository=MatmRepository(webService)
+        matmViewModel=ViewModelProvider(this,MAtmViewModelFactory(repository))[MatmViewModel::class.java]
+
     }
 
     private fun handleClickEvents() {
@@ -51,6 +112,7 @@ class MatmFragment : Fragment() {
                     amountLy.visibility = View.GONE
                     serviceId = "172"
                     etAmount.setText("")
+
                 }
             }
 
@@ -58,37 +120,27 @@ class MatmFragment : Fragment() {
                 amount = etAmount.text.toString().trim()
                 mobileNumber = etNumber.text.toString().trim()
 
-                if (serviceId.equals("172"))
+                if (serviceId == "172")
                 {
-                    amount="0";
+                    amount="0"
+                    service="BE"
+
+                }
+                else
+                {
+                    service="CW"
                 }
 
                 if (mobileNumber.length != 10) {
                     etNumber.error = "Invalid"
                     return@setOnClickListener
-                } else if (rbCashWithdrawal.isChecked && TextUtils.isEmpty(amount)) {
+                }
+                else if (rbCashWithdrawal.isChecked && TextUtils.isEmpty(amount)) {
                     etAmount.error = "Required"
                     return@setOnClickListener
-                } else {
-                    val clientRegId = MainActivity.MOBILE_NO + System.currentTimeMillis()
-
-                    val requestData = getEncryptedRequest(
-                        merchantId, serviceId, "https://www.google.com/", "1000", amount,
-                        clientRegId, "680e8aff-6938-4ae1-a197-b981e278069a"
-                    )
-                    val headerRequest: String =
-                        getEncryptedHeader(
-                            "9d035089-4edf-4019-8761-67c35490e76f",
-                            "225",
-                            "982b0d01-b262-4ece-a2a2-45be82212ba1"
-                        )
-
-                    val intent = Intent(getActivity(), MainTransactionActivity::class.java)
-                    intent.putExtra("RequestData", requestData)
-                    intent.putExtra("HeaderData", headerRequest)
-                    intent.putExtra("ReturnTime", 5)
-                    //startActivityForScanDevice_Fino_D80.launch(intent)
-                    startActivity(intent)
+                }
+                else {
+                    matmViewModel.initiateMAtmTransaction(amount,service)
                 }
             }
 

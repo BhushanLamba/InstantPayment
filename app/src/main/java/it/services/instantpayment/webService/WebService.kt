@@ -454,4 +454,11 @@ interface WebService {
     @FormUrlEncoded
     @POST("SendOTP")
     suspend fun sendOtp(@Field("Mobile") Mobile:String):Response<JsonObject>
+
+    @FormUrlEncoded
+    @POST("InitiateMATM")
+    suspend fun initiateMatm(@Field("SessionKey") SessionKey: String,
+                             @Field("APIKey") APIKey: String,
+                             @Field("Amount") Amount:String,
+                             @Field("service") service:String) :Response<JsonObject>
 }

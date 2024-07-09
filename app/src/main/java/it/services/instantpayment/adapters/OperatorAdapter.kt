@@ -15,7 +15,6 @@ class OperatorAdapter (private var operatorList:ArrayList<OperatorModel>,private
 
 
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OperatorViewModel {
         val binding=OperatorItemBinding.inflate(LayoutInflater.from(parent.context),parent,false)
         return OperatorViewModel(binding)

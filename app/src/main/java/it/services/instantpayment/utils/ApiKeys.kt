@@ -36,4 +36,5 @@ object ApiKeys {
     const val PAYMENT_REQUEST_REPORT_KEY="PaymentRequestReport001"
     const val PAYMENT_GATEWAY_REPORT_KEY="PGReport001"
     const val LEDGER_REPORT_KEY="LadgerReport001"
+    const val INITIATE_M_ATM_KEY="MATMIniiate001"
 }

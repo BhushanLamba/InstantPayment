@@ -11,6 +11,9 @@ import kotlinx.coroutines.launch
 import org.json.JSONObject
 
 class OperatorViewModel(private val repository: OperatorRepository) : ViewModel() {
+
+
+    var isNavigate=false
     fun getOperator(sessionKey: String, apiKey: String, serviceId: String) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.getOperator(sessionKey, apiKey, serviceId)

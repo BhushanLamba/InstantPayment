@@ -54,7 +54,11 @@
         android:id="@+id/operatorFragment"
         android:name="it.services.instantpayment.ui.recharge.OperatorFragment"
         android:label="fragment_operator"
-        tools:layout="@layout/fragment_operator" />
+        tools:layout="@layout/fragment_operator" >
+        <action
+            android:id="@+id/action_operatorFragment_to_rechargeFragment"
+            app:destination="@id/rechargeFragment" />
+    </dialog>
     <dialog
         android:id="@+id/bbpsOperatorListFragment"
         android:name="it.services.instantpayment.ui.bbps.BbpsOperatorListFragment"
@@ -107,5 +111,10 @@
         android:name="it.services.instantpayment.ui.bbps.BbpsBillDetailsFragment"
         android:label="fragment_bbps_bill_details"
         tools:layout="@layout/fragment_bbps_bill_details" />
+    <fragment
+        android:id="@+id/rechargeFragment"
+        android:name="it.services.instantpayment.ui.recharge.RechargeFragment"
+        android:label="fragment_recharge"
+        tools:layout="@layout/fragment_recharge" />
 
 </navigation>

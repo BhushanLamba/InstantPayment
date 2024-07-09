@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import it.services.instantpayment.R
 import it.services.instantpayment.adapters.OperatorAdapter
@@ -68,7 +69,8 @@ class OperatorFragment : DialogFragment() {
                 bundle.putString("serviceId", serviceId)
                 bundle.putString("operatorImage", operatorImage)
 
-                replaceFragment(RechargeFragment(), bundle)
+                //replaceFragment(RechargeFragment(), bundle)
+                findNavController().navigate(R.id.action_operatorFragment_to_rechargeFragment,bundle)
 
             }
         })
