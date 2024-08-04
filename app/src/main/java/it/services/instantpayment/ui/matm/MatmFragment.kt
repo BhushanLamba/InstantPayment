@@ -10,6 +10,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContract
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.finopaytech.finosdk.activity.MainTransactionActivity
@@ -87,10 +89,18 @@ class MatmFragment : Fragment() {
                    intent.putExtra("RequestData", requestData)
                    intent.putExtra("HeaderData", headerRequest)
                    intent.putExtra("ReturnTime", 5)
-                   startActivity(intent)
+                   //startActivity(intent)
+                    mAtmActivityLauncher.launch(intent)
                 }
             }
         }
+    }
+
+    val mAtmActivityLauncher=registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+    {
+        val intent=it.data
+        val extras=intent?.extras
+        Log.d("TAG", "data : "+extras)
     }
 
     private fun setUpViewModel() {

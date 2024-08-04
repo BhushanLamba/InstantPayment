@@ -185,7 +185,7 @@ interface WebService {
         @Field("AccountNo") AccountNo: String,
         @Field("IFSCCode") IFSCCode: String,
         @Field("BankName") BankName: String,
-        @Field("AVStatus") AVStatus:String
+        @Field("AVStatus") AVStatus: String
 
     ): Response<JsonObject>
 
@@ -203,7 +203,7 @@ interface WebService {
         @Field("Amount") amount: String,
         @Field("DMTTYPE") sType: String,
         @Field("TXNMode") TXNMode: String,
-        @Field("MPIN") MPIN:String
+        @Field("MPIN") MPIN: String
 
     ): Response<JsonObject>
 
@@ -315,7 +315,7 @@ interface WebService {
         @Field("Amount") amount: String,
         @Field("Stype") sType: String,
         @Field("MPIN") mpin: String,
-        @Field("SenderName") SenderName:String
+        @Field("SenderName") SenderName: String
 
     ): Response<JsonObject>
 
@@ -373,7 +373,7 @@ interface WebService {
         @Field("APIKey") apiKey: String,
         @Field("orderid") orderid: String,
         @Field("comresponse") comresponse: String,
-        @Field("txnStatus") txnStatus:String
+        @Field("txnStatus") txnStatus: String
     ): Response<JsonObject>
 
     @FormUrlEncoded
@@ -382,7 +382,7 @@ interface WebService {
         @Url url: String,
         @Field("SessionKey") sessionKey: String,
         @Field("APIKey") apiKey: String
-    ):Response<JsonObject>
+    ): Response<JsonObject>
 
     @FormUrlEncoded
     @POST
@@ -390,14 +390,14 @@ interface WebService {
         @Url url: String,
         @Field("SessionKey") sessionKey: String,
         @Field("APIKey") apiKey: String,
-        @Field("BankId") BankId:String,
-        @Field("Amount") Amount:String,
-        @Field("Usertype") Usertype:String,
-        @Field("BankName") BankName:String,
-        @Field("TxnId") TxnId:String,
-        @Field("TxnSlip") TxnSlip:String,
-        @Field("DepositMode") DepositMode:String
-    ):Response<JsonObject>
+        @Field("BankId") BankId: String,
+        @Field("Amount") Amount: String,
+        @Field("Usertype") Usertype: String,
+        @Field("BankName") BankName: String,
+        @Field("TxnId") TxnId: String,
+        @Field("TxnSlip") TxnSlip: String,
+        @Field("DepositMode") DepositMode: String
+    ): Response<JsonObject>
 
     @FormUrlEncoded
     @POST
@@ -405,9 +405,9 @@ interface WebService {
         @Url url: String,
         @Field("SessionKey") sessionKey: String,
         @Field("APIKey") apiKey: String,
-        @Field("DateFrom") DateFrom:String,
-        @Field("DateTo") DateTo:String,
-    ):Response<JsonObject>
+        @Field("DateFrom") DateFrom: String,
+        @Field("DateTo") DateTo: String,
+    ): Response<JsonObject>
 
     @FormUrlEncoded
     @POST
@@ -415,10 +415,10 @@ interface WebService {
         @Url url: String,
         @Field("SessionKey") sessionKey: String,
         @Field("APIKey") apiKey: String,
-        @Field("From") From:String,
-        @Field("To") To:String,
-        @Field("ServiceName") ServiceName:String
-    ):Response<JsonObject>
+        @Field("From") From: String,
+        @Field("To") To: String,
+        @Field("ServiceName") ServiceName: String
+    ): Response<JsonObject>
 
     @FormUrlEncoded
     @POST
@@ -426,39 +426,81 @@ interface WebService {
         @Url url: String,
         @Field("SessionKey") sessionKey: String,
         @Field("APIKey") apiKey: String,
-        @Field("From") From:String,
-        @Field("To") To:String,
-        @Field("ServiceName") ServiceName:String
-    ):Response<JsonObject>
+        @Field("From") From: String,
+        @Field("To") To: String,
+        @Field("ServiceName") ServiceName: String
+    ): Response<JsonObject>
 
 
     @FormUrlEncoded
     @POST
     suspend fun sendOtpPasswordPin(
-        @Url url:String,
+        @Url url: String,
         @Field("Phone") Phone: String,
-                                   @Field("EmailId") EmailId: String,
-                                   @Field("PanCard") PanCard:String):Response<JsonObject>
+        @Field("EmailId") EmailId: String,
+        @Field("PanCard") PanCard: String
+    ): Response<JsonObject>
 
 
     //ADDED NewPassword & NewTxnPin in same api to use same function
     @FormUrlEncoded
     @POST
     suspend fun changePasswordPin(
-        @Url url:String,
+        @Url url: String,
         @Field("UserId") UserId: String,
         @Field("OTP") OTP: String,
-        @Field("NewPassword") NewPassword:String,
-        @Field("NewTxnPin") NewTxnPin:String):Response<JsonObject>
+        @Field("NewPassword") NewPassword: String,
+        @Field("NewTxnPin") NewTxnPin: String
+    ): Response<JsonObject>
 
     @FormUrlEncoded
     @POST("SendOTP")
-    suspend fun sendOtp(@Field("Mobile") Mobile:String):Response<JsonObject>
+    suspend fun sendOtp(@Field("Mobile") Mobile: String): Response<JsonObject>
 
     @FormUrlEncoded
     @POST("InitiateMATM")
-    suspend fun initiateMatm(@Field("SessionKey") SessionKey: String,
-                             @Field("APIKey") APIKey: String,
-                             @Field("Amount") Amount:String,
-                             @Field("service") service:String) :Response<JsonObject>
+    suspend fun initiateMatm(
+        @Field("SessionKey") SessionKey: String,
+        @Field("APIKey") APIKey: String,
+        @Field("Amount") Amount: String,
+        @Field("service") service: String
+    ): Response<JsonObject>
+
+    @FormUrlEncoded
+    @POST("AddUsers")
+    suspend fun addUser(
+        @Field("SessionKey") SessionKey: String,
+        @Field("APIKey") APIKey: String,
+        @Field("LoginUserName") LoginUserName: String,
+        @Field("ShopAddress") ShopAddress: String,
+        @Field("ShopState") ShopState: String,
+        @Field("ShopCity") ShopCity: String,
+        @Field("ShipZipcode") ShipZipcode: String,
+        @Field("CompanyName") CompanyName: String,
+        @Field("ProfilePic") ProfilePic: String,
+        @Field("CustomerName") CustomerName: String,
+        @Field("EmailId") EmailId: String,
+        @Field("Phone") Phone: String,
+        @Field("Password") Password: String,
+        @Field("PanCard") PanCard: String,
+        @Field("AadharCard") AadharCard: String,
+        @Field("AddressLine1") AddressLine1: String,
+        @Field("AddressLine2") AddressLine2: String,
+        @Field("State") State: String,
+        @Field("City") City: String,
+        @Field("Pincode") Pincode: String,
+        @Field("Pancopy") Pancopy: String,
+        @Field("AadharFront") AadharFront: String,
+        @Field("AadharBack") AadharBack: String,
+        @Field("Usertype") Usertype: String,
+        @Field("RegUsertype") RegUsertype: String
+    ): Response<JsonObject>
+
+    @FormUrlEncoded
+    @POST("ViewUser")
+    suspend fun viewUser(
+        @Field("SessionKey") SessionKey: String,
+        @Field("APIKey") APIKey: String,
+        @Field("UserType") UserType: String
+    ): Response<JsonObject>
 }

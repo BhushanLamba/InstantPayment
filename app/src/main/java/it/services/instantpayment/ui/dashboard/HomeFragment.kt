@@ -9,12 +9,10 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -23,7 +21,6 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.denzcoskun.imageslider.constants.ScaleTypes
 import com.denzcoskun.imageslider.models.SlideModel
-import com.finopaytech.finosdk.activity.MainTransactionActivity
 import com.finopaytech.finosdk.encryption.AES_BC
 import com.finopaytech.finosdk.helpers.Utils
 import it.services.instantpayment.MainActivity
@@ -33,14 +30,8 @@ import it.services.instantpayment.models.User
 import it.services.instantpayment.repository.BalanceRepository
 import it.services.instantpayment.repository.OperatorRepository
 import it.services.instantpayment.repository.Response
-import it.services.instantpayment.ui.aeps.AePSServiceFragment
-import it.services.instantpayment.ui.bbps.BbpsBillFetchFragment
-import it.services.instantpayment.ui.dmt.SenderMobileVerificationFragment
-import it.services.instantpayment.ui.matm.MatmFragment
-import it.services.instantpayment.ui.paymentRequest.FundRequestFragment
-import it.services.instantpayment.ui.razorpay.PaymentActivity
-import it.services.instantpayment.ui.recharge.OperatorFragment
-import it.services.instantpayment.ui.upiGateway.UpiPaymentFragment
+import it.services.instantpayment.ui.addUser.AddUserFragment
+import it.services.instantpayment.ui.addUser.AdduserUserTypeFragment
 import it.services.instantpayment.utils.ApiKeys.BALANCE_KEY
 import it.services.instantpayment.utils.ApiKeys.BBPS_OPERATOR_KEY
 import it.services.instantpayment.utils.ApiKeys.OPERATOR_KEY
@@ -93,7 +84,9 @@ class HomeFragment : Fragment() {
     }
 
     private fun setUpDashBoard() {
-        if (MainActivity.USER_TYPE.equals("RT",true))
+
+
+        if (!MainActivity.USER_TYPE.equals("RT",true))
         {
             binding.retailerLy.visibility=View.VISIBLE
             binding.distributorLy.visibility=View.GONE
@@ -534,6 +527,10 @@ class HomeFragment : Fragment() {
                         false
                     )
 
+            }
+
+            addUserLy.setOnClickListener {
+                replaceFragment(AdduserUserTypeFragment(),Bundle())
             }
 
         }
