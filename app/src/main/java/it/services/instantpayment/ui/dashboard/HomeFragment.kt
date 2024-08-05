@@ -32,6 +32,7 @@ import it.services.instantpayment.repository.OperatorRepository
 import it.services.instantpayment.repository.Response
 import it.services.instantpayment.ui.addUser.AddUserFragment
 import it.services.instantpayment.ui.addUser.AdduserUserTypeFragment
+import it.services.instantpayment.ui.addUser.ViewUserFragment
 import it.services.instantpayment.utils.ApiKeys.BALANCE_KEY
 import it.services.instantpayment.utils.ApiKeys.BBPS_OPERATOR_KEY
 import it.services.instantpayment.utils.ApiKeys.OPERATOR_KEY
@@ -86,7 +87,7 @@ class HomeFragment : Fragment() {
     private fun setUpDashBoard() {
 
 
-        if (!MainActivity.USER_TYPE.equals("RT",true))
+        if (MainActivity.USER_TYPE.equals("RT",true))
         {
             binding.retailerLy.visibility=View.VISIBLE
             binding.distributorLy.visibility=View.GONE
@@ -531,6 +532,10 @@ class HomeFragment : Fragment() {
 
             addUserLy.setOnClickListener {
                 replaceFragment(AdduserUserTypeFragment(),Bundle())
+            }
+
+            viewUserLy.setOnClickListener{
+                replaceFragment(ViewUserFragment(),Bundle())
             }
 
         }

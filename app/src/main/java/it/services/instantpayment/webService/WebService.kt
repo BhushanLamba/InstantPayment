@@ -503,4 +503,15 @@ interface WebService {
         @Field("APIKey") APIKey: String,
         @Field("UserType") UserType: String
     ): Response<JsonObject>
+
+    @FormUrlEncoded
+    @POST("DebitCredit")
+    suspend fun creditDebitUser(
+        @Field("SessionKey") SessionKey: String,
+        @Field("APIKey") APIKey: String,
+        @Field("TxnType") TxnType: String,
+        @Field("TransferUserid") TransferUserid: String,
+        @Field("Amount") Amount: String,
+        @Field("MPIN") MPIN: String
+    ): Response<JsonObject>
 }

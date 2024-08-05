@@ -849,6 +849,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/view_user_ly"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="4dp"
@@ -865,7 +866,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="View"
+                                android:text="View Users"
                                 android:textColor="@color/black" />
 
                         </LinearLayout>
