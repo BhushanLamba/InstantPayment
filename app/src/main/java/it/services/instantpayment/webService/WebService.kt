@@ -319,16 +319,6 @@ interface WebService {
 
     ): Response<JsonObject>
 
-    @FormUrlEncoded
-    @POST
-    suspend fun getReports(
-        @Url url: String,
-        @Field("SessionKey") sessionKey: String,
-        @Field("APIKey") apiKey: String,
-        @Field("From") From: String,
-        @Field("To") to: String,
-        @Field("ServiceName") serviceName: String
-    ): Response<JsonObject>
 
     @FormUrlEncoded
     @POST
@@ -513,5 +503,16 @@ interface WebService {
         @Field("TransferUserid") TransferUserid: String,
         @Field("Amount") Amount: String,
         @Field("MPIN") MPIN: String
+    ): Response<JsonObject>
+
+    @FormUrlEncoded
+    @POST("PReports")
+    suspend fun getReports(
+        @Field("SessionKey") SessionKey: String,
+        @Field("APIKey") APIKey: String,
+        @Field("From") From: String,
+        @Field("To") To:String,
+        @Field("ServiceName") ServiceName:String,
+        @Field("UserType") UserType:String
     ): Response<JsonObject>
 }

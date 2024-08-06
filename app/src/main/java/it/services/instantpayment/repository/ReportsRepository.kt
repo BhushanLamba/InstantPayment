@@ -2,6 +2,7 @@ package it.services.instantpayment.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import it.services.instantpayment.MainActivity
 import it.services.instantpayment.models.ReportsModel
 import it.services.instantpayment.webService.WebService
 import org.json.JSONArray
@@ -29,7 +30,7 @@ class ReportsRepository(private val webService: WebService) {
         reportsListLiveData.postValue(Response.Loading())
 
         val response =
-            webService.getReports("Reports", sessionKey, apiKey, fromDate, toDate, serviceName)
+            webService.getReports( sessionKey, apiKey, fromDate, toDate, serviceName,MainActivity.USER_TYPE)
 
         try {
             if (response.isSuccessful) {

@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import it.services.instantpayment.R
 import it.services.instantpayment.databinding.FragmentReportsAllBinding
+import it.services.instantpayment.ui.reports.CreditDebitReportFragment
 import it.services.instantpayment.ui.reports.LedgerFragment
 import it.services.instantpayment.ui.reports.PaymentGatewayReportFragment
 import it.services.instantpayment.ui.reports.PaymentRequestReportFragment
@@ -144,6 +145,18 @@ class AllReportsFragment : Fragment() {
                 val bundle = Bundle()
                 bundle.putString("service", "PTR")
                 replaceFragment(LedgerFragment(), bundle)
+            }
+
+            creditReportLy.setOnClickListener {
+                val bundle = Bundle()
+                bundle.putString("service", "Credit")
+                replaceFragment(CreditDebitReportFragment(), bundle)
+            }
+
+            debitReportLy.setOnClickListener {
+                val bundle = Bundle()
+                bundle.putString("service", "Debit")
+                replaceFragment(CreditDebitReportFragment(), bundle)
             }
 
         }

@@ -340,6 +340,57 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/credit_report_ly"
+            android:gravity="center_vertical"
+            android:layout_margin="10dp"
+            android:background="@drawable/gradient_back"
+            android:backgroundTint="@color/white"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                app:tint="@color/primaryColor"
+                android:layout_margin="10dp"
+                android:src="@drawable/dmt"
+                android:layout_width="40dp"
+                android:layout_height="40dp"/>
+
+            <TextView
+                android:text="Credit Reports"
+                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/debit_report_ly"
+            android:gravity="center_vertical"
+            android:layout_margin="10dp"
+            android:background="@drawable/gradient_back"
+            android:backgroundTint="@color/white"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                app:tint="@color/primaryColor"
+                android:layout_margin="10dp"
+                android:src="@drawable/dmt"
+                android:layout_width="40dp"
+                android:layout_height="40dp"/>
+
+            <TextView
+                android:text="Debit Reports"
+                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
             android:id="@+id/razor_pay_report_ly"
             android:gravity="center_vertical"
             android:layout_margin="10dp"
