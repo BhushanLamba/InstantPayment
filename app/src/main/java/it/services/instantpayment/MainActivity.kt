@@ -26,8 +26,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var context: Context
     private lateinit var activity: MainActivity
-    private lateinit var navHostFragment:NavHostFragment
-    private lateinit var navController:NavController
 
     companion object {
         lateinit var LOGIN_SESSION: String
@@ -78,10 +76,8 @@ class MainActivity : AppCompatActivity() {
         USER_TYPE = dataObject.getString("Usertype")
         PERMISSION_ARRAY= LOGIN_DATA.getJSONArray("Permission")
 
-        navHostFragment=supportFragmentManager.findFragmentById(R.id.frame_container) as NavHostFragment
-        navController=navHostFragment.navController
 
-        //replaceFragment(HomeFragment(), Bundle())
+        replaceFragment(HomeFragment(), Bundle())
         handleClickEvents()
 
     }
@@ -105,8 +101,8 @@ class MainActivity : AppCompatActivity() {
                 tvHome.visibility = View.VISIBLE
                 tvProfile.visibility = View.GONE
                 tvReport.visibility = View.GONE
-                //replaceFragment(HomeFragment(), Bundle())
-                navController.navigate(R.id.homeFragment)
+                replaceFragment(HomeFragment(), Bundle())
+                //navController.navigate(R.id.homeFragment)
 
             }
 
@@ -114,8 +110,8 @@ class MainActivity : AppCompatActivity() {
                 tvHome.visibility = View.GONE
                 tvReport.visibility = View.GONE
                 tvProfile.visibility = View.VISIBLE
-                //replaceFragment(ProfileFragment(),Bundle())
-                navController.navigate(R.id.profileFragment)
+                replaceFragment(ProfileFragment(),Bundle())
+                //navController.navigate(R.id.profileFragment)
 
             }
 
@@ -123,8 +119,8 @@ class MainActivity : AppCompatActivity() {
                 tvHome.visibility = View.GONE
                 tvProfile.visibility = View.GONE
                 tvReport.visibility = View.VISIBLE
-                //replaceFragment(AllReportsFragment(), Bundle())
-                navController.navigate(R.id.allReportsFragment)
+                replaceFragment(AllReportsFragment(), Bundle())
+                //navController.navigate(R.id.allReportsFragment)
             }
 
             logoutLy.setOnClickListener {
@@ -145,8 +141,8 @@ class MainActivity : AppCompatActivity() {
                 tvHome.visibility = View.GONE
                 tvReport.visibility = View.GONE
                 tvProfile.visibility = View.VISIBLE
-                 //replaceFragment(ProfileFragment(),Bundle())
-                navController.navigate(R.id.profileFragment)
+                 replaceFragment(ProfileFragment(),Bundle())
+               // navController.navigate(R.id.profileFragment)
             }
 
 
@@ -155,10 +151,11 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun replaceFragment(fragment: Fragment, bundle: Bundle) {
-        /*fragment.arguments = bundle
+        fragment.arguments = bundle
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.frame_container, fragment)
-        fragmentTransaction.commit()*/
+        fragmentTransaction.commit()
+
     }
 }

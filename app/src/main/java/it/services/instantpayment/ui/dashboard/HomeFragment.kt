@@ -33,6 +33,8 @@ import it.services.instantpayment.repository.Response
 import it.services.instantpayment.ui.addUser.AddUserFragment
 import it.services.instantpayment.ui.addUser.AdduserUserTypeFragment
 import it.services.instantpayment.ui.addUser.ViewUserFragment
+import it.services.instantpayment.ui.paymentRequest.FundRequestFragment
+import it.services.instantpayment.ui.recharge.OperatorFragment
 import it.services.instantpayment.utils.ApiKeys.BALANCE_KEY
 import it.services.instantpayment.utils.ApiKeys.BBPS_OPERATOR_KEY
 import it.services.instantpayment.utils.ApiKeys.OPERATOR_KEY
@@ -59,8 +61,6 @@ class HomeFragment : Fragment() {
     private lateinit var progressDialog: AlertDialog
     private lateinit var bbpsServiceType: String
     private lateinit var bbpsServiceId: String
-    private lateinit var navHostFragment: NavHostFragment
-    private lateinit var navController: NavController
 
 
     override fun onCreateView(
@@ -73,13 +73,12 @@ class HomeFragment : Fragment() {
         context = requireContext()
         activity = requireActivity()
         progressDialog = CustomDialogs.getCustomProgressDialog(activity)
-        navHostFragment=getActivity()?.supportFragmentManager?.findFragmentById(R.id.frame_container) as NavHostFragment
-        navController=navHostFragment.navController
         setUpDashBoard()
         setImageSlider()
         setUpViewModel()
         handleClicksAndEvents()
         setObservers()
+
 
         return binding.root
     }
@@ -121,10 +120,8 @@ class HomeFragment : Fragment() {
                     it.data?.let { data ->
                         val bundle = Bundle()
                         bundle.putSerializable("operatorList", data)
-                        //replaceFragment(OperatorFragment(), bundle)
-                        if (operatorViewModel.isNavigate)
-                        navController.navigate(R.id.action_homeFragment_to_operatorFragment,bundle)
-                        operatorViewModel.isNavigate=false
+                        replaceFragment(OperatorFragment(), bundle)
+
                     }
                 }
 
@@ -214,8 +211,8 @@ class HomeFragment : Fragment() {
 
             paymentRequestLy.setOnClickListener {
 
-                //replaceFragment(FundRequestFragment(), Bundle())
-                findNavController().navigate(R.id.action_homeFragment_to_fundRequestFragment)
+                replaceFragment(FundRequestFragment(), Bundle())
+//                findNavController().navigate(R.id.action_homeFragment_to_fundRequestFragment)
 
             }
 

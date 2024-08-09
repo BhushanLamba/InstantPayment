@@ -33,7 +33,7 @@ class MatmFragment : Fragment() {
     private lateinit var binding: FragmentMatmBinding
     private lateinit var context: Context
     private lateinit var activity: Activity
-    private var serviceId = "156"
+    private var serviceId = "171"
     private lateinit var amount: String
     private lateinit var mobileNumber: String
     private lateinit var merchantId: String
@@ -76,11 +76,11 @@ class MatmFragment : Fragment() {
 
                    val requestData = getEncryptedRequest(
                        merchantId, serviceId, "https://www.google.com/", "1000", amount,
-                       clientRegId, "680e8aff-6938-4ae1-a197-b981e278069a"
+                       clientRegId, "2E12F827-0C78-4718-A254-49243704EF25"
                    )
                    val headerRequest: String =
                        getEncryptedHeader(
-                           "9d035089-4edf-4019-8761-67c35490e76f",
+                           "C1D57687-0D0A-42D2-9DC6-5D6AFB4401A4",
                            "225",
                            "982b0d01-b262-4ece-a2a2-45be82212ba1"
                        )

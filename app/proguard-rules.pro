@@ -19,3 +19,31 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+-dontwarn org.xmlpull.v1.**
+-dontwarn org.kxml2.io.**
+-dontwarn android.content.res.**
+-dontwarn org.slf4j.impl.StaticLoggerBinder
+
+-keep class org.xmlpull.** { *; }
+-keepclassmembers class org.xmlpull.** { *; }
+
+
+# Please add these rules to your existing keep rules in order to suppress warnings.
+# This is generated automatically by the Android Gradle plugin.
+-dontwarn com.sun.net.ssl.internal.ssl.Provider
+-dontwarn io.reactivex.Observable
+-dontwarn io.reactivex.Scheduler
+-dontwarn io.reactivex.android.schedulers.AndroidSchedulers
+-dontwarn io.reactivex.disposables.Disposable
+-dontwarn io.reactivex.functions.Consumer
+-dontwarn io.reactivex.schedulers.Schedulers
+-dontwarn proguard.annotation.Keep
+-dontwarn proguard.annotation.KeepClassMembers
+-dontwarn retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+
+
+
+
+
+
